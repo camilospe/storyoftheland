@@ -6,5 +6,8 @@ namespace StorisOfTheLand.Models
     {
         [Key]
         public int SpecimenID { get; set; }
+        public string EnlgishName { get; set; }
+
+
     }
 }
