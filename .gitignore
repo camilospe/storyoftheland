@@ -25,8 +25,9 @@ bin/
 target/
 dist/
 
-# JetBrains IDE
+# IDE
 .idea/
+.vs
 
 # Unit test reports
 TEST*.xml
