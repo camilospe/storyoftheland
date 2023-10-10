@@ -76,11 +76,8 @@ namespace StoriesOfTheLand.Test
             Specimen testSpecimen = new Specimen();
             testSpecimen.name = "Lavender";
 
-            String sCult = "a";
-            for (int i = 0; i < 3600; i++)
-            {
-                sCult += "a";
-            }
+            string sCult = new string('a', 3600);
+
             testSpecimen.cultural_significance = sCult;
             testSpecController.addSpecimen(testSpecimen);
 
