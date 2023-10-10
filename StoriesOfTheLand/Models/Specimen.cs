@@ -6,5 +6,8 @@ namespace StorisOfTheLand.Models
     {
         [Key]
         public int SpecimenID { get; set; }
+
+        [StringLength(50, ErrorMessage = "Name cannot be more than 50"), Required(ErrorMessage = "Latin Name is required")]
+        public string latinName { get; set; }
     }
 }
