@@ -1,4 +1,9 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using StoriesOfTheLand.Data;
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<StoriesOfTheLandContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("StoriesOfTheLandContext") ?? throw new InvalidOperationException("Connection string 'StoriesOfTheLandContext' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
