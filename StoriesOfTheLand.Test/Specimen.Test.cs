@@ -10,8 +10,10 @@ namespace StoriesOfTheLand.Test
         [SetUp]
         public void Setup()
         {
-            Specimen newSpecimen = new Specimen();
-            newSpecimen.EnlgishName = "Tree";
+            Specimen newSpecimen = new Specimen() {
+                EnlgishName = "Tree"
+            };
+
         }
 
         [Test]
@@ -25,16 +27,13 @@ namespace StoriesOfTheLand.Test
         //test invlaid upper bounds by entering 51 characters
         public void testInvalidSpecimenEnlgishNameIsLongerThan50Characters()
         {
-            string englishName = "";
-            for (int i = 0; i <= 51; i++)
-            {
-                englishName += "a";
-            }
+     
             Specimen newSpecimen = new Specimen();
-            newSpecimen.EnlgishName = englishName;
+            newSpecimen.EnlgishName = new string('a',51);
             var errors = ValidationHelper.Validate(newSpecimen);
+            Assert.AreEqual(1, errors.Count);
 
-            Assert.Equals("English Name maximum is 50 characters", errors[0].ErrorMessage);
+            Assert.Equals("English name is too long must be 50 characters or less", errors[0].ErrorMessage);
         }
 
         [Test]
@@ -63,7 +62,7 @@ namespace StoriesOfTheLand.Test
             Specimen newSpecimen = new Specimen();
             newSpecimen.EnlgishName = englishName;
             var errors = ValidationHelper.Validate(newSpecimen);
-            Assert.Equals("English Name minimum is 3 characters", errors[0].ErrorMessage);
+            Assert.Equals("English name is too short must be a minimum of 3 characters", errors[0].ErrorMessage);
         }
 
 
