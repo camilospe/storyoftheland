@@ -1,22 +1,26 @@
 using StorisOfTheLand.Models;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
-
+using System.Text;
+using Microsoft.Identity.Client;
+using Microsoft.IdentityModel.Tokens;
 
 namespace StoriesOfTheLand.Test
 {
+
     class ValidationHelper
     {
         public static IList<ValidationResult> Validate(object model)
         {
-            var results = new List<ValidationResult>();?
-            var vc = new ValidationContext(model, null, null);?
-            Validator.TryValidateObject(model, vc, results, true);?
-            if (model is IValidatableObject) (model as IValidatableObject).Validate(vc);?
+            var results = new List<ValidationResult>();
+            var vc = new ValidationContext(model, null, null);
+            Validator.TryValidateObject(model, vc, results, true);
+
+            if (model is IValidatableObject) (model as IValidatableObject).Validate(vc);
+
             return results;
         }
     }
-
     public class Tests
     {
         [SetUp]
