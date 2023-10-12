@@ -14,8 +14,8 @@ namespace StoriesOfTheLand.Test
         public void SetUp()
         {
             //Sets up the specimen object for use in the test
-            SpecimenObject = new Specimen();
-        }
+            SpecimenObject = new Specimen() { SpecimenDescription = "asdasdasdasd"};      
+            }
 
         /// <summary>
         /// This will test if the Specimen's Description will reject less than 10 characters
@@ -28,7 +28,7 @@ namespace StoriesOfTheLand.Test
             SpecimenObject.SpecimenDescription = descriptionStringTest; //set the SpecimenObject's Description field to that value
             var errors = ValidationHelper.Validate(SpecimenObject); //use the ValidationHelper class to see if there is errors
 
-            Assert.IsNotEmpty(errors); //Check to see if something is in the errors variable
+            Assert.Equals(errors.Count, 1); //Check to see if something is in the errors variable
             Assert.AreEqual(SpecimenDescriptionError, errors[0].ErrorMessage); //check to see if the ErrorMessage is correct 
 
         }
@@ -44,7 +44,7 @@ namespace StoriesOfTheLand.Test
             SpecimenObject.SpecimenDescription = descriptionStringTest;
             var errors = ValidationHelper.Validate(SpecimenObject);
 
-            Assert.IsNotEmpty(errors);
+            Assert.Equals(errors.Count, 1);
             Assert.AreEqual(SpecimenDescriptionError, errors[0].ErrorMessage);
 
         }
@@ -103,7 +103,7 @@ namespace StoriesOfTheLand.Test
             SpecimenObject.SpecimenDescription = descriptionStringTest;
             var errors = ValidationHelper.Validate(SpecimenObject);
 
-            Assert.IsNotEmpty(errors);
+            Assert.Equals(errors.Count, 1);
             Assert.AreEqual(SpecimenDescriptionError, errors[0].ErrorMessage);
         }
 
@@ -118,17 +118,8 @@ namespace StoriesOfTheLand.Test
             SpecimenObject.SpecimenDescription = descriptionStringTest;
             var errors = ValidationHelper.Validate(SpecimenObject);
 
-            Assert.IsNotEmpty(errors);
+            Assert.Equals(errors.Count, 1);
             Assert.AreEqual(SpecimenDescriptionError, errors[0].ErrorMessage);
-        }
-
-        /// <summary>
-        /// This will test if the Specimen's description will reject the use of special characters
-        /// </summary>
-        [Test]
-        public void EnteringInSpecialCharacters()
-        {
-
         }
 
         /// <summary>
@@ -140,23 +131,6 @@ namespace StoriesOfTheLand.Test
 
         }
 
-        /// <summary>
-        /// This will test if the Specimen's description can accept both numbers and letters together
-        /// </summary>
-        [Test]
-        public void EnteringInLettersAndNumbers()
-        {
-
-        }
-
-        /// <summary>
-        /// This will test if the Specimen's description can accept just numbers
-        /// </summary>
-        [Test]
-        public void EnterInNumbers()
-        {
-
-        }
     }
 
     /// <summary>
