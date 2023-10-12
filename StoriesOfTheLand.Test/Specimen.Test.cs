@@ -1,4 +1,7 @@
+using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
 using StorisOfTheLand.Models;
+using Intro.Tests.Helpers;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace StoriesOfTheLand.Test
 {
@@ -22,42 +25,45 @@ namespace StoriesOfTheLand.Test
         //test invlaid upper bounds by entering 51 characters
         public void testInvalidSpecimenEnlgishNameIsLongerThan50Characters()
         {
-        
-            
-
-            String englishName = "";
+            string englishName = "";
             for (int i = 0; i <= 51; i++)
             {
                 englishName += "a";
             }
-            
-            Assert.That(newSpecimen.EnlgishName.Length<=50, Is.False);
+            Specimen newSpecimen = new Specimen();
+            newSpecimen.EnlgishName = englishName;
+            var errors = ValidationHelper.Validate(newSpecimen);
+
+            Assert.Equals("English Name maximum is 50 characters", errors[0].ErrorMessage);
         }
 
         [Test]
         //test valid upper bound by enetering 50 characters
         public void testValidSpecimenEnlgishNameIsAcceptableLenghtUpperBoundary()
         {
-
-            String englishName = "";
+            
+            string englishName = "";
 
             for (int i = 0; i <= 50; i++)
             {
                 englishName += "a";
             }
-            Specimen newSpecimen = new Specimen(englishName);
+            Specimen newSpecimen = new Specimen();
+            newSpecimen.EnlgishName=englishName;
+            var errors = ValidationHelper.Validate(newSpecimen);
+            Assert.IsEmpty(errors);
 
-            
         }
-
-
         [Test]
         //test invailid lower bound by entering 2 characters
         public void testInvalidSpecimenEnglishNameIsShoterThan3Characters()
         {
             string englishName = "aa";
 
-            Specimen newSpecimen = new Specimen(englishName);
+            Specimen newSpecimen = new Specimen();
+            newSpecimen.EnlgishName = englishName;
+            var errors = ValidationHelper.Validate(newSpecimen);
+            Assert.Equals("English Name minimum is 3 characters", errors[0].ErrorMessage);
         }
 
 
@@ -68,7 +74,10 @@ namespace StoriesOfTheLand.Test
 
             string englishName = "aaa";
 
-            Specimen newSpecimen = new Specimen(englishName);
+            Specimen newSpecimen = new Specimen();
+            newSpecimen.EnlgishName = englishName;
+            var errors = ValidationHelper.Validate(newSpecimen);
+            Assert.IsEmpty(errors);
         }
 
 
@@ -76,36 +85,22 @@ namespace StoriesOfTheLand.Test
         public void testInvalidSpecimenEnglishNameHasInvalidCharacters()
         {
             string englishName = "124a";
-            Specimen newSpecimen = new Specimen(englishName);
-            bool result = ContainsNonLetterCharacters(newSpecimen.EnlgishName);
+            Specimen newSpecimen = new Specimen();
+            newSpecimen.EnlgishName = englishName;
+            var errors = ValidationHelper.Validate(newSpecimen);
 
-            Assert.That(result, Is.EqualTo(true));
+            Assert.Equals("English Name should not contain numbers or special characters.", errors[0].ErrorMessage);
         }
 
 
         [Test]
         // test invalid by entering an empty string
-        public void testInvalidSpecimenEnglishNameIsEmpty()
+        public void testInvalidSpecimenEnglishNameNotEntered()
         {
-            String englishName = "";
+            Specimen newSpecimen = new Specimen();
+            var errors = ValidationHelper.Validate(newSpecimen);
+            Assert.Equals("English Name is required", errors[0].ErrorMessage);
 
-            Specimen newSpecimen = new Specimen(englishName);
-
-           
-        }
-
-
-        // contains a helper method to check if there are any non letter characters in the name
-        private bool ContainsNonLetterCharacters(string input)
-        {
-            foreach (char c in input)
-            {
-                if (!char.IsLetter(c))
-                {
-                    return true;
-                }
-            }
-            return false;
         }
 
     }
