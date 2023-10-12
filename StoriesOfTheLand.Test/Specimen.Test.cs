@@ -82,9 +82,10 @@ namespace StoriesOfTheLand.Test
 
 
         [Test]
+        //test if there are any non letter characters
         public void testInvalidSpecimenEnglishNameHasInvalidCharacters()
         {
-            string englishName = "124a";
+            string englishName = "124@";
             Specimen newSpecimen = new Specimen();
             newSpecimen.EnlgishName = englishName;
             var errors = ValidationHelper.Validate(newSpecimen);

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.InteropServices;
+using System.Xml.Linq;
 
 namespace StorisOfTheLand.Models
 {
@@ -40,8 +42,8 @@ namespace StorisOfTheLand.Models
 
         [Required(ErrorMessage ="English Name is required")]
         [NonLetter]
-        [MaxLength(50, ErrorMessage ="English Name maximum is 50 characters")]
-        [MinLength(3, ErrorMessage ="English Name minimum is 3 characters")]
+        [MaxLength(50, ErrorMessage = "English name is too long must be 50 characters or less")]
+        [MinLength(3, ErrorMessage = "English name is too short must be a minimum of 3 characters")]
         public string EnlgishName { get; set; }
 
 
