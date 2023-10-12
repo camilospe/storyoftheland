@@ -7,7 +7,7 @@ namespace StorisOfTheLand.Models
         [Key]
         public int SpecimenID { get; set; }
 
-        [Required(ErrorMessage = "This field cannot be blank")]
+        [Required(ErrorMessage = "{0} cannot be blank")]
         [StringLength(5000, ErrorMessage = "{0} length must be between {2} and {1}", MinimumLength = 10)]
         public string SpecimenDescription { get; set; }
     }

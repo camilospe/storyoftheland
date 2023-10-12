@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using StorisOfTheLand.Models;
 using System.ComponentModel.DataAnnotations;
+using System.Numerics;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace StoriesOfTheLand.Test
@@ -14,8 +15,8 @@ namespace StoriesOfTheLand.Test
         public void SetUp()
         {
             //Sets up the specimen object for use in the test
-            SpecimenObject = new Specimen() { SpecimenDescription = "asdasdasdasd"};      
-            }
+            SpecimenObject = new Specimen() { SpecimenDescription = new string('a', 11) };
+        }
 
         /// <summary>
         /// This will test if the Specimen's Description will reject less than 10 characters
@@ -24,11 +25,11 @@ namespace StoriesOfTheLand.Test
         public void EnteringInLessThanTheMinimumAmount()
         {
             string descriptionStringTest = new string('a', 5); //create a new string with 5 a's
-            
+
             SpecimenObject.SpecimenDescription = descriptionStringTest; //set the SpecimenObject's Description field to that value
             var errors = ValidationHelper.Validate(SpecimenObject); //use the ValidationHelper class to see if there is errors
 
-            Assert.Equals(errors.Count, 1); //Check to see if something is in the errors variable
+            Assert.AreEqual(errors.Count, 1); //Check to see if something is in the errors variable
             Assert.AreEqual(SpecimenDescriptionError, errors[0].ErrorMessage); //check to see if the ErrorMessage is correct 
 
         }
@@ -40,11 +41,11 @@ namespace StoriesOfTheLand.Test
         public void EnteringInJustUnderTheMinimumAmount()
         {
             string descriptionStringTest = new string('a', 9);
-            
+
             SpecimenObject.SpecimenDescription = descriptionStringTest;
             var errors = ValidationHelper.Validate(SpecimenObject);
 
-            Assert.Equals(errors.Count, 1);
+            Assert.AreEqual(errors.Count, 1);
             Assert.AreEqual(SpecimenDescriptionError, errors[0].ErrorMessage);
 
         }
@@ -70,7 +71,7 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void EnteringInAcceptableNumberOfCharacters()
         {
-            string descriptionStringTest = new string('a', 100);
+            string descriptionStringTest = new string('a', 11);
 
             SpecimenObject.SpecimenDescription = descriptionStringTest;
             var errors = ValidationHelper.Validate(SpecimenObject);
@@ -103,7 +104,7 @@ namespace StoriesOfTheLand.Test
             SpecimenObject.SpecimenDescription = descriptionStringTest;
             var errors = ValidationHelper.Validate(SpecimenObject);
 
-            Assert.Equals(errors.Count, 1);
+            Assert.AreEqual(errors.Count, 1);
             Assert.AreEqual(SpecimenDescriptionError, errors[0].ErrorMessage);
         }
 
@@ -118,7 +119,7 @@ namespace StoriesOfTheLand.Test
             SpecimenObject.SpecimenDescription = descriptionStringTest;
             var errors = ValidationHelper.Validate(SpecimenObject);
 
-            Assert.Equals(errors.Count, 1);
+            Assert.AreEqual(errors.Count, 1);
             Assert.AreEqual(SpecimenDescriptionError, errors[0].ErrorMessage);
         }
 
@@ -128,25 +129,16 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void EnteringInNothing()
         {
+            string descriptionStringTest = null;
+
+            SpecimenObject.SpecimenDescription = descriptionStringTest;
+            var errors = ValidationHelper.Validate(SpecimenObject);
+
+            Assert.AreEqual(errors.Count, 1);
+            Assert.AreEqual("SpecimenDescription cannot be blank", errors[0].ErrorMessage);
 
         }
 
     }
-
-    /// <summary>
-    /// A helper class provided by ernesto
-    /// </summary>
-    class ValidationHelper
-    {
-        public static IList<ValidationResult> Validate(object model)
-        {
-            var results = new List<ValidationResult>();
-            var vc = new ValidationContext(model, null, null);
-            Validator.TryValidateObject(model, vc, results, true);
-            if (model is IValidatableObject) (model as IValidatableObject).Validate(vc);
-            return results;
-        }
-    }
-
 
 }
