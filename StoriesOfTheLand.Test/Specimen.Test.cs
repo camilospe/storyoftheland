@@ -1,4 +1,6 @@
+﻿using NUnit.Framework;
 using StorisOfTheLand.Models;
+using System.ComponentModel.DataAnnotations;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace StoriesOfTheLand.Test
@@ -6,6 +8,7 @@ namespace StoriesOfTheLand.Test
     public class Tests
     {
         private Specimen SpecimenObject;
+        private string SpecimenDescriptionError = "SpecimenDescription length must be between 10 and 5000";
 
         [SetUp]
         public void SetUp()
@@ -20,10 +23,13 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void EnteringInLessThanTheMinimumAmount()
         {
-            string descriptionStringTest = new string('a', 5);
+            string descriptionStringTest = new string('a', 5); //create a new string with 5 a's
+            
+            SpecimenObject.SpecimenDescription = descriptionStringTest; //set the SpecimenObject's Description field to that value
+            var errors = ValidationHelper.Validate(SpecimenObject); //use the ValidationHelper class to see if there is errors
 
-
-
+            Assert.IsNotEmpty(errors); //Check to see if something is in the errors variable
+            Assert.AreEqual(SpecimenDescriptionError, errors[0].ErrorMessage); //check to see if the ErrorMessage is correct 
 
         }
 
@@ -34,6 +40,12 @@ namespace StoriesOfTheLand.Test
         public void EnteringInJustUnderTheMinimumAmount()
         {
             string descriptionStringTest = new string('a', 9);
+            
+            SpecimenObject.SpecimenDescription = descriptionStringTest;
+            var errors = ValidationHelper.Validate(SpecimenObject);
+
+            Assert.IsNotEmpty(errors);
+            Assert.AreEqual(SpecimenDescriptionError, errors[0].ErrorMessage);
 
         }
 
@@ -45,6 +57,11 @@ namespace StoriesOfTheLand.Test
         {
             string descriptionStringTest = new string('a', 10);
 
+            SpecimenObject.SpecimenDescription = descriptionStringTest;
+            var errors = ValidationHelper.Validate(SpecimenObject);
+
+            Assert.IsEmpty(errors);
+
         }
 
         /// <summary>
@@ -55,6 +72,10 @@ namespace StoriesOfTheLand.Test
         {
             string descriptionStringTest = new string('a', 100);
 
+            SpecimenObject.SpecimenDescription = descriptionStringTest;
+            var errors = ValidationHelper.Validate(SpecimenObject);
+
+            Assert.IsEmpty(errors);
         }
 
         /// <summary>
@@ -64,6 +85,11 @@ namespace StoriesOfTheLand.Test
         public void EnteringInJustUnderTheMaximumNumberOfCharacters()
         {
             string descriptionStringTest = new string('a', 5000);
+
+            SpecimenObject.SpecimenDescription = descriptionStringTest;
+            var errors = ValidationHelper.Validate(SpecimenObject);
+
+            Assert.IsEmpty(errors);
         }
 
         /// <summary>
@@ -72,7 +98,13 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void EnteringInJustOverTheMaximumNumberOfCharacters()
         {
+            string descriptionStringTest = new string('a', 5001);
 
+            SpecimenObject.SpecimenDescription = descriptionStringTest;
+            var errors = ValidationHelper.Validate(SpecimenObject);
+
+            Assert.IsNotEmpty(errors);
+            Assert.AreEqual(SpecimenDescriptionError, errors[0].ErrorMessage);
         }
 
         /// <summary>
@@ -81,7 +113,13 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void EnteringInMoreThatTheMaximumAmount()
         {
+            string descriptionStringTest = new string('a', 5500);
 
+            SpecimenObject.SpecimenDescription = descriptionStringTest;
+            var errors = ValidationHelper.Validate(SpecimenObject);
+
+            Assert.IsNotEmpty(errors);
+            Assert.AreEqual(SpecimenDescriptionError, errors[0].ErrorMessage);
         }
 
         /// <summary>
@@ -120,4 +158,21 @@ namespace StoriesOfTheLand.Test
 
         }
     }
+
+    /// <summary>
+    /// A helper class provided by ernesto
+    /// </summary>
+    class ValidationHelper
+    {
+        public static IList<ValidationResult> Validate(object model)
+        {
+            var results = new List<ValidationResult>();
+            var vc = new ValidationContext(model, null, null);
+            Validator.TryValidateObject(model, vc, results, true);
+            if (model is IValidatableObject) (model as IValidatableObject).Validate(vc);
+            return results;
+        }
+    }
+
+
 }
