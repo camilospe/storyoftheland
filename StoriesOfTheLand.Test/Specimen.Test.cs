@@ -1,5 +1,7 @@
 using StorisOfTheLand.Models;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
+
 
 namespace StoriesOfTheLand.Test
 {
@@ -7,26 +9,20 @@ namespace StoriesOfTheLand.Test
     {
         public static IList<ValidationResult> Validate(object model)
         {
-            var results = new List<ValidationResult>();
-?
-            var vc = new ValidationContext(model, null, null);
-?
-            Validator.TryValidateObject(model, vc, results, true);
-?
-            if (model is IValidatableObject) (model as IValidatableObject).Validate(vc);
-?
+            var results = new List<ValidationResult>();?
+            var vc = new ValidationContext(model, null, null);?
+            Validator.TryValidateObject(model, vc, results, true);?
+            if (model is IValidatableObject) (model as IValidatableObject).Validate(vc);?
             return results;
         }
     }
 
     public class Tests
     {
-        
-
         [SetUp]
         public void Setup()
         {
-            ;
+      
         }
 
         [Test]
@@ -40,17 +36,17 @@ namespace StoriesOfTheLand.Test
          * resulting in an exception that is thrown
          */
         [Test]
-        public void testDatabasesLatinNameIsLongerThan50Characters()
+        public void testLatinNameIsLongerThan50Characters()
         {
             Specimen testSpecimen = new Specimen();
-            //Set the latin name
             
-            testSpecimen.latinName = new string('a',51);
+            //Set the latin name
+            testSpecimen.latinName = new string('A', 100);
 
 
             //Test that nothing was inserted
             var errors = ValidationHelper.Validate(testSpecimen);
-            Assert.Equals("Name cannot be more than 50", errors[0].ErrorMessage);
+            Assert.AreEqual("Name cannot be more than 50 characters", errors[0].ErrorMessage);
         }
 
         /*
@@ -58,14 +54,15 @@ namespace StoriesOfTheLand.Test
          * resulting in an exception that is thrown from this boundary case
          */
         [Test]
-        public void testDatabasesLatinNameIsExactly51Characters()
+        public void testLatinNameIsExactly51Characters()
         {
             Specimen testSpecimen = new Specimen();
             //Change specimen's Latin Name
-            testSpecimen.latinName = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            testSpecimen.latinName = new string('A', 51);
 
             //Test that false is returned when specimen is unable to be added
-            
+            var errors = ValidationHelper.Validate(testSpecimen);
+            Assert.AreEqual("Name cannot be more than 50 characters", errors[0].ErrorMessage);
         }
 
         /*
@@ -80,7 +77,8 @@ namespace StoriesOfTheLand.Test
             testSpecimen.latinName = "Begonia";
 
             //Test that true is returned when specimen is able to be added
-           
+            var errors = ValidationHelper.Validate(testSpecimen);
+            Assert.IsEmpty(errors);
         }
 
 
@@ -89,15 +87,25 @@ namespace StoriesOfTheLand.Test
          * errors, and data being successfully inserted.
          */
         [Test]
-        public void testDatabasesLatinNameIsExactly50CharactersLong()
+        public void testLatinNameIsExactly50CharactersLong()
         {
             Specimen testSpecimen = new Specimen();
             //Change specimen's latin name
 
-            testSpecimen.latinName = "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE";
+            testSpecimen.latinName = new string('E', 50);
 
             //Test that true is returned when specimen is able to be added
-         
+            var errors = ValidationHelper.Validate(testSpecimen);
+            //There should be nothing passed into .ErrorMessage and the result should be null
+            Assert.IsEmpty(errors);
+        }
+
+        [Test]
+        public void testLatinNameDoesNotExist()
+        {
+            Specimen testSpecimen = new Specimen();
+            var errors = ValidationHelper.Validate(testSpecimen);
+            Assert.AreEqual("Latin Name is required", errors[0].ErrorMessage);
         }
     }
 }
