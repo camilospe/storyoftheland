@@ -21,7 +21,18 @@ namespace StoriesOfTheLand.Controllers
 
         public SpecimensController()
         {
+
         }
+
+        /* getSpecimenImage(int) : String
+         * pass in specimen ID and get the specimens image path returned
+         * once view is made, displaySpecimenImage() will call this method
+         */
+        public String getSpecimenImageByID(int specimenID)
+        {
+            return null;
+        }
+
 
         // GET: Specimens
         public async Task<IActionResult> Index()
