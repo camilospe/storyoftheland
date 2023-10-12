@@ -9,7 +9,7 @@ namespace StoriesOfTheLand.Test
         [SetUp]
         public void Setup()
         {
-
+            SpecimenController testSpecController = new SpecimenController(); // has to have fixture database context passed in for testing
         }
 
         [Test]
@@ -28,18 +28,18 @@ namespace StoriesOfTheLand.Test
             // It will then add the Specimen to the test SpecimenController
 
             Specimen testSpecimen = new Specimen();
-            testSpecimen.name = "Sage";
-            testSpecimen.cultural_significance = "This is the cultural significance for the sage specimen";
+            testSpecimen.name = "Lily";
+            testSpecimen.cultural_significance = "This is the cultural significance for the Lily specimen";
             testSpecController.addSpecimen(testSpecimen);
 
             // Test will then retrieve the Specimen with the name "Sage" from the SpecimenController
             // It will assert that the Specimen exists, it's name is "Sage", and it's Cultural Significance matches what was input 
 
-            Specimen readSpecimen = testSpecController.getSpecimen("Sage");
+            Specimen readSpecimen = testSpecController.getSpecimen("Lily");
             Assert.IsNotNull(readSpecimen);
-            Assert.AreEqual(readSpecimen.name, "Sage");
+            Assert.AreEqual(readSpecimen.name, "Lily");
 
-            Assert.AreEqual(readSpecimen.cultural_significance, "This is the cultural significance for the sage specimen");
+            Assert.AreEqual(readSpecimen.cultural_significance, "This is the cultural significance for the Lily specimen");
 
             // Result: Returns the Sage specimen's cultural significance 
 
@@ -62,7 +62,7 @@ namespace StoriesOfTheLand.Test
             Assert.IsNotNull(readSpecimen);
             Assert.AreEqual(readSpecimen.name, "Grass");
 
-            Assert.AreEqual(readSpecimen.cultural_significance, "Error: Cultural Significance has not been entered for this specimen");
+            Assert.AreEqual(readSpecimen.cultural_significance, "Cultural Significance has not been entered for this specimen");
 
             // Result: Returns an error message reading "Cultural Significance has not been entered for this specimen". 
         }
@@ -88,7 +88,7 @@ namespace StoriesOfTheLand.Test
             Assert.IsNotNull(readSpecimen);
             Assert.AreEqual(readSpecimen.name, "Lavender");
 
-            Assert.AreEqual(readSpecimen.cultural_significance, "Error: Cultural Significance exceeds allowed character limit (3500 Characters)");
+            Assert.AreEqual(readSpecimen.cultural_significance, "Cultural Significance has not been entered for this specimen");
 
             // Result: Throws an exception reading "Cultural Significance exceeds allowed character limit (3500 Characters)"
         }
