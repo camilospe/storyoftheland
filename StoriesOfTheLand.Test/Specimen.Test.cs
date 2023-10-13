@@ -40,14 +40,21 @@ namespace StoriesOfTheLand.Test
 
             var errors = ValidationHelper.Validate(specimen);
 
-            Assert.AreEqual(1, errors.Count);
-            Assert.AreEqual("Cultural Significance must have between 1 and 3500 characters", errors[0].ErrorMessage);
+            Assert.AreEqual(1, errors.Count); // Tests that there is only one error
+            Assert.AreEqual("Cultural Significance must have between 1 and 3500 characters", errors[0].ErrorMessage); // Tests that there is a StringLength error
         }
 
         [Test]
         public void testThatCulturalSignificanceCannotExceed3500Characters()
         {
+            // Adds a cultural significance which is string of 3501 characters
+            string testString = new string('a', 3501);
+            specimen.culturalSignificance = testString;
 
+            var errors = ValidationHelper.Validate(specimen);
+
+            Assert.AreEqual(1, errors.Count); // Tests that there is only one error
+            Assert.AreEqual("Cultural Significance must have between 1 and 3500 characters", errors[0].ErrorMessage); // Tests that there is a StringLength error
         }
     }
 }   
