@@ -23,7 +23,6 @@ namespace StorisOfTheLand.Models
         [Key]
         public int SpecimenID { get; set; }
 
-
         [Required(ErrorMessage ="English Name is required")]
         [NonLetter]
         [MaxLength(50, ErrorMessage = "English name is too long must be 50 characters or less")]
