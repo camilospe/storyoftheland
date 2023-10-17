@@ -28,15 +28,15 @@ namespace StoriesOfTheLand.Controllers
         }
 
         // GET: Specimen/Details/5
-        public async Task<IActionResult> Details(string ?specimenName)
+        public async Task<IActionResult> Details(int ?Id)
         {
-            if (specimenName == null || _context.Specimen == null)
+            if (Id == null || _context.Specimen == null)
             {
                 return NotFound();
             }
 
             var specimen = await _context.Specimen
-                .FirstOrDefaultAsync(m => m.SpecimenName.Equals(specimenName));
+                .FirstOrDefaultAsync(m => m.SpecimenID == Id);
 
             if (specimen == null)
             {

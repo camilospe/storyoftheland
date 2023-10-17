@@ -10,7 +10,7 @@ using StoriesOfTheLand.Data;
 namespace StoriesOfTheLand.Migrations
 {
     [DbContext(typeof(StoriesOfTheLandContext))]
-    [Migration("20231017191347_InitialCreate")]
+    [Migration("20231017201201_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -28,6 +28,10 @@ namespace StoriesOfTheLand.Migrations
                     b.Property<string>("SpecimenDescription")
                         .IsRequired()
                         .HasMaxLength(5000)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SpecimenName")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("SpecimenID");
