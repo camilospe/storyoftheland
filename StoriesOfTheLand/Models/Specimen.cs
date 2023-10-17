@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace StorisOfTheLand.Models
+namespace StoriesOfTheLand.Models
 {
     public class Specimen : IValidatableObject
     {

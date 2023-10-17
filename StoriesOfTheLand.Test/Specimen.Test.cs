@@ -1,5 +1,5 @@
 using StoriesOfTheLand.Controllers;
-using StorisOfTheLand.Models;
+using StoriesOfTheLand.Models;
 using System.Diagnostics.CodeAnalysis;
 
 namespace StoriesOfTheLand.Test
@@ -26,9 +26,9 @@ namespace StoriesOfTheLand.Test
         public void specimenImagePngIsValidtype()
         {
             specimen.SpecimenImagePath = "abc.png";
-            var errors = ValidationHelper.Validate(specimen)
+            var errors = ValidationHelper.Validate(specimen);
 
-             Assert.AreEqual(errors.Count, 1);
+            Assert.AreEqual(errors.Count, 1);
             Assert.IsEmpty(errors);
  
         }

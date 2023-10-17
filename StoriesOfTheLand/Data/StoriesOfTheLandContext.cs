@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using StorisOfTheLand.Models;
+using StoriesOfTheLand.Models;
 
 namespace StoriesOfTheLand.Data
 {
@@ -14,6 +14,6 @@ namespace StoriesOfTheLand.Data
         {
         }
 
-        public DbSet<StorisOfTheLand.Models.Specimen> Specimen { get; set; } = default!;
+        public DbSet<StoriesOfTheLand.Models.Specimen> Specimen { get; set; } = default!;
     }
 }
