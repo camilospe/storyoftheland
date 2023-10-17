@@ -8,25 +8,15 @@ using Microsoft.IdentityModel.Tokens;
 namespace StoriesOfTheLand.Test
 {
 
-    class ValidationHelper
-    {
-        public static IList<ValidationResult> Validate(object model)
-        {
-            var results = new List<ValidationResult>();
-            var vc = new ValidationContext(model, null, null);
-            Validator.TryValidateObject(model, vc, results, true);
 
-            if (model is IValidatableObject) (model as IValidatableObject).Validate(vc);
-
-            return results;
-        }
-    }
     public class Tests
     {
+        Specimen testSpecimen;
         [SetUp]
         public void Setup()
         {
-      
+            testSpecimen = new Specimen();
+            testSpecimen.LatinName = "Valid Name";
         }
 
         [Test]
@@ -45,7 +35,7 @@ namespace StoriesOfTheLand.Test
             Specimen testSpecimen = new Specimen();
             
             //Set the latin name
-            testSpecimen.latinName = new string('A', 100);
+            testSpecimen.LatinName = new string('A', 100);
 
 
             //Test that nothing was inserted
@@ -62,7 +52,7 @@ namespace StoriesOfTheLand.Test
         {
             Specimen testSpecimen = new Specimen();
             //Change specimen's Latin Name
-            testSpecimen.latinName = new string('A', 51);
+            testSpecimen.LatinName = new string('A', 51);
 
             //Test that false is returned when specimen is unable to be added
             var errors = ValidationHelper.Validate(testSpecimen);
@@ -78,7 +68,7 @@ namespace StoriesOfTheLand.Test
         {
             Specimen testSpecimen = new Specimen();
             //Change specimen's latin name
-            testSpecimen.latinName = "Begonia";
+            testSpecimen.LatinName = "Begonia";
 
             //Test that true is returned when specimen is able to be added
             var errors = ValidationHelper.Validate(testSpecimen);
@@ -96,7 +86,7 @@ namespace StoriesOfTheLand.Test
             Specimen testSpecimen = new Specimen();
             //Change specimen's latin name
 
-            testSpecimen.latinName = new string('E', 50);
+            testSpecimen.LatinName = new string('E', 50);
 
             //Test that true is returned when specimen is able to be added
             var errors = ValidationHelper.Validate(testSpecimen);
