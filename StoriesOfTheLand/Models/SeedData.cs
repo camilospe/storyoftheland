@@ -16,7 +16,7 @@ namespace StoriesOfTheLand.Models
             {
                 if(context.Specimen.Any())
                 {
-                    context.Specimen.ExecuteDelete();
+                    //context.Specimen.ExecuteDelete();
                     return;
                 }
                 context.Specimen.AddRange(

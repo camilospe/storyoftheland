@@ -1,3 +1,4 @@
+using Microsoft.Identity.Client;
 using StoriesOfTheLand.Controllers;
 using StoriesOfTheLand.Models;
 using System.Diagnostics.CodeAnalysis;
@@ -13,7 +14,8 @@ namespace StoriesOfTheLand.Test
         public void Setup()
         {
             specimen = new Specimen();
-            
+            specimen.SpecimenID = 1;
+            specimen.SpecimenImagePath = "abc.png";
             //add good version with valid attributes
             //to test once all attributes added to specimen model
 
@@ -73,7 +75,7 @@ namespace StoriesOfTheLand.Test
             var errors = ValidationHelper.Validate(specimen);
 
             Assert.AreEqual(errors.Count, 1);
-            Assert.Equals("Image path is not correct file type, must be png, jpg, or jpeg", errors[0].ErrorMessage);
+            Assert.AreEqual("Image path is not correct file type, must be png, jpg, or jpeg", errors[0].ErrorMessage);
         }
 
         /* "abc.pn" is passed in which is invalid
@@ -88,7 +90,7 @@ namespace StoriesOfTheLand.Test
             var errors = ValidationHelper.Validate(specimen);
 
             Assert.AreEqual(errors.Count, 1);
-            Assert.Equals("Image path is not correct file type, must be png, jpg, or jpeg", errors[0].ErrorMessage);
+            Assert.AreEqual("Image path is not correct file type, must be png, jpg, or jpeg", errors[0].ErrorMessage);
         }
 
         /* 255 ending/including ".png" is passed in which is too large
@@ -110,7 +112,7 @@ namespace StoriesOfTheLand.Test
             var errors = ValidationHelper.Validate(specimen);
 
             Assert.AreEqual(errors.Count, 1);
-            Assert.Equals("Image path length must be between 5 and 254", errors[0].ErrorMessage);
+            Assert.AreEqual("Image path length must be between 5 and 254", errors[0].ErrorMessage);
         }
 
         /* 254 ending/including ".png" is passed in which is just almost too big
@@ -137,7 +139,7 @@ namespace StoriesOfTheLand.Test
 
             var errors = ValidationHelper.Validate(specimen);
             Assert.AreEqual(errors.Count, 1);
-            Assert.Equals("Image path length must be between 5 and 254", errors[0].ErrorMessage);
+            Assert.AreEqual("Image path length must be between 5 and 254", errors[0].ErrorMessage);
         }
 
 

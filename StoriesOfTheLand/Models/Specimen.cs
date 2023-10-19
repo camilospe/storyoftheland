@@ -2,7 +2,7 @@
 
 namespace StoriesOfTheLand.Models
 {
-    public class Specimen : IValidatableObject
+    public class Specimen
     {
         //make specimen validatable object
 
@@ -20,10 +20,6 @@ namespace StoriesOfTheLand.Models
         public string SpecimenImagePath { get; set; }
 
 
-        //Validate result of image path with inenurmerable
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }
