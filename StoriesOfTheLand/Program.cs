@@ -11,13 +11,19 @@ builder.Services.AddDbContext<StoriesOfTheLandContext>(options =>
 });
 
 
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
+//https://stackoverflow.com/questions/71461296/how-do-you-do-database-ensurecreated-in-aspnet-core-web-application-using-net
+
 using (var scope = app.Services.CreateScope())
 {
+    StoriesOfTheLandContext dbContext = scope.ServiceProvider.GetRequiredService<StoriesOfTheLandContext>();
+    dbContext.Database.EnsureCreated();
+
     var Services = scope.ServiceProvider;
     SeedData.Initialize(Services);
 }
@@ -35,6 +41,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}"
+    );
 
 app.Run();
