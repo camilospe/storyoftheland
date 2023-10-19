@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Details";
+    var imagePath = "~\images\" + (Model.SpecimenImagePath.ToString());
 }
 
 <h1>Details</h1>
@@ -16,6 +17,7 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.SpecimenImagePath)
         </dd>
+       <img src="@imagePath" alt="@imagePath"/>
     </dl>
 </div>
 <div>

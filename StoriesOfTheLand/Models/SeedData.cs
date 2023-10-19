@@ -16,13 +16,14 @@ namespace StoriesOfTheLand.Models
             {
                 if(context.Specimen.Any())
                 {
+                    context.Specimen.ExecuteDelete();
                     return;
                 }
                 context.Specimen.AddRange(
                     new StoriesOfTheLand.Models.Specimen
                     {
                         SpecimenID = 1,
-                        SpecimenImagePath = "abc.png"
+                        SpecimenImagePath = "mint.png"
                     }
                     ) ;
                 context.SaveChanges();
