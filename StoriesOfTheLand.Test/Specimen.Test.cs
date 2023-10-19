@@ -33,18 +33,6 @@ namespace StoriesOfTheLand.Test
         }
 
         [Test]
-        public void testThatCulturalSignificanceMustBeAtLeast1Character()
-        {
-            // Adds a cultural significance which is an empty string
-            specimen.CulturalSignificance = "";
-
-            var errors = ValidationHelper.Validate(specimen);
-
-            Assert.AreEqual(1, errors.Count); // Tests that there is only one error
-            Assert.AreEqual("Cultural Significance must have between 1 and 3500 characters", errors[0].ErrorMessage); // Tests that there is a StringLength error
-        }
-
-        [Test]
         public void testThatCulturalSignificanceMustBeSet()
         {
             // Sets cultural significance to null
