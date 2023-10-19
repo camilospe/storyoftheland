@@ -18,6 +18,13 @@ namespace StoriesOfTheLand.Controllers
         {
             _context = context;
         }
+        // GET: Specimen
+        public async Task<IActionResult> Index()
+        {
+            return _context.Specimen != null ?
+                        View(await _context.Specimen.ToListAsync()) :
+                        Problem("Entity set 'StoriesOfTheLandContext.Specimen'  is null.");
+        }
 
         // GET: Specimens/Details/5
         public async Task<IActionResult> Details(int? id)

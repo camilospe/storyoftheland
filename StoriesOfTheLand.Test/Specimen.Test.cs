@@ -19,12 +19,6 @@ namespace StoriesOfTheLand.Test
             testSpecimen.LatinName = "Valid Name";
         }
 
-        [Test]
-        public void Test1()
-        {
-            Assert.Pass();
-        }
-
         /*
          * The database inserts 70 letter A's into the Latin Name Field and fails,
          * resulting in an exception that is thrown

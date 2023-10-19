@@ -24,22 +24,22 @@ public static class SeedData
             context.Specimen.AddRange(
                 new Specimen
                 {
-                    LatinName = "Latin Name 4",
+                    LatinName = "Plantago Major"
 
                 },
                 new Specimen
                 {
-                    LatinName = "Latin Name 2 ",
+                    LatinName = "Vaccinium myrtilloides"
 
                 },
                 new Specimen
                 {
-                    LatinName = "Latin Name 3",
+                    LatinName = "Ledum groenlandicum"
       
                 },
                 new Specimen
                 {
-                    LatinName = "Latin Name 4",
+                    LatinName = "Mertensia paniculata."
                 }
             );
             context.SaveChanges();
