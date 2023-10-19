@@ -15,7 +15,20 @@ namespace StoriesOfTheLand.Models
                 serviceProvider.GetRequiredService<
                     DbContextOptions<StoriesOfTheLandContext>>()))
             {
+                if (context.Specimen.Any())
+                {
+                    return;
+                }
 
+
+                context.Specimen.AddRange(
+                    new Specimen()
+                    {
+                        SpecimenID = 1,
+                        EnlgishName="Mint"
+                   
+                    }) ;
+                context.SaveChanges();
             }
         }
 
