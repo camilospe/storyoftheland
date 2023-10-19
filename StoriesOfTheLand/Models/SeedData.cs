@@ -22,12 +22,10 @@ namespace StoriesOfTheLand.Models
                 context.Specimen.AddRange(
                     new Specimen
                     {
-                        SpecimenName = "The_Plantacus",
                         SpecimenDescription = "DON'T DO IT"
                     },
                     new Specimen
                     {
-                        SpecimenName = "The_Other_One",
                         SpecimenDescription = "DO IT"
                     }
 

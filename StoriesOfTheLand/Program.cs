@@ -5,7 +5,11 @@ using StoriesOfTheLand.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<StoriesOfTheLandContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("StoriesOfTheLandContext") ?? throw new InvalidOperationException("Connection string 'StoriesOfTheLandContext' not found.")));
+{
+    options.UseSqlite(builder.Configuration.GetConnectionString("StoriesOfTheLandContext") ?? throw new InvalidOperationException("Connection string 'StoriesOfTheLandContext' not found."));
+    
+});
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

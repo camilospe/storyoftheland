@@ -27,10 +27,6 @@ namespace StoriesOfTheLand.Migrations
                         .HasMaxLength(5000)
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("SpecimenName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.HasKey("SpecimenID");
 
                     b.ToTable("Specimen");

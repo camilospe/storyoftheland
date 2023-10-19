@@ -16,7 +16,6 @@ namespace StoriesOfTheLand.Migrations
                 {
                     SpecimenID = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    SpecimenName = table.Column<string>(type: "TEXT", nullable: false),
                     SpecimenDescription = table.Column<string>(type: "TEXT", maxLength: 5000, nullable: false)
                 },
                 constraints: table =>
