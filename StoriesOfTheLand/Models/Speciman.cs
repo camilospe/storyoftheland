@@ -14,6 +14,22 @@ namespace StorisOfTheLand.Models
 
         public override bool IsValid(object value)
         {
+            if (value == null)
+                return true;
+
+            string name = value as string;
+            if (string.IsNullOrWhiteSpace(name))
+                return true;
+
+
+            foreach (char c in name)
+            {
+                if (!char.IsLetter(c))
+                {
+                    return false;
+                }
+            }
+
             return true;
         }
     }

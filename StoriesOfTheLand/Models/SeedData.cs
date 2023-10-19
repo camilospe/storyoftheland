@@ -20,7 +20,6 @@ namespace StoriesOfTheLand.Models
                     return;
                 }
 
-
                 context.Specimen.AddRange(
                     new Specimen()
                     {
