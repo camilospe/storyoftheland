@@ -4,7 +4,6 @@ using StoriesOfTheLand.Models;
 using StoriesOfTheLand.Data;
 using System;
 using System.Linq;
-using StorisOfTheLand.Models;
 
 namespace StoriesOfTheLand.Models
 {
@@ -23,35 +22,18 @@ public static class SeedData
             {
                     //context.Specimen.ExecuteDelete();
                     return;
-                }
+            }
             context.Specimen.AddRange(
                 new Specimen
                 {
-                    LatinName = "Plantago Major"
-
-                },
-                new Specimen
-                {
-                    LatinName = "Vaccinium myrtilloides"
+                        LatinName = "Vaccinium myrtilloides",
                         SpecimenID = 1,
                         SpecimenImagePath = "mint.png"
-                    }
-                    ) ;
-                context.SaveChanges();
+                }
+                );
+             context.SaveChanges();
             }
 
-                },
-                new Specimen
-                {
-                    LatinName = "Ledum groenlandicum"
-      
-                },
-                new Specimen
-                {
-                    LatinName = "Mertensia paniculata."
-                }
-            );
-            context.SaveChanges();
         }
 
     }

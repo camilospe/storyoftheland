@@ -23,9 +23,12 @@ namespace StoriesOfTheLand.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("LatinName")
-                    b.Property<string>("SpecimenImagePath")
                         .IsRequired()
                         .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SpecimenImagePath")
+                        .IsRequired()
                         .HasMaxLength(254)
                         .HasColumnType("TEXT");
 

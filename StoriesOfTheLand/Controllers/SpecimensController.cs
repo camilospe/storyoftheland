@@ -42,20 +42,11 @@ namespace StoriesOfTheLand.Controllers
                 .FirstOrDefaultAsync(m => m.SpecimenID == id);
             if (specimen == null)
             {
-
-                return NotFound();
-            }
-
-            return View(specimen);
-        }
-
-
                 // Returns not found
                 return NotFound();
             }
             // Render's the specimen's details.cshtml file
             return View(specimen);
         }
-
     }
 }
