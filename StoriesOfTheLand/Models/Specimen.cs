@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+<<<<<<< HEAD
+namespace StoriesOfTheLand.Models
 {
     public class Specimen
     {
@@ -9,19 +11,30 @@
         public int SpecimenID { get; set; }
 
 
+        //May have to be nullable in future implementations
+        //This will allow for file validation before it is stored
+        //in the server and preventing malicious content.
+        //for now it will be required
+        [RegularExpression(@"([^\\s]+(\\.(?i)(jpe?g|png))$)")]
+        [StringLength(254, ErrorMessage = "Image path length must be between {2} and {1}.", MinimumLength = 5)]
+        [Required]
+        public string SpecimenImagePath { get; set; }
 
 
-    //May have to be nullable in future implementations
-    //This will allow for file validation before it is stored
-    //in the server and preventing malicious content.
-    //for now it will be required
-    [RegularExpression(@"([^\\s]+(\\.(?i)(jpe?g|png))$)")]
-    [StringLength(254, ErrorMessage = "Image path length must be between {2} and {1}.", MinimumLength = 5)]
-    [Required]
-    public string SpecimenImagePath { get; set; }
+       
+    }
+}
+=======
+namespace StorisOfTheLand.Models
+{
+    public class Specimen
+    {
+        [Key]
+        public int SpecimenID { get; set; }
 
- [Required(ErrorMessage = "Latin Name is required")]
+        [Required(ErrorMessage = "Latin Name is required")]
         [StringLength(50, ErrorMessage = "Name cannot be more than 50 characters")]
         public string LatinName { get; set; }
+    }
 }
-}
+>>>>>>> master

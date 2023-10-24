@@ -18,7 +18,7 @@ public static class SeedData
         {
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
-/*            // Look for any Specimens.
+            // Look for any Specimens.
             if (context.Specimen.Any())
             {
                     //context.Specimen.ExecuteDelete();

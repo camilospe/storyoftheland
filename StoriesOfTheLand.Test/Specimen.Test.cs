@@ -2,14 +2,11 @@ using Microsoft.Identity.Client;
 using StoriesOfTheLand.Controllers;
 using StoriesOfTheLand.Models;
 using System.Diagnostics.CodeAnalysis;
-using Microsoft.IdentityModel.Tokens;
+
 namespace StoriesOfTheLand.Test
 {
-
-
     public class Tests
     {
-        Specimen testSpecimen;
         private Specimen specimen;
         SpecimensController specController;
 
@@ -68,10 +65,6 @@ namespace StoriesOfTheLand.Test
 
         /* "abcgfjdjfdpng" is passed in which is invalid
          * and an exception is thrown
-         */
-        /*
-         * The database inserts 70 letter A's into the Latin Name Field and fails,
-         * resulting in an exception that is thrown
          */
         [Test]
         public void specimenImageHasNoType()
@@ -141,6 +134,44 @@ namespace StoriesOfTheLand.Test
          */
         [Test]
         public void specimenImageSourceNameIsTooSmall()
+        {
+            specimen.SpecimenImagePath = ".png";
+
+            var errors = ValidationHelper.Validate(specimen);
+            Assert.AreEqual(errors.Count, 1);
+            Assert.AreEqual("Image path length must be between 5 and 254", errors[0].ErrorMessage);
+        }
+
+
+=======
+using StorisOfTheLand.Models;
+using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
+using System.Text;
+using Microsoft.Identity.Client;
+using Microsoft.IdentityModel.Tokens;
+
+namespace StoriesOfTheLand.Test
+{
+
+
+    public class Tests
+    {
+        Specimen testSpecimen;
+        [SetUp]
+        public void Setup()
+        {
+            testSpecimen = new Specimen() { 
+                LatinName = "Valid Name"
+            };
+            
+        }
+
+        /*
+         * The database inserts 70 letter A's into the Latin Name Field and fails,
+         * resulting in an exception that is thrown
+         */
+        [Test]
         public void testLatinNameIsLongerThan50Characters()
         {
             Specimen testSpecimen = new Specimen();
@@ -208,16 +239,10 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void testLatinNameDoesNotExist()
         {
-            specimen.SpecimenImagePath = ".png";
-
-            var errors = ValidationHelper.Validate(specimen);
-            Assert.AreEqual(errors.Count, 1);
-            Assert.AreEqual("Image path length must be between 5 and 254", errors[0].ErrorMessage);
             Specimen testSpecimen = new Specimen();
             var errors = ValidationHelper.Validate(testSpecimen);
             Assert.AreEqual("Latin Name is required", errors[0].ErrorMessage);
         }
-
-
+>>>>>>> master
     }
 }
