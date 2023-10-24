@@ -15,8 +15,10 @@ namespace StoriesOfTheLand.Test
         [SetUp]
         public void Setup()
         {
-            testSpecimen = new Specimen();
-            testSpecimen.LatinName = "Valid Name";
+            testSpecimen = new Specimen() { 
+                LatinName = "Valid Name"
+            };
+            
         }
 
         /*

@@ -16,11 +16,13 @@ public static class SeedData
             serviceProvider.GetRequiredService<
                 DbContextOptions<StoriesOfTheLandContext>>()))
         {
-            // Look for any Specimens.
+            context.Database.EnsureDeleted();
+            context.Database.EnsureCreated();
+/*            // Look for any Specimens.
             if (context.Specimen.Any())
             {
                 return;   // DB has been seeded
-            }
+            }*/
             context.Specimen.AddRange(
                 new Specimen
                 {
