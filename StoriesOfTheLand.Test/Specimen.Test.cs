@@ -1,13 +1,10 @@
-﻿using StorisOfTheLand.Models;
+﻿using StoriesOfTheLand.Models;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
-
 using NUnit.Framework;
-using StorisOfTheLand.Models;
-using System.ComponentModel.DataAnnotations;
 using System.Numerics;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -20,11 +17,15 @@ namespace StoriesOfTheLand.Test
         private Specimen SpecimenObject;
         private string SpecimenDescriptionError = "SpecimenDescription length must be between 10 and 5000";
 
+
         [SetUp]
         public void SetUp()
         {
             //Sets up the specimen object for use in the test
-            SpecimenObject = new Specimen() { SpecimenDescription = new string('a', 11) };
+            SpecimenObject = new Specimen() { 
+                SpecimenDescription = new string('a', 11),
+                LatinName = new string('a',10)
+            };
         }
 
         /// <summary>
@@ -173,12 +174,11 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void testLatinNameIsACorrectLength()
         {
-            Specimen testSpecimen = new Specimen();
             //Change specimen's latin name
-            testSpecimen.LatinName = "Begonia";
+            SpecimenObject.LatinName = "Begonia";
 
             //Test that true is returned when specimen is able to be added
-            var errors = ValidationHelper.Validate(testSpecimen);
+            var errors = ValidationHelper.Validate(SpecimenObject);
             Assert.IsEmpty(errors);
         }
 
@@ -190,13 +190,10 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void testLatinNameIsExactly50CharactersLong()
         {
-            Specimen testSpecimen = new Specimen();
-            //Change specimen's latin name
-
-            testSpecimen.LatinName = new string('E', 50);
+            SpecimenObject.LatinName = new string('E', 50);
 
             //Test that true is returned when specimen is able to be added
-            var errors = ValidationHelper.Validate(testSpecimen);
+            var errors = ValidationHelper.Validate(SpecimenObject);
             //There should be nothing passed into .ErrorMessage and the result should be null
             Assert.IsEmpty(errors);
         }
@@ -208,15 +205,13 @@ namespace StoriesOfTheLand.Test
             var errors = ValidationHelper.Validate(testSpecimen);
             Assert.AreEqual("Latin Name is required", errors[0].ErrorMessage);
         }
+
         /// <summary>
         /// This will test if the Specimen's description will reject if no value is put into it
         /// </summary>
         [Test]
         public void EnteringInNothing()
         {
-            Specimen testSpecimen = new Specimen();
-            var errors = ValidationHelper.Validate(testSpecimen);
-            Assert.AreEqual("Latin Name is required", errors[0].ErrorMessage);
             string descriptionStringTest = null;
 
             SpecimenObject.SpecimenDescription = descriptionStringTest;

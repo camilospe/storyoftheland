@@ -1,16 +1,20 @@
-﻿@model StorisOfTheLand.Models.Specimen
+﻿@model StoriesOfTheLand.Models.Specimen
 
 @{
     ViewData["Title"] = Model.SpecimenID;
 }
 
-<h1>@Html.DisplayFor(model => model.SpecimenID)</h1>
 
-<div>
-    <dl class="row">
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SpecimenDescription)
-        </dd>
-    </dl>    
+@* Display the Specimen's Latin Name *@
+<div class="text-center">
+    @*Display For displays the model's property, in this case, it's a Latin Name*@
+    <div>
+        <p><strong>Latin Name</strong></p>
+    </div>
+    @Html.DisplayFor(model => model.LatinName)
+
+    <div>
+        <p>@Html.DisplayFor(model => model.SpecimenDescription)</p>
+    </div>
 </div>
 
