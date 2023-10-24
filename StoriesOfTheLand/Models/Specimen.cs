@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Runtime.InteropServices;
 using System.Xml.Linq;
 
-namespace StorisOfTheLand.Models
+namespace StoriesOfTheLand.Models
 {
     //validator class that test to see if there is any non-letter attributes
     //in the EnglishName

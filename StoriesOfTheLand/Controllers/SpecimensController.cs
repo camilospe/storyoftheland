@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using StoriesOfTheLand.Data;
-using StorisOfTheLand.Models;
+using StoriesOfTheLand.Models;
 
 namespace StoriesOfTheLand.Controllers
 {

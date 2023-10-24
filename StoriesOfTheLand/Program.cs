@@ -1,17 +1,4 @@
-<<<<<<< HEAD
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using StoriesOfTheLand.Data;
-using StoriesOfTheLand.Models;
 
-var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<StoriesOfTheLandContext>(options =>
-
-    options.UseSqlite(builder.Configuration.GetConnectionString("StoriesOfTheLandContext") ?? throw new InvalidOperationException("Connection string 'StoriesOfTheLandContext' not found.")));
-
-
-
-=======
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using StoriesOfTheLand.Data;
@@ -20,13 +7,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<StoriesOfTheLandContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("StoriesOfTheLandContext") ?? throw new InvalidOperationException("Connection string 'StoriesOfTheLandContext' not found.")));
 
->>>>>>> master
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
-<<<<<<< HEAD
-
 
 
 using (var scope = app.Services.CreateScope())
@@ -39,23 +23,10 @@ using (var scope = app.Services.CreateScope())
 }
 
 
-=======
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-
-    SeedData.Initialize(services);
-}
-
->>>>>>> master
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-<<<<<<< HEAD
-=======
-
->>>>>>> master
 }
 app.UseStaticFiles();
 
@@ -67,8 +38,4 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-<<<<<<< HEAD
-=======
-
->>>>>>> master
 app.Run();
