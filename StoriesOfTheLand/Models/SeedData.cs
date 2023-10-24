@@ -30,9 +30,9 @@ namespace StoriesOfTheLand.Models
                         new Specimen
                         {
                             SpecimenDescription = //Blueberry
-                            "A small shrub, 10-50cm tall, growing in sandy or gravel soils. It thrives in clearings of coniferous stands of the boreal forest. " +
-                            "This woody plant can grow in dense clusters and is characterized by its soft, lance-shaped, velvety leaves. The spring flowers are shaped like delicate white urns, " +
-                            "which develop into the petite, blue fruit, familiar to all “pickers”!",
+                            @"A small shrub, 10-50cm tall, growing in sandy or gravel soils. It thrives in clearings of coniferous stands of the boreal forest. 
+                             This woody plant can grow in dense clusters and is characterized by its soft, lance-shaped, velvety leaves. The spring flowers are shaped like delicate white urns,
+                             which develop into the petite, blue fruit, familiar to all “pickers”!",
                             LatinName = "asd"
                             
 

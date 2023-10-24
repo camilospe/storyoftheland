@@ -12,8 +12,6 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-//https://stackoverflow.com/questions/71461296/how-do-you-do-database-ensurecreated-in-aspnet-core-web-application-using-net
-
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;

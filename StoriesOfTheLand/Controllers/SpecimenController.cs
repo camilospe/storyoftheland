@@ -9,12 +9,7 @@ using StoriesOfTheLand.Data;
 using StoriesOfTheLand.Models;
 
 namespace StoriesOfTheLand.Controllers
-{ 
-    
-    /**
-     * http://localhost:32771/specimen/
-     * doesnt work - no index
-     */
+{
     public class SpecimenController : Controller
     {
         private readonly StoriesOfTheLandContext _context;
@@ -24,23 +19,25 @@ namespace StoriesOfTheLand.Controllers
             _context = context;
         }
 
-        // GET:  http://localhost:32771/specimen/details/1
-        public async Task<IActionResult> Details(int ?Id)
+        // GET: Specimens/Details/5
+        public async Task<IActionResult> Details(int? id)
         {
-            if (Id == null || _context.Specimen == null)
+
+            if (id == null || _context.Specimen == null)
             {
+                // Returns not found
                 return NotFound();
             }
 
+            // Querying the database for the specimen object that has the same ID
             var specimen = await _context.Specimen
-                .FirstOrDefaultAsync(m => m.SpecimenID == Id);
-
+                .FirstOrDefaultAsync(m => m.SpecimenID == id);
             if (specimen == null)
             {
+                // Returns not found
                 return NotFound();
             }
-
-
+            // Render's the specimen's details.cshtml file
             return View(specimen);
         }
     }

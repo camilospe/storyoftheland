@@ -9,12 +9,11 @@
 <div class="text-center">
     @*Display For displays the model's property, in this case, it's a Latin Name*@
     <div>
-        <p><strong>Latin Name</strong></p>
+        <h1>Latin Name</h1>
+        @Html.DisplayFor(model => model.LatinName)
     </div>
-    @Html.DisplayFor(model => model.LatinName)
-
-    <div>
-        <p>@Html.DisplayFor(model => model.SpecimenDescription)</p>
+    <div class="overflow-auto">
+        @Html.DisplayFor(model => model.SpecimenDescription)
     </div>
 </div>
 
