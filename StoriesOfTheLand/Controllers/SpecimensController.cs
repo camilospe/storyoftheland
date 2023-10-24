@@ -22,18 +22,22 @@ namespace StoriesOfTheLand.Controllers
         // GET: Specimens/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            
             if (id == null || _context.Specimen == null)
             {
+                // Returns not found
                 return NotFound();
             }
 
+            // Querying the database for the specimen object that has the same ID
             var specimen = await _context.Specimen
                 .FirstOrDefaultAsync(m => m.SpecimenID == id);
             if (specimen == null)
             {
+                // Returns not found
                 return NotFound();
             }
-
+            // Render's the specimen's details.cshtml file
             return View(specimen);
         }
 

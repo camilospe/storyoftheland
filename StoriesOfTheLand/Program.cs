@@ -2,7 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using StoriesOfTheLand.Data;
 using StoriesOfTheLand.Models;
-
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<StoriesOfTheLandContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("StoriesOfTheLandContext") ?? throw new InvalidOperationException("Connection string 'StoriesOfTheLandContext' not found.")));
@@ -11,6 +10,12 @@ builder.Services.AddDbContext<StoriesOfTheLandContext>(options =>
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    SeedData.Initialize(services);
+}
 
 using (var scope = app.Services.CreateScope())
 {
@@ -26,6 +31,7 @@ using (var scope = app.Services.CreateScope())
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
+
 }
 app.UseStaticFiles();
 
@@ -36,5 +42,6 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
 
 app.Run();
