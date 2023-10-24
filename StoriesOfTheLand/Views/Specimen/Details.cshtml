@@ -1,26 +1,13 @@
 ﻿@model StorisOfTheLand.Models.Specimen
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = Model.SpecimenID;
 }
 
-<h1>Details</h1>
+<h1>@Html.DisplayFor(model => model.SpecimenID)</h1>
 
 <div>
-    <h4>Specimen</h4>
-    <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SpecimenID)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SpecimenID)
-        </dd>
-    </dl>
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SpecimenDescription)
-        </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.SpecimenDescription)
         </dd>

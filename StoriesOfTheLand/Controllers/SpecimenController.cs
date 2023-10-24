@@ -9,7 +9,12 @@ using StoriesOfTheLand.Data;
 using StorisOfTheLand.Models;
 
 namespace StoriesOfTheLand.Controllers
-{
+{ 
+    
+    /**
+     * http://localhost:32771/specimen/
+     * doesnt work - no index
+     */
     public class SpecimenController : Controller
     {
         private readonly StoriesOfTheLandContext _context;
@@ -19,15 +24,7 @@ namespace StoriesOfTheLand.Controllers
             _context = context;
         }
 
-        // GET: Specimen
-        public async Task<IActionResult> Index()
-        {
-              return _context.Specimen != null ? 
-                          View(await _context.Specimen.ToListAsync()) :
-                          Problem("Entity set 'StoriesOfTheLandContext.Specimen'  is null.");
-        }
-
-        // GET: Specimen/Details/5
+        // GET:  http://localhost:32771/specimen/details/1
         public async Task<IActionResult> Details(int ?Id)
         {
             if (Id == null || _context.Specimen == null)

@@ -22,6 +22,7 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     StoriesOfTheLandContext dbContext = scope.ServiceProvider.GetRequiredService<StoriesOfTheLandContext>();
+    dbContext.Database.EnsureDeleted();
     dbContext.Database.EnsureCreated();
 
     var Services = scope.ServiceProvider;
