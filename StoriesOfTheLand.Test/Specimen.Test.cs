@@ -22,12 +22,14 @@ namespace StoriesOfTheLand.Test
         public void SetUp()
         {
             //Sets up the specimen object for use in the test
-            SpecimenObject = new Specimen() { 
+            SpecimenObject = new Specimen()
+            {
                 SpecimenDescription = new string('a', 11),
-                LatinName = new string('a',10)
+                LatinName = new string('a', 10)
             };
         }
 
+        #region Description
         /// <summary>
         /// This will test if the Specimen's Description will reject less than 10 characters
         /// </summary>
@@ -133,15 +135,35 @@ namespace StoriesOfTheLand.Test
             Assert.AreEqual(SpecimenDescriptionError, errors[0].ErrorMessage);
         }
 
+
+        /// <summary>
+        /// This will test if the Specimen's description will reject if no value is put into it
+        /// </summary>
+        [Test]
+        public void EnteringInNothing()
+        {
+            string descriptionStringTest = null;
+
+            SpecimenObject.SpecimenDescription = descriptionStringTest;
+            var errors = ValidationHelper.Validate(SpecimenObject);
+
+            Assert.AreEqual(errors.Count, 1);
+            Assert.AreEqual("SpecimenDescription cannot be blank", errors[0].ErrorMessage);
+
+        }
+        #endregion
+
+        #region Latin Name
+
         /*
          * The database inserts 70 letter A's into the Latin Name Field and fails,
          * resulting in an exception that is thrown
          */
-
+        [Test]
         public void testLatinNameIsLongerThan50Characters()
         {
             Specimen testSpecimen = new Specimen();
-            
+
             //Set the latin name
             testSpecimen.LatinName = new string('A', 100);
 
@@ -150,6 +172,8 @@ namespace StoriesOfTheLand.Test
             var errors = ValidationHelper.Validate(testSpecimen);
             Assert.AreEqual("Name cannot be more than 50 characters", errors[0].ErrorMessage);
         }
+
+
 
         /*
          * The database inserts exactly 51 characters into the Latin Name Field and fails,
@@ -205,22 +229,7 @@ namespace StoriesOfTheLand.Test
             var errors = ValidationHelper.Validate(testSpecimen);
             Assert.AreEqual("Latin Name is required", errors[0].ErrorMessage);
         }
-
-        /// <summary>
-        /// This will test if the Specimen's description will reject if no value is put into it
-        /// </summary>
-        [Test]
-        public void EnteringInNothing()
-        {
-            string descriptionStringTest = null;
-
-            SpecimenObject.SpecimenDescription = descriptionStringTest;
-            var errors = ValidationHelper.Validate(SpecimenObject);
-
-            Assert.AreEqual(errors.Count, 1);
-            Assert.AreEqual("SpecimenDescription cannot be blank", errors[0].ErrorMessage);
-
-        }
+        #endregion
 
     }
 
