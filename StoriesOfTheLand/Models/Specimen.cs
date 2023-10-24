@@ -14,7 +14,7 @@ namespace StoriesOfTheLand.Models
         //This will allow for file validation before it is stored
         //in the server and preventing malicious content.
         //for now it will be required
-        [RegularExpression(@"([^\\s]+(\\.(?i)(jpe?g|png))$)")]
+        [RegularExpression("([^\\s]+(\\.(?i)(jpe?g|png))$)", ErrorMessage = "Image path must have atleast 5 characters and be of type png, jpg, or jpeg.")]
         [StringLength(254, ErrorMessage = "Image path length must be between {2} and {1}.", MinimumLength = 5)]
         [Required]
         public string SpecimenImagePath { get; set; }

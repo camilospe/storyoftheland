@@ -16,7 +16,8 @@ namespace StoriesOfTheLand.Migrations
                 {
                     SpecimenID = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    SpecimenImagePath = table.Column<string>(type: "TEXT", maxLength: 254, nullable: false)
+                    SpecimenImagePath = table.Column<string>(type: "TEXT", maxLength: 254, nullable: false),
+                    LatinName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -27,7 +28,6 @@ namespace StoriesOfTheLand.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-
             migrationBuilder.DropTable(
                 name: "Specimen");
         }

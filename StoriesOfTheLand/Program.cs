@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using StoriesOfTheLand.Data;
 using StoriesOfTheLand.Models;
+using StoriesOfTheLand.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<StoriesOfTheLandContext>(options =>

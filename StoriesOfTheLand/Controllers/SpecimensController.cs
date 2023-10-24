@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using StoriesOfTheLand.Data;
 using StoriesOfTheLand.Models;
 
-
 namespace StoriesOfTheLand.Controllers
 {
     public class SpecimensController : Controller
@@ -23,13 +22,6 @@ namespace StoriesOfTheLand.Controllers
         // GET: Specimens/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-
-            if (id == null || _context.Specimen == null)
-            {
-                return NotFound();
-            }
-
-            
             if (id == null || _context.Specimen == null)
             {
                 // Returns not found
@@ -37,7 +29,6 @@ namespace StoriesOfTheLand.Controllers
             }
 
             // Querying the database for the specimen object that has the same ID
-
             var specimen = await _context.Specimen
                 .FirstOrDefaultAsync(m => m.SpecimenID == id);
             if (specimen == null)
@@ -48,5 +39,6 @@ namespace StoriesOfTheLand.Controllers
             // Render's the specimen's details.cshtml file
             return View(specimen);
         }
+
     }
 }
