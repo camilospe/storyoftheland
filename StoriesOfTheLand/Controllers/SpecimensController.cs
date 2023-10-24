@@ -27,18 +27,19 @@ namespace StoriesOfTheLand.Controllers
             //checks to see if the id is null or the specimen context is null
             if (id == null || _context.Specimen == null)
             {
+                // Returns not found
                 return NotFound();
             }
 
             //checks the database for the specimen object with the given id
             var specimen = await _context.Specimen
-                .FirstOrDefaultAsync(m => m.SpecimenID ==id);
+                .FirstOrDefaultAsync(m => m.SpecimenID == id);
             if (specimen == null)
             {
+                // Returns not found
                 return NotFound();
             }
-
-            //returns the corresponding review of specimen
+            // Render's the specimen's details.cshtml file
             return View(specimen);
         }
     }

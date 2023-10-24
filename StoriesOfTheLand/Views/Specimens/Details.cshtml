@@ -4,9 +4,10 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
-
-<div>
+@* Display the Specimen's Latin Name *@
+<div class="text-center">
+    @*Display For displays the model's property, in this case, it's a Latin Name*@
+    <div>
     <h4>Specimen</h4>
     <hr />
     <dl class="row">
@@ -17,4 +18,7 @@
             @Html.DisplayFor(model => model.EnglishName)
         </dd>
     </dl>
+        <p><strong>Latin Name</strong></p>
+    </div>
+     @Html.DisplayFor(model => model.LatinName) 
 </div>

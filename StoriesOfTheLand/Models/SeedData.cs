@@ -1,40 +1,55 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using StoriesOfTheLand.Models;
 using StoriesOfTheLand.Data;
-using StorisOfTheLand.Models;
 using System;
 using System.Linq;
 
-namespace StoriesOfTheLand.Models
+namespace StoriesOfTheLand.Models;
+
+public static class SeedData
 {
     public class SeedData
     {
-        public static void Initialize(IServiceProvider serviceProvider)
+    public static void Initialize(IServiceProvider serviceProvider)
+    {
+        using (var context = new StoriesOfTheLandContext(
+            serviceProvider.GetRequiredService<
+                DbContextOptions<StoriesOfTheLandContext>>()))
         {
-            using (var context = new StoriesOfTheLandContext(
-                serviceProvider.GetRequiredService<
-                    DbContextOptions<StoriesOfTheLandContext>>()))
+            context.Database.EnsureDeleted();
+            context.Database.EnsureCreated();
+/*            // Look for any Specimens.
+            if (context.Specimen.Any())
             {
-                if (context.Specimen.Any())
+                return;   // DB has been seeded
+            }*/
+            context.Specimen.AddRange(
+                new Specimen
                 {
-                    return;
-                }
+                    LatinName = "Plantago Major"
 
-                context.Specimen.AddRange(
-                    new Specimen()
-                    {
+                },
+                new Specimen
+                {
+                    LatinName = "Vaccinium myrtilloides"
                         SpecimenID = 1,
                         EnglishName = "Wild Mint"
 
-                    },
-                    new Specimen()
-                    {
+                },
+                new Specimen
+                {
+                    LatinName = "Ledum groenlandicum"
                         SpecimenID = 2,
                         EnglishName ="Velvet Leaf Blueberry"
-                   
-                    });
-                context.SaveChanges();
-            }
+      
+                },
+                new Specimen
+                {
+                    LatinName = "Mertensia paniculata."
+                }
+            );
+            context.SaveChanges();
         }
     }
 }
