@@ -2,11 +2,14 @@ using Microsoft.Identity.Client;
 using StoriesOfTheLand.Controllers;
 using StoriesOfTheLand.Models;
 using System.Diagnostics.CodeAnalysis;
-
+using Microsoft.IdentityModel.Tokens;
 namespace StoriesOfTheLand.Test
 {
+
+
     public class Tests
     {
+        Specimen testSpecimen;
         private Specimen specimen;
         SpecimensController specController;
 
@@ -65,6 +68,10 @@ namespace StoriesOfTheLand.Test
 
         /* "abcgfjdjfdpng" is passed in which is invalid
          * and an exception is thrown
+         */
+        /*
+         * The database inserts 70 letter A's into the Latin Name Field and fails,
+         * resulting in an exception that is thrown
          */
         [Test]
         public void specimenImageHasNoType()
@@ -134,12 +141,81 @@ namespace StoriesOfTheLand.Test
          */
         [Test]
         public void specimenImageSourceNameIsTooSmall()
+        public void testLatinNameIsLongerThan50Characters()
+        {
+            Specimen testSpecimen = new Specimen();
+            
+            //Set the latin name
+            testSpecimen.LatinName = new string('A', 100);
+
+
+            //Test that nothing was inserted
+            var errors = ValidationHelper.Validate(testSpecimen);
+            Assert.AreEqual("Name cannot be more than 50 characters", errors[0].ErrorMessage);
+        }
+
+        /*
+         * The database inserts exactly 51 characters into the Latin Name Field and fails,
+         * resulting in an exception that is thrown from this boundary case
+         */
+        [Test]
+        public void testLatinNameIsExactly51Characters()
+        {
+            Specimen testSpecimen = new Specimen();
+            //Change specimen's Latin Name
+            testSpecimen.LatinName = new string('A', 51);
+
+            //Test that false is returned when specimen is unable to be added
+            var errors = ValidationHelper.Validate(testSpecimen);
+            Assert.AreEqual("Name cannot be more than 50 characters", errors[0].ErrorMessage);
+        }
+
+        /*
+         * The database isnerts the Latin Name "Begonia" into the database, resulting in no
+         * errors, and data being successfully inserted. 
+         */
+        [Test]
+        public void testLatinNameIsACorrectLength()
+        {
+            Specimen testSpecimen = new Specimen();
+            //Change specimen's latin name
+            testSpecimen.LatinName = "Begonia";
+
+            //Test that true is returned when specimen is able to be added
+            var errors = ValidationHelper.Validate(testSpecimen);
+            Assert.IsEmpty(errors);
+        }
+
+
+        /*
+         * The database isnerts exactly 50 E's into the database, resulting in no 
+         * errors, and data being successfully inserted.
+         */
+        [Test]
+        public void testLatinNameIsExactly50CharactersLong()
+        {
+            Specimen testSpecimen = new Specimen();
+            //Change specimen's latin name
+
+            testSpecimen.LatinName = new string('E', 50);
+
+            //Test that true is returned when specimen is able to be added
+            var errors = ValidationHelper.Validate(testSpecimen);
+            //There should be nothing passed into .ErrorMessage and the result should be null
+            Assert.IsEmpty(errors);
+        }
+
+        [Test]
+        public void testLatinNameDoesNotExist()
         {
             specimen.SpecimenImagePath = ".png";
 
             var errors = ValidationHelper.Validate(specimen);
             Assert.AreEqual(errors.Count, 1);
             Assert.AreEqual("Image path length must be between 5 and 254", errors[0].ErrorMessage);
+            Specimen testSpecimen = new Specimen();
+            var errors = ValidationHelper.Validate(testSpecimen);
+            Assert.AreEqual("Latin Name is required", errors[0].ErrorMessage);
         }
 
 

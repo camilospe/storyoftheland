@@ -13,9 +13,11 @@ namespace StoriesOfTheLand.Test
         {
             var results = new List<ValidationResult>();
             var vc = new ValidationContext(model, null, null);
+            Validator.TryValidateObject(model, vc, results, true);
 
             Validator.TryValidateObject(model, vc, results, true);
             if (model is IValidatableObject) (model as IValidatableObject).Validate(vc);
+
             return results;
         }
     }
