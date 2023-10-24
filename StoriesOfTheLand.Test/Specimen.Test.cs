@@ -23,10 +23,85 @@ namespace StoriesOfTheLand.Test
             //Sets up the specimen object for use in the test
             SpecimenObject = new Specimen()
             {
+                EnglishName = "Tree",
                 SpecimenDescription = new string('a', 11),
                 LatinName = new string('a', 10)
             };
         }
+
+        #region EnlgishName
+        [Test]
+        //test invlaid upper bounds by entering 51 characters
+        public void testInvalidSpecimenEnlgishNameIsLongerThan50Characters()
+        {
+            SpecimenObject.EnglishName = new string('a', 51);
+
+            var errors = ValidationHelper.Validate(SpecimenObject);
+            Assert.AreEqual(1, errors.Count);
+            Assert.AreEqual("English name is too long must be 50 characters or less", errors[0].ErrorMessage);
+        }
+
+        [Test]
+        //test valid upper bound by enetering 50 characters
+        public void testValidSpecimenEnlgishNameIsAcceptableLenghtUpperBoundary()
+        {
+
+            SpecimenObject.EnglishName = new string('a', 50);
+
+            var errors = ValidationHelper.Validate(SpecimenObject);
+            Assert.IsEmpty(errors);
+
+        }
+        [Test]
+        //test invailid lower bound by entering 2 characters
+        public void testInvalidSpecimenEnglishNameIsShoterThan3Characters()
+        {
+            SpecimenObject.EnglishName = "aa";
+
+            var errors = ValidationHelper.Validate(SpecimenObject);
+            Assert.AreEqual(1, errors.Count);
+            Assert.AreEqual("English name is too short must be a minimum of 3 characters", errors[0].ErrorMessage);
+        }
+
+
+        [Test]
+        //test valid length lower bound by entering 3 characters
+        public void testValidSpecimenEnlgishNameIsAcceptableLenghtLowerBoundary()
+        {
+
+            SpecimenObject.EnglishName = "aaa";
+
+            var errors = ValidationHelper.Validate(SpecimenObject);
+            Assert.IsEmpty(errors);
+        }
+
+
+        [Test]
+        //test if there are any non letter characters
+        public void testInvalidSpecimenEnglishNameHasInvalidCharacters()
+        {
+            SpecimenObject.EnglishName = "124@";
+
+            var errors = ValidationHelper.Validate(SpecimenObject);
+            Assert.AreEqual(1, errors.Count);
+            Assert.AreEqual("English Name should not contain numbers or special characters.", errors[0].ErrorMessage);
+        }
+
+
+
+
+        [Test]
+        // test invalid by entering an empty string
+        public void testInvalidSpecimenEnglishNameNotEntered()
+        {
+            SpecimenObject.EnglishName = null;
+
+            var errors = ValidationHelper.Validate(SpecimenObject);
+            Assert.AreEqual(1, errors.Count);
+            Assert.AreEqual("English Name is required", errors[0].ErrorMessage);
+        }
+
+        #endregion
 
         #region Description
         /// <summary>
@@ -161,14 +236,14 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void testLatinNameIsLongerThan50Characters()
         {
-            Specimen testSpecimen = new Specimen();
+            Specimen SpecimenObject = new Specimen();
 
             //Set the latin name
-            testSpecimen.LatinName = new string('A', 100);
+            SpecimenObject.LatinName = new string('A', 100);
 
 
             //Test that nothing was inserted
-            var errors = ValidationHelper.Validate(testSpecimen);
+            var errors = ValidationHelper.Validate(SpecimenObject);
             Assert.AreEqual("Name cannot be more than 50 characters", errors[0].ErrorMessage);
         }
 
@@ -183,10 +258,10 @@ namespace StoriesOfTheLand.Test
         {
             
             //Change specimen's Latin Name
-            testSpecimen.LatinName = new string('A', 51);
+            SpecimenObject.LatinName = new string('A', 51);
 
             //Test that false is returned when specimen is unable to be added
-            var errors = ValidationHelper.Validate(testSpecimen);
+            var errors = ValidationHelper.Validate(SpecimenObject);
             Assert.AreEqual("Name cannot be more than 50 characters", errors[0].ErrorMessage);
         }
 
@@ -223,8 +298,8 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void testLatinNameDoesNotExist()
         {
-            Specimen testSpecimen = new Specimen();
-            var errors = ValidationHelper.Validate(testSpecimen);
+            Specimen SpecimenObject = new Specimen();
+            var errors = ValidationHelper.Validate(SpecimenObject);
             Assert.AreEqual("Latin Name is required", errors[0].ErrorMessage);
         }
         #endregion
