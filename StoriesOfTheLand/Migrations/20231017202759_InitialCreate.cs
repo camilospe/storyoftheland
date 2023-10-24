@@ -16,7 +16,8 @@ namespace StoriesOfTheLand.Migrations
                 {
                     SpecimenID = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    CulturalSignificance = table.Column<string>(type: "TEXT", maxLength: 3500, nullable: false)
+                    CulturalSignificance = table.Column<string>(type: "TEXT", maxLength: 3500, nullable: false),
+                    LatinName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {

@@ -29,7 +29,6 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void testLatinNameIsLongerThan50Characters()
         {
-            Specimen testSpecimen = new Specimen();
             
             //Set the latin name
             testSpecimen.LatinName = new string('A', 100);
@@ -47,7 +46,6 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void testLatinNameIsExactly51Characters()
         {
-            Specimen testSpecimen = new Specimen();
             //Change specimen's Latin Name
             testSpecimen.LatinName = new string('A', 51);
 
@@ -63,7 +61,6 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void testLatinNameIsACorrectLength()
         {
-            Specimen testSpecimen = new Specimen();
             //Change specimen's latin name
             testSpecimen.LatinName = "Begonia";
 
@@ -80,7 +77,6 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void testLatinNameIsExactly50CharactersLong()
         {
-            Specimen testSpecimen = new Specimen();
             //Change specimen's latin name
 
             testSpecimen.LatinName = new string('E', 50);
@@ -106,9 +102,9 @@ namespace StoriesOfTheLand.Test
         public void testThatCulturalSignificanceCanBeCorrectlyRetrieved()
         {
             // Adds a cultural significance which is valid
-            specimen.CulturalSignificance = "This is the cultural significance for the sage specimen";
+            testSpecimen.CulturalSignificance = "This is the cultural significance for the sage specimen";
 
-            var errors = ValidationHelper.Validate(specimen);
+            var errors = ValidationHelper.Validate(testSpecimen);
             Assert.IsEmpty(errors); // Tests that there are no errors
         }
 
@@ -116,9 +112,9 @@ namespace StoriesOfTheLand.Test
         public void testThatCulturalSignificanceMustBeSet()
         {
             // Sets cultural significance to null
-            specimen.CulturalSignificance = null;
+            testSpecimen.CulturalSignificance = null;
 
-            var errors = ValidationHelper.Validate(specimen);
+            var errors = ValidationHelper.Validate(testSpecimen);
 
             Assert.AreEqual(1, errors.Count); // Tests that there is only one error
             Assert.AreEqual("Cultural Significance is required", errors[0].ErrorMessage); // Tests that there is a StringLength error
@@ -129,9 +125,9 @@ namespace StoriesOfTheLand.Test
         {
             // Adds a cultural significance which is string of 3501 characters
             string testString = new string('a', 3501);
-            specimen.CulturalSignificance = testString;
+            testSpecimen.CulturalSignificance = testString;
 
-            var errors = ValidationHelper.Validate(specimen);
+            var errors = ValidationHelper.Validate(testSpecimen);
 
             Assert.AreEqual(1, errors.Count); // Tests that there is only one error
             Assert.AreEqual("Cultural Significance must have between 1 and 3500 characters", errors[0].ErrorMessage); // Tests that there is a StringLength error
@@ -144,7 +140,7 @@ namespace StoriesOfTheLand.Test
             string testString = new string('a', 3500);
             testSpecimen.CulturalSignificance = testString;
 
-            var errors = ValidationHelper.Validate(specimen);
+            var errors = ValidationHelper.Validate(testSpecimen);
 
             Assert.IsEmpty(errors); // Tests that there are no errors
         }
