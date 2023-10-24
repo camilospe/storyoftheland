@@ -10,11 +10,11 @@ using StoriesOfTheLand.Models;
 
 namespace StoriesOfTheLand.Controllers
 {
-    public class SpecimensController : Controller
+    public class SpecimenController : Controller
     {
         private readonly StoriesOfTheLandContext _context;
 
-        public SpecimensController(StoriesOfTheLandContext context)
+        public SpecimenController(StoriesOfTheLandContext context)
         {
             _context = context;
         }

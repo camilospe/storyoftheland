@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace StoriesOfTheLand.Test
 {
+
+    /// <summary>
+    /// A helper class provided by ernesto
+    /// </summary>
     class ValidationHelper
     {
         public static IList<ValidationResult> Validate(object model)
