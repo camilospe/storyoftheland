@@ -12,7 +12,7 @@ namespace StoriesOfTheLand.Test
         public void Setup()
         {
            newSpecimen = new Specimen() {
-                EnlgishName = "Tree"
+                EnglishName = "Tree"
             };
 
         }
@@ -20,7 +20,7 @@ namespace StoriesOfTheLand.Test
         //test invlaid upper bounds by entering 51 characters
         public void testInvalidSpecimenEnlgishNameIsLongerThan50Characters()
         {
-            newSpecimen.EnlgishName = new string('a',51);
+            newSpecimen.EnglishName = new string('a',51);
 
             var errors = ValidationHelper.Validate(newSpecimen);
             Assert.AreEqual(1, errors.Count);
@@ -32,7 +32,7 @@ namespace StoriesOfTheLand.Test
         public void testValidSpecimenEnlgishNameIsAcceptableLenghtUpperBoundary()
         {
 
-            newSpecimen.EnlgishName = new string('a', 50);
+            newSpecimen.EnglishName = new string('a', 50);
            
             var errors = ValidationHelper.Validate(newSpecimen);
             Assert.IsEmpty(errors);
@@ -42,7 +42,7 @@ namespace StoriesOfTheLand.Test
         //test invailid lower bound by entering 2 characters
         public void testInvalidSpecimenEnglishNameIsShoterThan3Characters()
         {
-            newSpecimen.EnlgishName = "aa";
+            newSpecimen.EnglishName = "aa";
 
             var errors = ValidationHelper.Validate(newSpecimen);
             Assert.AreEqual(1, errors.Count);
@@ -55,7 +55,7 @@ namespace StoriesOfTheLand.Test
         public void testValidSpecimenEnlgishNameIsAcceptableLenghtLowerBoundary()
         {
 
-            newSpecimen.EnlgishName = "aaa";
+            newSpecimen.EnglishName = "aaa";
 
             var errors = ValidationHelper.Validate(newSpecimen);
             Assert.IsEmpty(errors);
@@ -66,7 +66,7 @@ namespace StoriesOfTheLand.Test
         //test if there are any non letter characters
         public void testInvalidSpecimenEnglishNameHasInvalidCharacters()
         {
-            newSpecimen.EnlgishName = "124@";
+            newSpecimen.EnglishName = "124@";
             
             var errors = ValidationHelper.Validate(newSpecimen);
             Assert.AreEqual(1, errors.Count);
@@ -78,7 +78,7 @@ namespace StoriesOfTheLand.Test
         // test invalid by entering an empty string
         public void testInvalidSpecimenEnglishNameNotEntered()
         {
-            newSpecimen.EnlgishName = null;
+            newSpecimen.EnglishName = null;
 
             var errors = ValidationHelper.Validate(newSpecimen);
             Assert.AreEqual(1, errors.Count);

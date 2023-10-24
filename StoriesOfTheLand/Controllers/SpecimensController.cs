@@ -19,29 +19,26 @@ namespace StoriesOfTheLand.Controllers
             _context = context;
         }
 
-        // GET: Specimens
-        public async Task<IActionResult> Index()
-        {
-            return _context.Specimen != null ?
-                        View(await _context.Specimen.ToListAsync()) :
-                        Problem("Entity set 'StoriesOfTheLandContext.Specimen'  is null.");
-        }
-
         // GET: Specimens/Details/5
+        //Method gets details for a specimen based in the SpecimenID and returns a 
+        //corresponding veiw
         public async Task<IActionResult> Details(int? id)
         {
+            //checks to see if the id is null or the specimen context is null
             if (id == null || _context.Specimen == null)
             {
                 return NotFound();
             }
 
+            //checks the database for the specimen object with the given id
             var specimen = await _context.Specimen
-                .FirstOrDefaultAsync(m => m.SpecimenID == id);
+                .FirstOrDefaultAsync(m => m.SpecimenID ==id);
             if (specimen == null)
             {
                 return NotFound();
             }
 
+            //returns the corresponding review of specimen
             return View(specimen);
         }
     }

@@ -24,13 +24,17 @@ namespace StoriesOfTheLand.Models
                     new Specimen()
                     {
                         SpecimenID = 1,
-                        EnlgishName="Mint"
+                        EnglishName = "Wild Mint"
+
+                    },
+                    new Specimen()
+                    {
+                        SpecimenID = 2,
+                        EnglishName ="Velvet Leaf Blueberry"
                    
-                    }) ;
+                    });
                 context.SaveChanges();
             }
         }
-
-
     }
 }

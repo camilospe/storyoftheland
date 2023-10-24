@@ -5,13 +5,17 @@ using System.Xml.Linq;
 
 namespace StorisOfTheLand.Models
 {
+    //validator class that test to see if there is any non-letter attributes
+    //in the EnglishName
     public class NonLetterAttribute : ValidationAttribute
     {
+        //error message for the NonLetter validator
         public NonLetterAttribute()
         {
             ErrorMessage = "English Name should not contain numbers or special characters.";
         }
 
+        //helper method to go through the string and check if any of the characters is not a letter
         public override bool IsValid(object value)
         {
             if (value == null)
@@ -43,7 +47,7 @@ namespace StorisOfTheLand.Models
         [NonLetter]
         [MaxLength(50, ErrorMessage = "English name is too long must be 50 characters or less")]
         [MinLength(3, ErrorMessage = "English name is too short must be a minimum of 3 characters")]
-        public string EnlgishName { get; set; }
+        public string EnglishName { get; set; }
 
 
     }

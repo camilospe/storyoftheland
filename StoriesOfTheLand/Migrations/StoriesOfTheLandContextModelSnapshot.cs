@@ -22,7 +22,7 @@ namespace StoriesOfTheLand.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("EnlgishName")
+                    b.Property<string>("EnglishName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("TEXT");
