@@ -1,25 +1,29 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using StoriesOfTheLand.Models;
 using StoriesOfTheLand.Data;
+using System;
+using System.Linq;
 using StorisOfTheLand.Models;
 
 namespace StoriesOfTheLand.Models
 {
     public class SeedData
     {
-        public static void Initialize(IServiceProvider serviceProvider)
+    public static void Initialize(IServiceProvider serviceProvider)
+    {
+        using (var context = new StoriesOfTheLandContext(
+            serviceProvider.GetRequiredService<
+                DbContextOptions<StoriesOfTheLandContext>>()))
         {
-            using (var context = new StoriesOfTheLandContext(
-                serviceProvider.GetRequiredService<
-                    DbContextOptions<StoriesOfTheLandContext>>()))
-            {
                 // Look for any movies.
-                if (context.Specimen.Any())
-                {
-                    return;   // DB has been seeded
-                }
-                
-                context.Specimen.AddRange(
+            context.Database.EnsureDeleted();
+            context.Database.EnsureCreated();
+            // Look for any Specimens.
+            if (context.Specimen.Any())
+            {
+                return;   // DB has been seeded
+            context.Specimen.AddRange(
                     
                     new Specimen
                     {
@@ -51,16 +55,16 @@ namespace StoriesOfTheLand.Models
                         "It has wide pointed leaves that alternate up the stem and pink or blue bell-shaped flowers on bowing branches" +
                         " Leaves are covered with short hairs making them feel rough to the touch. "
                     },                    
-                    new Specimen
-                    {
+                new Specimen
+                {
                         SpecimenDescription = //Mint
                         "Wild mint is found in moist soil, on shorelines, stream banks and damp clearings. It can grow from 10-60cm tall, " +
                         "has serrated leaves in pairs around a square stem and small, purple-pink flowers in dense whorls at the base of the leaves. Walking on or " +
                         "disturbing mint releases the familiar mint smell."
 
-                    },
-                    new Specimen
-                    {
+                },
+                new Specimen
+                {
                         SpecimenDescription = //Stinging Nettle
                         "Stinging Nettle is found in moist open areas around stream/riverbanks, open low areas, thickets, and disturbed sites. It grows tall, usually 0.5m-2.0m," +
                         " with square stems and narrow, toothed leaves in pairs around the stem. Tiny inconspicuous, greenish flowers form drooping clusters at the base of the leaves. " +
@@ -74,9 +78,9 @@ namespace StoriesOfTheLand.Models
                         " The most recognizable feature of mature trees is the easily-peelable white bark with pale or dark lenticels (horizontal, aerating structures). " +
                         "Bark colour can be dark or reddish brown on younger trees and branches. The leaves have a double sawtooth pattern around the edges. "
 
-                    },
-                    new Specimen
-                    {
+                },
+                new Specimen
+                {
                         SpecimenDescription = //Plantain
                         "An introduced species common to disturbed or cultivated areas, it is found throughout most of North America. " +
                         "It grows low to the ground in a cluster of strongly veined, egg-shaped leaves. Seed capsules are arranged in spikes from the center of the leaves. "
@@ -95,18 +99,18 @@ namespace StoriesOfTheLand.Models
                         "Willows have leaves that are two to more than ten times longer than they are wide. All willow species produce tiny flowers in clusters called catkins; " +
                         "these soft fluffy droops are what gave rise to the name “Pussy Willow”. There are thirty-two different species of willow in Saskatchewan and differentiating " +
                         "species often requires extensive analysis from an experienced taxonomist.  "
-
-                    },
-                    new Specimen
-                    {
+      
+                },
+                new Specimen
+                {
                         SpecimenDescription = //Common Yarrow
                         "Common Yarrow is found in clearings around wooded areas, and in meadows. The leaves alternate on the stem and are divided into segments which resemble fern leaves. " +
                         "It has both erect stems that grow 10-70cm tall and horizontal, underground stems called rhizomes that allow it to spread over an area.  "
-                    }
+                }
 
-                );
-                context.SaveChanges();
-            }
+            );
+            context.SaveChanges();
+        }
         }
 
 
