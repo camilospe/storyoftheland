@@ -7,11 +7,13 @@ using Microsoft.IdentityModel.Tokens;
 using NUnit.Framework;
 using System.Numerics;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using Microsoft.Extensions.DependencyInjection;
+using StoriesOfTheLand.Data;
 
 namespace StoriesOfTheLand.Test
 {
    
-    public class Tests
+    public class Tests : DatabaseFixture
     {
         private Specimen SpecimenObject;
         private string SpecimenDescriptionError = "SpecimenDescription length must be between 10 and 5000";
@@ -304,6 +306,117 @@ namespace StoriesOfTheLand.Test
         }
         #endregion
 
+        #region CreeName
+
+        [Test]
+        public void TestThatCreeNamNotProvidedIsValid()
+        {
+            string EmptyString = string.Empty;
+            SpecimenObject.CreeName = EmptyString;
+            var Errors = ValidationHelper.Validate(SpecimenObject);
+            Assert.IsEmpty(Errors);
+        }
+
+        [Test]
+        public void TestThatCreeNameCantBe91Characters()
+        {
+            string TextOf91Char = "Jumbled letters and numbers create a unique and intriguing pattern of characters that form this sentence";
+            SpecimenObject.CreeName = TextOf91Char;
+            var Errors = ValidationHelper.Validate(SpecimenObject);
+            Assert.AreEqual(1, Errors.Count);
+            Assert.AreEqual("Cree name must be up to 90 characters", Errors[0].ErrorMessage);
+        }
+
+        [Test]
+        public void TestThatCreeNameCantBeMoreThan90Characters()
+        {
+            Random Rand = new Random();
+            int RandomNumber = Rand.Next(91, 300);
+            string TextOfMoreThan91Characters = new string('o', RandomNumber);
+            SpecimenObject.CreeName = TextOfMoreThan91Characters;
+            var Errors = ValidationHelper.Validate(SpecimenObject);
+            Assert.AreEqual(1, Errors.Count);
+            Assert.AreEqual("Cree name must be up to 90 characters", Errors[0].ErrorMessage);
+        }
+
+        [Test]
+        public void TestThatCreeNameOf90CharactersIsValid()
+        {
+            string TextCreeOf90Char = new string('o', 90);
+            SpecimenObject.CreeName = TextCreeOf90Char;
+            var Errors = ValidationHelper.Validate(SpecimenObject);
+            Assert.IsEmpty(Errors);
+        }
+
+        [Test]
+        public void TestThatCreeNameOfExactly4CharactersIsValid()
+        {
+            string S4Char = "oooo";
+            SpecimenObject.CreeName = S4Char;
+            var Errors = ValidationHelper.Validate(SpecimenObject);
+            Assert.IsEmpty(Errors);
+        }
+
+        [Test]
+        public void TestThatCreeOfMoreThan4CharactersAreValid()
+        {
+            Random Rand = new Random();
+            int RandomNumber = Rand.Next(5, 90);
+            string RandomText = new string('o', RandomNumber);
+            SpecimenObject.CreeName = RandomText;
+            var Errors = ValidationHelper.Validate(SpecimenObject);
+            Assert.IsEmpty(Errors);
+        }
+
+
+
+        [Test]
+        public void TestThatLatinCreeNameIsValid()
+        {
+            string LongLatinAlphabet = "eēiīoōaāpepēpipīpopōpapātetētitītotōtatākekēkikīkokōkakāchechēchichī";
+            SpecimenObject.CreeName = LongLatinAlphabet;
+            var Errors = ValidationHelper.Validate(SpecimenObject);
+            Assert.IsEmpty(Errors);
+        }
+
+        [Test]
+        public void TestThatInvalidCharactersFails()
+        {
+
+            string LongStrangeString = "Я木दΩあҳღតޒع*{} ";
+
+            SpecimenObject.CreeName = LongStrangeString;
+
+            var Errors = ValidationHelper.Validate(SpecimenObject);
+
+            Assert.AreEqual(1, Errors.Count);
+
+            Assert.AreEqual("Characters are not valid", Errors[0].ErrorMessage);
+        }
+
+        /*
+         * For future is in the project. There is a database fixture if needed.
+         */
+        [Test]
+        public void DisplayCreeNamesFromDatabase()
+        {
+            using var scope = ServiceProvider.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<StoriesOfTheLandContext>();
+
+            // Fetch all specimens from the database
+            var specimens = dbContext.Specimen.ToList();
+
+            // Ensure that there are specimens in the database
+            Assert.IsNotEmpty(specimens);
+
+            // Display the Cree names of the specimens
+            foreach (var specimen in specimens)
+            {
+                Console.WriteLine(specimen.CreeName ?? "Name is null");
+            }
+        }
+
+        #endregion
     }
 
 }

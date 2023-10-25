@@ -34,7 +34,8 @@ namespace StoriesOfTheLand.Models
                              This woody plant can grow in dense clusters and is characterized by its soft, lance-shaped, velvety leaves. The spring flowers are shaped like delicate white urns,
                              which develop into the petite, blue fruit, familiar to all “pickers”!",
                             LatinName = "Vaccinium myrtilloides",
-                            EnglishName = "Velvet Leaf Blueberry"
+                            EnglishName = "Velvet Leaf Blueberry",
+                            CreeName = "Idinimin"
                         },
                         new Specimen
                         {
@@ -52,9 +53,8 @@ namespace StoriesOfTheLand.Models
                             often turn brownish orange in the winter. The leaves alternate around the stem like a spiral staircase. The leaves are thick and leathery with orange fuzzy hairs 
                             on the underside. White coloured flowers sit on top of the plant.",
                             LatinName = "Ledum groenlandicum",
-                            EnglishName = "Labrador Tea"
-
-
+                            EnglishName = "Labrador Tea",
+                            CreeName = "Maskêkopakwa"
                         },
                         new Specimen
                         {
@@ -72,7 +72,8 @@ namespace StoriesOfTheLand.Models
                             has serrated leaves in pairs around a square stem and small, purple-pink flowers in dense whorls at the base of the leaves. Walking on or 
                             disturbing mint releases the familiar mint smell.",
                             LatinName = "Mentha arvensis",
-                            EnglishName = "Wild Mint"
+                            EnglishName = "Wild Mint",
+                            CreeName = "Amiskowihkask"
 
                         }/*,
                         new Specimen

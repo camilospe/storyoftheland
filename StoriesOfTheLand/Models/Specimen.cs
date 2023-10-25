@@ -27,5 +27,9 @@ namespace StoriesOfTheLand.Models
          [MaxLength(50, ErrorMessage = "English name is too long must be 50 characters or less")]
          [MinLength(3, ErrorMessage = "English name is too short must be a minimum of 3 characters")]
          public string EnglishName { get; set; }
+
+        [RegularExpression("^[a-zA-Zâāéêēîīôōõûū\\s()]*$", ErrorMessage = "Characters are not valid")]
+        [MaxLength(90, ErrorMessage = "Cree name must be up to 90 characters")]
+        public string? CreeName { get; set; }
     }
 }

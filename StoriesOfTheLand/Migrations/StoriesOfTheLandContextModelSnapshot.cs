@@ -32,6 +32,10 @@ namespace StoriesOfTheLand.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("CreeName")
+                      .HasMaxLength(90)
+                      .HasColumnType("TEXT");
+
                     b.HasKey("SpecimenID");
 
                     b.ToTable("Specimen");
