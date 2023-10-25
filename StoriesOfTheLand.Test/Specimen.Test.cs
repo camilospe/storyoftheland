@@ -13,7 +13,7 @@ using StoriesOfTheLand.Data;
 namespace StoriesOfTheLand.Test
 {
    
-    public class Tests : DatabaseFixture
+    public class Tests
     {
         private Specimen SpecimenObject;
         private string SpecimenDescriptionError = "SpecimenDescription length must be between 10 and 5000";
@@ -394,27 +394,7 @@ namespace StoriesOfTheLand.Test
             Assert.AreEqual("Characters are not valid", Errors[0].ErrorMessage);
         }
 
-        /*
-         * For future is in the project. There is a database fixture if needed.
-         */
-        [Test]
-        public void DisplayCreeNamesFromDatabase()
-        {
-            using var scope = ServiceProvider.CreateScope();
-            var dbContext = scope.ServiceProvider.GetRequiredService<StoriesOfTheLandContext>();
-
-            // Fetch all specimens from the database
-            var specimens = dbContext.Specimen.ToList();
-
-            // Ensure that there are specimens in the database
-            Assert.IsNotEmpty(specimens);
-
-            // Display the Cree names of the specimens
-            foreach (var specimen in specimens)
-            {
-                Console.WriteLine(specimen.CreeName ?? "Name is null");
-            }
-        }
+        
 
         #endregion
     }
