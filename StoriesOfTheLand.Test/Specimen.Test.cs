@@ -7,6 +7,8 @@ using Microsoft.IdentityModel.Tokens;
 using NUnit.Framework;
 using System.Numerics;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using Microsoft.Extensions.DependencyInjection;
+using StoriesOfTheLand.Data;
 
 namespace StoriesOfTheLand.Test
 {
@@ -25,62 +27,9 @@ namespace StoriesOfTheLand.Test
             {
                 EnglishName = "Tree",
                 SpecimenDescription = new string('a', 11),
-                LatinName = new string('a', 10),
-                CulturalSignificance = "This is the cultural significance for the sage specimen"
+                LatinName = new string('a', 10)
             };
         }
-
-        #region CulturalSignificance
-        [Test]
-        public void testThatCulturalSignificanceCanBeCorrectlyRetrieved()
-        {
-            // Adds a cultural significance which is valid
-            SpecimenObject.CulturalSignificance = "This is the cultural significance for the sage specimen";
-
-            var errors = ValidationHelper.Validate(SpecimenObject);
-            Assert.IsEmpty(errors); // Tests that there are no errors
-        }
-
-        [Test]
-        public void testThatCulturalSignificanceMustBeSet()
-        {
-            // Sets cultural significance to null
-            SpecimenObject.CulturalSignificance = null;
-
-            var errors = ValidationHelper.Validate(SpecimenObject);
-
-            Assert.AreEqual(1, errors.Count); // Tests that there is only one error
-            Assert.AreEqual("Cultural Significance is required", errors[0].ErrorMessage); // Tests that there is a StringLength error
-        }
-
-        [Test]
-        public void testThatCulturalSignificanceCannotExceed3500Characters()
-        {
-            // Adds a cultural significance which is string of 3501 characters
-            string testString = new string('a', 3501);
-            SpecimenObject.CulturalSignificance = testString;
-
-            var errors = ValidationHelper.Validate(SpecimenObject);
-
-            Assert.AreEqual(1, errors.Count); // Tests that there is only one error
-            Assert.AreEqual("Cultural Significance must have between 1 and 3500 characters", errors[0].ErrorMessage); // Tests that there is a StringLength error
-        }
-
-        [Test]
-        public void testThatCulturalSignificanceCanGoUpTo3500Characters()
-        {
-            // Adds a cultural significance which is string of 3500 characters
-            string testString = new string('a', 3500);
-            SpecimenObject.CulturalSignificance = testString;
-
-            var errors = ValidationHelper.Validate(SpecimenObject);
-
-            Assert.IsEmpty(errors); // Tests that there are no errors
-        }
-
-
-
-        #endregion
 
         #region EnlgishName
         [Test]
@@ -357,6 +306,97 @@ namespace StoriesOfTheLand.Test
         }
         #endregion
 
+        #region CreeName
+
+        [Test]
+        public void TestThatCreeNamNotProvidedIsValid()
+        {
+            string EmptyString = string.Empty;
+            SpecimenObject.CreeName = EmptyString;
+            var Errors = ValidationHelper.Validate(SpecimenObject);
+            Assert.IsEmpty(Errors);
+        }
+
+        [Test]
+        public void TestThatCreeNameCantBe91Characters()
+        {
+            string TextOf91Char = "Jumbled letters and numbers create a unique and intriguing pattern of characters that form this sentence";
+            SpecimenObject.CreeName = TextOf91Char;
+            var Errors = ValidationHelper.Validate(SpecimenObject);
+            Assert.AreEqual(1, Errors.Count);
+            Assert.AreEqual("Cree name must be up to 90 characters", Errors[0].ErrorMessage);
+        }
+
+        [Test]
+        public void TestThatCreeNameCantBeMoreThan90Characters()
+        {
+            Random Rand = new Random();
+            int RandomNumber = Rand.Next(91, 300);
+            string TextOfMoreThan91Characters = new string('o', RandomNumber);
+            SpecimenObject.CreeName = TextOfMoreThan91Characters;
+            var Errors = ValidationHelper.Validate(SpecimenObject);
+            Assert.AreEqual(1, Errors.Count);
+            Assert.AreEqual("Cree name must be up to 90 characters", Errors[0].ErrorMessage);
+        }
+
+        [Test]
+        public void TestThatCreeNameOf90CharactersIsValid()
+        {
+            string TextCreeOf90Char = new string('o', 90);
+            SpecimenObject.CreeName = TextCreeOf90Char;
+            var Errors = ValidationHelper.Validate(SpecimenObject);
+            Assert.IsEmpty(Errors);
+        }
+
+        [Test]
+        public void TestThatCreeNameOfExactly4CharactersIsValid()
+        {
+            string S4Char = "oooo";
+            SpecimenObject.CreeName = S4Char;
+            var Errors = ValidationHelper.Validate(SpecimenObject);
+            Assert.IsEmpty(Errors);
+        }
+
+        [Test]
+        public void TestThatCreeOfMoreThan4CharactersAreValid()
+        {
+            Random Rand = new Random();
+            int RandomNumber = Rand.Next(5, 90);
+            string RandomText = new string('o', RandomNumber);
+            SpecimenObject.CreeName = RandomText;
+            var Errors = ValidationHelper.Validate(SpecimenObject);
+            Assert.IsEmpty(Errors);
+        }
+
+
+
+        [Test]
+        public void TestThatLatinCreeNameIsValid()
+        {
+            string LongLatinAlphabet = "eēiīoōaāpepēpipīpopōpapātetētitītotōtatākekēkikīkokōkakāchechēchichī";
+            SpecimenObject.CreeName = LongLatinAlphabet;
+            var Errors = ValidationHelper.Validate(SpecimenObject);
+            Assert.IsEmpty(Errors);
+        }
+
+        [Test]
+        public void TestThatInvalidCharactersFails()
+        {
+
+            string LongStrangeString = "Я木दΩあҳღតޒع*{} ";
+
+            SpecimenObject.CreeName = LongStrangeString;
+
+            var Errors = ValidationHelper.Validate(SpecimenObject);
+
+            Assert.AreEqual(1, Errors.Count);
+
+            Assert.AreEqual("Characters are not valid", Errors[0].ErrorMessage);
+        }
+
+        
+
+        #endregion
     }
 
 }
