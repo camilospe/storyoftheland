@@ -27,7 +27,9 @@ namespace StoriesOfTheLand.Test
             {
                 EnglishName = "Tree",
                 SpecimenDescription = new string('a', 11),
-                LatinName = new string('a', 10)
+                LatinName = new string('a', 10),
+                CreeName = "Name",
+                CulturalSignificance = "Something Valid"
             };
         }
 
@@ -394,9 +396,60 @@ namespace StoriesOfTheLand.Test
             Assert.AreEqual("Characters are not valid", Errors[0].ErrorMessage);
         }
 
-        
+
 
         #endregion
+
+        #region Cultural Significance
+        [Test]
+        public void testThatCulturalSignificanceCanBeCorrectlyRetrieved()
+        {
+            // Adds a cultural significance which is valid
+            SpecimenObject.CulturalSignificance = "This is the cultural significance for the sage specimen";
+
+            var errors = ValidationHelper.Validate(SpecimenObject);
+            Assert.IsEmpty(errors); // Tests that there are no errors
+        }
+
+        [Test]
+        public void testThatCulturalSignificanceMustBeSet()
+        {
+            // Sets cultural significance to null
+            SpecimenObject.CulturalSignificance = null;
+
+            var errors = ValidationHelper.Validate(SpecimenObject);
+
+            Assert.AreEqual(1, errors.Count); // Tests that there is only one error
+            Assert.AreEqual("Cultural Significance is required", errors[0].ErrorMessage); // Tests that there is a StringLength error
+        }
+
+        [Test]
+        public void testThatCulturalSignificanceCannotExceed3500Characters()
+        {
+            // Adds a cultural significance which is string of 3501 characters
+            string testString = new string('a', 3501);
+            SpecimenObject.CulturalSignificance = testString;
+
+            var errors = ValidationHelper.Validate(SpecimenObject);
+
+            Assert.AreEqual(1, errors.Count); // Tests that there is only one error
+            Assert.AreEqual("Cultural Significance must have between 1 and 3500 characters", errors[0].ErrorMessage); // Tests that there is a StringLength error
+        }
+
+        [Test]
+        public void testThatCulturalSignificanceCanGoUpTo3500Characters()
+        {
+            // Adds a cultural significance which is string of 3500 characters
+            string testString = new string('a', 3500);
+            SpecimenObject.CulturalSignificance = testString;
+
+            var errors = ValidationHelper.Validate(SpecimenObject);
+
+            Assert.IsEmpty(errors); // Tests that there are no errors
+        }
+
+        #endregion
+
     }
 
 }
