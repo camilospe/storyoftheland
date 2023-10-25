@@ -1,0 +1,31 @@
+﻿@model StoriesOfTheLand.Models.Specimen
+
+@{
+    ViewData["Title"] = Model.SpecimenID;
+}
+
+
+@* Display the Specimen's Latin Name *@
+<div class="text-center">
+    @*Display For displays the model's property, in this case, it's a Latin Name*@
+    <div>
+    <h3>Enlgish Name</h3>
+    @Html.DisplayFor(model => model.EnglishName)
+    </div>
+    <div>
+        <h3>Latin Name</h3>
+        @Html.DisplayFor(model => model.LatinName)
+    </div>
+
+    <div class="overflow-auto">
+        <h3>Cultural Significance</h3>
+        @Html.DisplayFor(model => model.CulturalSignificance)
+    </div>
+
+    <div class="overflow-auto">
+        <h3>Description</h3>
+        @Html.DisplayFor(model => model.SpecimenDescription)
+    </div>
+
+</div>
+
