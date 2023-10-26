@@ -26,6 +26,10 @@
         @Html.DisplayFor(model => model.LatinName)
     </div>
 
+    <div>
+        <img src="/images/@Model.SpecimenImagePath" alt="@Model.SpecimenImagePath" width="320px" class="img-thumbnail" />
+    </div>
+
     <div class="overflow-auto">
         <h3>Cultural Significance</h3>
         @Html.DisplayFor(model => model.CulturalSignificance)

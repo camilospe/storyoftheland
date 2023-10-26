@@ -15,17 +15,6 @@ namespace StoriesOfTheLand.Models
         [Key]
         public int SpecimenID { get; set; }
 
-
-        //May have to be nullable in future implementations
-        //This will allow for file validation before it is stored
-        //in the server and preventing malicious content.
-        //for now it will be required
-        [RegularExpression("([^\\s]+(\\.(?i)(jpe?g|png))$)", ErrorMessage = "Image path must have atleast 5 characters and be of type png, jpg, or jpeg.")]
-        [StringLength(254, ErrorMessage = "Image path length must be between {2} and {1}.", MinimumLength = 5)]
-        [Required]
-        public string SpecimenImagePath { get; set; }
-
-
        [Required(ErrorMessage = "Latin Name is required")]
         [StringLength(50, ErrorMessage = "Name cannot be more than 50 characters")]
         public string LatinName { get; set; }
@@ -44,6 +33,11 @@ namespace StoriesOfTheLand.Models
         [RegularExpression("^[a-zA-Zâāéêēîīôōõûū\\s()]*$", ErrorMessage = "Characters are not valid")]
         [MaxLength(90, ErrorMessage = "Cree name must be up to 90 characters")]
         public string? CreeName { get; set; }
+
+        [RegularExpression("([^\\s]+(\\.(?i)(jpe?g|png))$)", ErrorMessage = "Image path must have atleast 5 characters and be of type png, jpg, or jpeg.")]
+        [StringLength(254, ErrorMessage = "Image path length must be between {2} and {1}.", MinimumLength = 5)]
+        [Required]
+        public string SpecimenImagePath { get; set; }
 
         [Required(ErrorMessage = "Cultural Significance is required")]
         [StringLength(3500, MinimumLength = 1, ErrorMessage = "Cultural Significance must have between 1 and 3500 characters")]

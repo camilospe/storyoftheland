@@ -29,14 +29,16 @@ namespace StoriesOfTheLand.Test
                 SpecimenDescription = new string('a', 11),
                 LatinName = new string('a', 10),
                 CreeName = "Name",
+                SpecimenImagePath = "abc.png",
                 CulturalSignificance = "Something Valid"
             };
         }
 
-        #region EnlgishName
+
+        #region EnglishName
         [Test]
         //test invlaid upper bounds by entering 51 characters
-        public void testInvalidSpecimenEnlgishNameIsLongerThan50Characters()
+        public void testInvalidSpecimenEnglishNameIsLongerThan50Characters()
         {
             SpecimenObject.EnglishName = new string('a', 51);
 
@@ -47,7 +49,7 @@ namespace StoriesOfTheLand.Test
 
         [Test]
         //test valid upper bound by enetering 50 characters
-        public void testValidSpecimenEnlgishNameIsAcceptableLenghtUpperBoundary()
+        public void testValidSpecimenEnglishNameIsAcceptableLenghtUpperBoundary()
         {
 
             SpecimenObject.EnglishName = new string('a', 50);
@@ -70,7 +72,7 @@ namespace StoriesOfTheLand.Test
 
         [Test]
         //test valid length lower bound by entering 3 characters
-        public void testValidSpecimenEnlgishNameIsAcceptableLenghtLowerBoundary()
+        public void testValidSpecimenEnglishNameIsAcceptableLenghtLowerBoundary()
         {
 
             SpecimenObject.EnglishName = "aaa";
@@ -260,7 +262,7 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void testLatinNameIsExactly51Characters()
         {
-            
+
             //Change specimen's Latin Name
             SpecimenObject.LatinName = new string('A', 51);
 
@@ -449,6 +451,131 @@ namespace StoriesOfTheLand.Test
         }
 
         #endregion
+
+        #region SpecimenImagePath
+
+        /* "abc.png" is passed in which is valid
+        */
+        [Test]
+        public void specimenImagePngIsValidtype()
+        {
+            SpecimenObject.SpecimenImagePath = "abc.png";
+            var errors = ValidationHelper.Validate(SpecimenObject);
+
+            
+            Assert.IsEmpty(errors);
+
+        }
+
+        /* "abc.jpeg" is passed in which is valid
+         */
+        [Test]
+        public void specimenImageJpegIsValidtype()
+        {
+
+            SpecimenObject.SpecimenImagePath = "abc.jpeg";
+
+            var errors = ValidationHelper.Validate(SpecimenObject);
+
+            
+            Assert.IsEmpty(errors);
+        }
+
+        /* "abc.jpg" is passed in which is valid
+         */
+        [Test]
+        public void specimenImageJpgIsValidtype()
+        {
+
+            SpecimenObject.SpecimenImagePath = "abc.jpg";
+
+            var errors = ValidationHelper.Validate(SpecimenObject);
+
+            
+            Assert.IsEmpty(errors);
+        }
+
+        /* "abcgfjdjfdpng" is passed in which is invalid
+         * and an exception is thrown
+         */
+        [Test]
+        public void specimenImageHasNoType()
+        {
+            SpecimenObject.SpecimenImagePath = "abcgfjdjfdpng";
+
+
+            var errors = ValidationHelper.Validate(SpecimenObject);
+
+            Assert.AreEqual(errors.Count, 1);
+            Assert.AreEqual("Image path must have atleast 5 characters and be of type png, jpg, or jpeg.", errors[0].ErrorMessage);
+        }
+
+        /* "abc.pn" is passed in which is invalid
+         * and an exception is thrown
+         */
+        [Test]
+        public void specimenImageIsNotValidtype()
+        {
+            //.abc .webp .pn .jp abcabc should fail
+            SpecimenObject.SpecimenImagePath = "abc.pn";
+
+            var errors = ValidationHelper.Validate(SpecimenObject);
+
+            Assert.AreEqual(errors.Count, 1);
+            Assert.AreEqual("Image path must have atleast 5 characters and be of type png, jpg, or jpeg.", errors[0].ErrorMessage);
+        }
+
+        /* 255 ending/including ".png" is passed in which is too large
+         * and an exception is thrown
+         */
+        [Test]
+        public void specimenImageSourceNameIsTooBig()
+        {
+            /*
+             abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcde
+             abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcde
+             abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcde */
+            //255char
+
+            SpecimenObject.SpecimenImagePath = new string('a', 251);
+            SpecimenObject.SpecimenImagePath += ".png";
+
+
+            var errors = ValidationHelper.Validate(SpecimenObject);
+
+            Assert.AreEqual(errors.Count, 1);
+            Assert.AreEqual("Image path length must be between 5 and 254.", errors[0].ErrorMessage);
+        }
+
+        /* 254 ending/including ".png" is passed in which is just almost too big
+        */
+        [Test]
+        public void specimenImageSourceNameIsOnMaxBoundaryCaseValid()
+        {
+            SpecimenObject.SpecimenImagePath = new string('a', 250);
+            SpecimenObject.SpecimenImagePath += ".png";
+
+            var errors = ValidationHelper.Validate(SpecimenObject);
+
+            
+            Assert.IsEmpty(errors);
+        }
+
+        /* ".png" is passed in which is invalid
+         * and an exception is thrown.
+         */
+        [Test]
+        public void specimenImageSourceNameIsTooSmall()
+        {
+            SpecimenObject.SpecimenImagePath = ".jpeg";
+
+            var errors = ValidationHelper.Validate(SpecimenObject);
+            Assert.AreEqual(errors.Count, 1);
+            Assert.AreEqual("Image path must have atleast 5 characters and be of type png, jpg, or jpeg.", errors[0].ErrorMessage);
+        }
+
+        #endregion
+
 
     }
 
