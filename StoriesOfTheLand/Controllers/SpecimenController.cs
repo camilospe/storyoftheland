@@ -10,25 +10,28 @@ using StoriesOfTheLand.Models;
 
 namespace StoriesOfTheLand.Controllers
 {
-    public class SpecimensController : Controller
+    public class SpecimenController : Controller
     {
         private readonly StoriesOfTheLandContext _context;
 
-        public SpecimensController(StoriesOfTheLandContext context)
+        public SpecimenController(StoriesOfTheLandContext context)
         {
             _context = context;
         }
 
         // GET: Specimens/Details/5
+        //Method gets details for a specimen based in the SpecimenID and returns a 
+        //corresponding veiw
         public async Task<IActionResult> Details(int? id)
         {
+            //checks to see if the id is null or the specimen context is null
             if (id == null || _context.Specimen == null)
             {
                 // Returns not found
                 return NotFound();
             }
 
-            // Querying the database for the specimen object that has the same ID
+            //checks the database for the specimen object with the given id
             var specimen = await _context.Specimen
                 .FirstOrDefaultAsync(m => m.SpecimenID == id);
             if (specimen == null)

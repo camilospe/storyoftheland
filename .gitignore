@@ -42,6 +42,11 @@ Thumbs.db
 *.app
 *.exe
 *.war
+*.db
+*.sqlite
+*.db-shm
+*.db-wal
+*.user
 
 # Large media files
 *.mp4
