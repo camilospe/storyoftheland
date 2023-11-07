@@ -1,5 +1,6 @@
 @model StoriesOfTheLand.Models.Specimen
 
+
 @{
     ViewData["Title"] = Model.SpecimenID;
 }
@@ -27,7 +28,7 @@
     </div>
 
     <div>
-        <img src="/images/@Model.SpecimenImagePath" alt="@Model.SpecimenImagePath" width="320px" class="img-thumbnail" />
+        <img src="/images/@Model.SpecimenMedia?.SpecimenImagePath" alt="@Model.SpecimenMedia?.SpecimenImagePath" width="320px" class="img-thumbnail" />
     </div>
 
     <div class="overflow-auto">
