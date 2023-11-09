@@ -30,7 +30,8 @@ namespace StoriesOfTheLand.Test
                 LatinName = new string('a', 10),
                 CreeName = "Name",
                 SpecimenImagePath = "abc.png",
-                CulturalSignificance = "Something Valid"
+                CulturalSignificance = "Something Valid",
+                SpecimenQRCodePath = "qrcode.png"
             };
         }
 
@@ -449,6 +450,77 @@ namespace StoriesOfTheLand.Test
 
             Assert.IsEmpty(errors); // Tests that there are no errors
         }
+
+        #endregion
+
+        #region SpecimenQRCodePath
+
+        [Test]
+        public void testThatQRCodeCanBeCorrectlyRetrieved()
+        {
+            // Adds a fake QR code path which is valid
+            SpecimenObject.SpecimenQRCodePath = "testqr.png";
+            var errors = ValidationHelper.Validate(SpecimenObject);
+
+            
+            Assert.IsEmpty(errors); // Tests that there are no errors
+        }
+
+        [Test]
+        public void testThatQRCodePathMustHaveAValidFileType()
+        {
+            // Adds a QR Code path which is of an invalid type
+            SpecimenObject.SpecimenQRCodePath = "horsetail.mp4";
+            var errors = ValidationHelper.Validate(SpecimenObject);
+
+            Assert.AreEqual(1, errors.Count);
+            Assert.AreEqual("QR Code file path must end in .png", errors[0].ErrorMessage); // Tests that there is a Regex error (and ONLY a Regex error)
+        }
+
+        [Test]
+        public void testThatQRCodePathMustBeAtLeast5Characters()
+        {
+            // Adds a QR Code path which is too short
+            SpecimenObject.SpecimenQRCodePath = ".png";
+            var errors = ValidationHelper.Validate(SpecimenObject);
+
+            Assert.AreEqual(1, errors.Count);
+            Assert.AreEqual("QR Code file path must have between 5 and 150 characters", errors[0].ErrorMessage); // Tests that there is a StringLength error
+        }
+
+        [Test]
+        public void testThatQRCodePathCannotExceed150Characters()
+        {
+            // Adds a QR Code path which is a string of 151 characters (must have .png at the end to not throw other errors)
+            string testString = new string('a', 147);
+            testString += ".png";
+            SpecimenObject.SpecimenQRCodePath = testString;
+            var errors = ValidationHelper.Validate(SpecimenObject);
+
+            Assert.AreEqual(1, errors.Count);
+            Assert.AreEqual("QR Code file path must have between 5 and 150 characters", errors[0].ErrorMessage); // Tests that there is a StringLength error
+        }
+
+        [Test]
+        public void testThatQRCodeCanGoUpTo150Characters()
+        {
+            // Adds a QR Code path which is a string of 150 characters
+            string testString = new string('a', 146);
+            testString += ".png";
+            SpecimenObject.SpecimenQRCodePath = testString;
+            var errors = ValidationHelper.Validate(SpecimenObject);
+
+
+            Assert.IsEmpty(errors); // Tests that there are no errors
+        }
+
+        // Note that this is a Functional test, so move it to it's own namespace later
+        [Test]
+        public void testThatQRCodeDirectsToTheCorrectPage()
+        {
+
+        }
+
 
         #endregion
 

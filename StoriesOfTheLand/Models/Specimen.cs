@@ -39,10 +39,16 @@ namespace StoriesOfTheLand.Models
         [Required]
         public string SpecimenImagePath { get; set; }
 
+        [RegularExpression(".+png$", ErrorMessage = "QR Code file path must end in .png")]
+        [StringLength(150, MinimumLength = 5, ErrorMessage = "QR Code file path must have between 5 and 150 characters")]
+        public string SpecimenQRCodePath { get; set; }
+
         [Required(ErrorMessage = "Cultural Significance is required")]
         [StringLength(3500, MinimumLength = 1, ErrorMessage = "Cultural Significance must have between 1 and 3500 characters")]
         /* A required string that holds the specimen's cultural significance. This can be a long
          * paragraph or paragraphs and has only length as a constraint */
         public string CulturalSignificance { get; set; }
+
+        
     }
 }
