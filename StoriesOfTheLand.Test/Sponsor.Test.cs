@@ -20,7 +20,7 @@ namespace StoriesOfTheLand.Test
             };
         }
 
-
+        #region sponsormodel
         [Test]
         public void testSponsorName0CharIsInvalid()
         {
@@ -103,6 +103,14 @@ namespace StoriesOfTheLand.Test
             Assert.AreEqual(1, errors.Count);
             Assert.AreEqual("Sponsor Link length must be between 1 and 100", errors[0].ErrorMessage);
         }
+
+        #endregion
+
+        `
+
+
+
+
 
     }
 }
