@@ -10,14 +10,16 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using Microsoft.Extensions.DependencyInjection;
 using StoriesOfTheLand.Data;
 
+
+
 namespace StoriesOfTheLand.Test
 {
-   
+
     public class Tests
     {
         private Specimen SpecimenObject;
         private string SpecimenDescriptionError = "SpecimenDescription length must be between 10 and 5000";
-
+        private StoriesOfTheLandContext _StoriesOfTheLandContext;
 
         [SetUp]
         public void SetUp()
@@ -462,7 +464,7 @@ namespace StoriesOfTheLand.Test
             SpecimenObject.SpecimenImagePath = "abc.png";
             var errors = ValidationHelper.Validate(SpecimenObject);
 
-            
+
             Assert.IsEmpty(errors);
 
         }
@@ -477,7 +479,7 @@ namespace StoriesOfTheLand.Test
 
             var errors = ValidationHelper.Validate(SpecimenObject);
 
-            
+
             Assert.IsEmpty(errors);
         }
 
@@ -491,7 +493,7 @@ namespace StoriesOfTheLand.Test
 
             var errors = ValidationHelper.Validate(SpecimenObject);
 
-            
+
             Assert.IsEmpty(errors);
         }
 
@@ -557,7 +559,7 @@ namespace StoriesOfTheLand.Test
 
             var errors = ValidationHelper.Validate(SpecimenObject);
 
-            
+
             Assert.IsEmpty(errors);
         }
 
@@ -576,7 +578,103 @@ namespace StoriesOfTheLand.Test
 
         #endregion
 
+        #region ViewSpecimenIndex
+        [Test]
+        /*
+         * Check to see that Index returns a list that is not empty
+         */
+        public void TestThatSpecimenIndexIsNotEmpty()
+        {
 
+        }
+        /*
+         * Check to see that the Specimen Index sorts in Alphabetical Order (english common name) by default
+         */
+        [Test]
+        public void TestSpecimenIndexSortsAlphabeticalOrder()
+        {
+
+        }
+
+        /*
+         * Check to see that the Specimen Index sorts in Reverse Alphabetical Order (english common name) 
+         */
+        [Test]
+        public void TestSpecimenindexSortsReverseAlphabeticalOrder()
+        {
+
+        }
+
+        /*
+         * Check to see that the Specimen Index for English Common Name displays in Alphabetical Order
+         * When English Common Name is selected
+         */
+        [Test]
+        public void TestSpecimenEnglishCommonNameDisplaysInAlphabeticalOrder()
+        {
+
+        }
+
+        /*
+         * Check to see that the Specimen Index for English Common Name displays in Reverse Alphabetical Order
+         * When English Common Name is selected
+         */
+        [Test]
+        public void TestSpecimenEnglishCommonNameDisplaysInReverseAlphabeticalOrder()
+        {
+
+        }
+
+        /*
+         * Check to see that the Specimen Index for Latin Name displays in Reverse Alphabetical Order
+         * When Latin Name is selected
+         */
+        [Test]
+        public void TestSpecimenLatinNameDisplaysInAlphabeticalOrder()
+        {
+
+        }
+
+        /*
+         * Check to see that the Specimen Index for Latin Name displays in Reverse Alphabetical Order
+         * When Latin Name is selected
+         */
+        [Test]
+        public void TestSpecimenLatinNameDisplaysInReverseAlphabeticalOrder()
+        {
+
+        }
+
+        /*
+         * Check to see that the Specimen Index for Cree Name displays in Reverse Alphabetical Order
+         * When Cree Name is selected
+         */
+        [Test]
+        public void TestSpecimenCreeNameDisplaysInAlphabeticalOrder()
+        {
+
+        }
+
+        /*
+         * Check to see that the Specimen Index for Cree Name displays in Reverse Alphabetical Order
+         *  When Cree Name is selected
+        */
+        [Test]
+        public void TestSpecimenCreeNameDisplaysInReverseAlphabeticalOrder()
+        {
+
+        }
+
+
+        /*
+         * Check to see that the Specimen Search Box searches for the approp
+         */
+        [Test]
+        public void TestThatSpecimenSearchBoxReturnsAppropriateValues()
+        {
+
+        }
+        #endregion
     }
 
 }
