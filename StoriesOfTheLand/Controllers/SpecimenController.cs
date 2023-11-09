@@ -33,12 +33,15 @@ namespace StoriesOfTheLand.Controllers
 
             //checks the database for the specimen object with the given id
             var specimen = await _context.Specimen
+                .Include(s=> s.SpecimenMedia)
                 .FirstOrDefaultAsync(m => m.SpecimenID == id);
             if (specimen == null)
             {
                 // Returns not found
                 return NotFound();
             }
+
+            
             // Render's the specimen's details.cshtml file
             return View(specimen);
         }

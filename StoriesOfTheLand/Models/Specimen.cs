@@ -36,8 +36,8 @@ namespace StoriesOfTheLand.Models
 
         //[RegularExpression("([^\\s]+(\\.(?i)(jpe?g|png))$)", ErrorMessage = "Image path must have atleast 5 characters and be of type png, jpg, or jpeg.")]
         //[StringLength(254, ErrorMessage = "Image path length must be between {2} and {1}.", MinimumLength = 5)]
-       // [Required]
-        //public string SpecimenImagePath { get; set; }
+        //[Required]
+       // public string SpecimenImagePath { get; set; }
 
         [Required(ErrorMessage = "Cultural Significance is required")]
         [StringLength(3500, MinimumLength = 1, ErrorMessage = "Cultural Significance must have between 1 and 3500 characters")]

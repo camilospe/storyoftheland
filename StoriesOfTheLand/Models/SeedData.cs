@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using StoriesOfTheLand.Data;
 using System;
@@ -40,10 +41,8 @@ namespace StoriesOfTheLand.Models
                             CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs.",
                             SpecimenMedia = new Media
                             {
-                                SpecimenImagePath = "blueberry.png",
-                                SpecimenAudioPath = "blueberry_audio.mp3"
+                                SpecimenImagePath="blueberry.png"
                             }
-
                         },
                         new Specimen
                         {
@@ -53,12 +52,11 @@ namespace StoriesOfTheLand.Models
                            They are ancient primitive plants dating back over 300 million years!",
                             LatinName = "Equisetum species",
                             EnglishName = "Horsetail",
-                           // SpecimenImagePath = "Horsetail.png",
+                            //SpecimenImagePath = "Horsetail.png",
                             CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs.",
                             SpecimenMedia = new Media
                             {
-                                SpecimenImagePath = "blueberry.png",
-                                SpecimenAudioPath = "blueberry_audio.mp3"
+                                SpecimenImagePath = "blueberry.png"
                             }
                         },
                         new Specimen
@@ -70,12 +68,11 @@ namespace StoriesOfTheLand.Models
                             LatinName = "Ledum groenlandicum",
                             EnglishName = "Labrador Tea",
                             CreeName = "Maskêkopakwa",
-                            //SpecimenImagePath = "LabradorTea.png",
+                           // SpecimenImagePath = "LabradorTea.png",
                             CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs.",
                             SpecimenMedia = new Media
                             {
-                                SpecimenImagePath = "blueberry.png",
-                                SpecimenAudioPath = "blueberry_audio.mp3"
+                                SpecimenImagePath = "blueberry.png"
                             }
                         },
                         new Specimen
@@ -86,12 +83,11 @@ namespace StoriesOfTheLand.Models
                              Leaves are covered with short hairs making them feel rough to the touch. ",
                             LatinName = "Mertensia paniculata",
                             EnglishName = "Lungwort",
-                            //SpecimenImagePath = "Lungwort.png",
+                           // SpecimenImagePath = "Lungwort.png",
                             CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs.",
                             SpecimenMedia = new Media
                             {
-                                SpecimenImagePath = "blueberry.png",
-                                SpecimenAudioPath = "blueberry_audio.mp3"
+                                SpecimenImagePath = "blueberry.png"
                             }
                         },
                         new Specimen
@@ -103,12 +99,11 @@ namespace StoriesOfTheLand.Models
                             LatinName = "Mentha arvensis",
                             EnglishName = "Wild Mint",
                             CreeName = "Amiskowihkask",
-                           // SpecimenImagePath = "mint.png",
+                            //SpecimenImagePath = "mint.png",
                             CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs.",
                             SpecimenMedia = new Media
                             {
-                                SpecimenImagePath = "blueberry.png",
-                                SpecimenAudioPath = "blueberry_audio.mp3"
+                                SpecimenImagePath = "blueberry.png"
                             }
 
                         }/*,
