@@ -10,7 +10,8 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using Microsoft.Extensions.DependencyInjection;
 using StoriesOfTheLand.Data;
 using StoriesOfTheLand.Controllers;
-
+using StoriesOfTheLand.Test.Utilities;
+using Moq;
 
 namespace StoriesOfTheLand.Test
 {
@@ -653,6 +654,15 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void TestSpecimenEnglishCommonNameDisplaysInAlphabeticalOrder()
         {
+            var mockRepo = new Mock<StoriesOfTheLandContext>();
+            mockRepo.Setup(repo => repo.SortList("A-Z", "English", Specimens)).Returns(new List<Specimen>());
+
+            var controller = new SpecimenController(mockRepo.Object);
+
+
+            Specimens = controller.SortList("A-Z", "English", Specimens);
+
+
 
 
             Assert.AreEqual("Horsetail", Specimens[0].EnglishName);
