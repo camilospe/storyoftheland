@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Xunit;
 using StoriesOfTheLand.Data;
 using StoriesOfTheLand;
-using Microsoft.AspNetCore.Http.HttpResults
+using Microsoft.AspNetCore.Http.HttpResults;
 using StoriesOfTheLand.Test.Utilities;
 using StoriesOfTheLand.Controllers;
 using StoriesOfTheLand.Models;
@@ -31,7 +31,7 @@ namespace StoriesOfTheLand.Test
             // Arrange
             var mockRepo = new MockDb<StoriesOfTheLandContext>();
             mockRepo.Setup(repo => repo.ListAsync())
-                .ReturnsAsync(GetTestSessions());
+                .ReturnsAsync();
 
             await using var context = new MockDb().CreateDbContext();
             var controller = new HomeController(mockRepo.Object);
