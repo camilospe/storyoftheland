@@ -29,7 +29,6 @@ namespace StoriesOfTheLand.Test
                 SpecimenDescription = new string('a', 11),
                 LatinName = new string('a', 10),
                 CreeName = "Name",
-                SpecimenImagePath = "abc.png",
                 CulturalSignificance = "Something Valid",
                 
             };
@@ -459,7 +458,7 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void specimenImagePngIsValidtype()
         {
-            //SpecimenObject.SpecimenImagePath = "abc.png";
+            SpecimenObject.SpecimenMedia.SpecimenImagePath[0] = "abc.png";
             var errors = ValidationHelper.Validate(SpecimenObject);
 
             
@@ -473,7 +472,7 @@ namespace StoriesOfTheLand.Test
         public void specimenImageJpegIsValidtype()
         {
 
-            //SpecimenObject.SpecimenImagePath = "abc.jpeg";
+            SpecimenObject.SpecimenMedia.SpecimenImagePath[0] = "abc.jpeg";
 
             var errors = ValidationHelper.Validate(SpecimenObject);
 
@@ -487,7 +486,7 @@ namespace StoriesOfTheLand.Test
         public void specimenImageJpgIsValidtype()
         {
 
-           // SpecimenObject.SpecimenImagePath = "abc.jpg";
+           SpecimenObject.SpecimenMedia.SpecimenImagePath[0]="abc.jpg";
 
             var errors = ValidationHelper.Validate(SpecimenObject);
 
@@ -501,13 +500,15 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void specimenImageHasNoType()
         {
-            //SpecimenObject.SpecimenImagePath = "abcgfjdjfdpng";
+            SpecimenObject.SpecimenMedia.SpecimenImagePath[0] = "abcgfjdjfdpng";
 
 
             var errors = ValidationHelper.Validate(SpecimenObject);
 
             Assert.AreEqual(errors.Count, 1);
             Assert.AreEqual("Image path must have atleast 5 characters and be of type png, jpg, or jpeg.", errors[0].ErrorMessage);
+
+            
         }
 
         /* "abc.pn" is passed in which is invalid
@@ -517,7 +518,7 @@ namespace StoriesOfTheLand.Test
         public void specimenImageIsNotValidtype()
         {
             //.abc .webp .pn .jp abcabc should fail
-            //SpecimenObject.SpecimenImagePath = "abc.pn";
+            SpecimenObject.SpecimenMedia.SpecimenImagePath[0] = "abc.pn";
 
             var errors = ValidationHelper.Validate(SpecimenObject);
 
@@ -537,8 +538,8 @@ namespace StoriesOfTheLand.Test
              abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcde */
             //255char
 
-            //SpecimenObject.SpecimenImagePath = new string('a', 251);
-            //SpecimenObject.SpecimenImagePath += ".png";
+            SpecimenObject.SpecimenMedia.SpecimenImagePath[0] = new string('a', 251);
+            SpecimenObject.SpecimenMedia.SpecimenImagePath[0] += ".png";
 
 
             var errors = ValidationHelper.Validate(SpecimenObject);
@@ -552,8 +553,8 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void specimenImageSourceNameIsOnMaxBoundaryCaseValid()
         {
-           // SpecimenObject.SpecimenImagePath = new string('a', 250);
-            //SpecimenObject.SpecimenImagePath += ".png";
+            SpecimenObject.SpecimenMedia.SpecimenImagePath[0] = new string('a', 250);
+            SpecimenObject.SpecimenMedia.SpecimenImagePath[0] += ".png";
 
             var errors = ValidationHelper.Validate(SpecimenObject);
 
@@ -567,7 +568,7 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void specimenImageSourceNameIsTooSmall()
         {
-            //SpecimenObject.SpecimenImagePath = ".jpeg";
+            SpecimenObject.SpecimenMedia.SpecimenImagePath[0] = ".jpeg";
 
             var errors = ValidationHelper.Validate(SpecimenObject);
             Assert.AreEqual(errors.Count, 1);
