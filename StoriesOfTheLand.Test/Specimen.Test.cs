@@ -9,7 +9,7 @@ using System.Numerics;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Microsoft.Extensions.DependencyInjection;
 using StoriesOfTheLand.Data;
-
+using StoriesOfTheLand.Controllers;
 
 
 namespace StoriesOfTheLand.Test
@@ -19,7 +19,7 @@ namespace StoriesOfTheLand.Test
     {
         private Specimen SpecimenObject;
         private string SpecimenDescriptionError = "SpecimenDescription length must be between 10 and 5000";
-        private StoriesOfTheLandContext _StoriesOfTheLandContext;
+        private List<Specimen> Specimens;
 
         [SetUp]
         public void SetUp()
@@ -34,6 +34,73 @@ namespace StoriesOfTheLand.Test
                 SpecimenImagePath = "abc.png",
                 CulturalSignificance = "Something Valid"
             };
+            Specimens = new List<Specimen>();
+            Specimens.Add(
+                new Specimen
+                {
+                    SpecimenDescription = //Blueberry
+                            @"A small shrub, 10-50cm tall, growing in sandy or gravel soils. It thrives in clearings of coniferous stands of the boreal forest. 
+                             This woody plant can grow in dense clusters and is characterized by its soft, lance-shaped, velvety leaves. The spring flowers are shaped like delicate white urns,
+                             which develop into the petite, blue fruit, familiar to all “pickers”!",
+                    LatinName = "Vaccinium myrtilloides",
+                    EnglishName = "Velvet Leaf Blueberry",
+                    CreeName = "Idinimin",
+                    SpecimenImagePath = "blueberry.png",
+                    CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs."
+                });
+            Specimens.Add(
+            new Specimen
+            {
+                SpecimenDescription = //Horsetail
+                            @"Horsetail plants tend to favour cool, moist, forested areas. Species grow from low to the ground to 1m tall. All horsetails are characterized by jointed, grooved, 
+                            hollow stems with a honeycomb like top where the spores are housed. Horsetails reproduce by spores as apposed to seed. 
+                           They are ancient primitive plants dating back over 300 million years!",
+                LatinName = "Equisetum species",
+                EnglishName = "Horsetail",
+                SpecimenImagePath = "Horsetail.png",
+                CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs."
+            });
+            Specimens.Add(
+            new Specimen
+            {
+                SpecimenDescription = //Labrador Tea
+                            @"Labrador tea is a low shrub found in bogs, swamps, and moist lowland woods in nutrient poor soil. This plant keeps its leaves all year round though they 
+                            often turn brownish orange in the winter. The leaves alternate around the stem like a spiral staircase. The leaves are thick and leathery with orange fuzzy hairs 
+                            on the underside. White coloured flowers sit on top of the plant.",
+                LatinName = "Ledum groenlandicum",
+                EnglishName = "Labrador Tea",
+                CreeName = "Maskêkopakwa",
+                SpecimenImagePath = "LabradorTea.png",
+                CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs."
+            });
+            Specimens.Add(
+            new Specimen
+            {
+                SpecimenDescription = //Lungwort
+                @"Lungwort is an erect, perennial plant, (growing from 20-80cm tall) commonly found in moist woods, and meadows. 
+                It has wide pointed leaves that alternate up the stem and pink or blue bell-shaped flowers on bowing branches
+                Leaves are covered with short hairs making them feel rough to the touch. ",
+                LatinName = "Mertensia paniculata",
+                EnglishName = "Lungwort",
+                SpecimenImagePath = "Lungwort.png",
+                CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs."
+            });
+            Specimens.Add(
+            new Specimen
+            {
+                SpecimenDescription = //Mint
+                @"Wild mint is found in moist soil, on shorelines, stream banks and damp clearings. It can grow from 10-60cm tall, 
+                has serrated leaves in pairs around a square stem and small, purple-pink flowers in dense whorls at the base of the leaves. Walking on or 
+                disturbing mint releases the familiar mint smell.",
+                LatinName = "Mentha arvensis",
+                EnglishName = "Wild Mint",
+                CreeName = "Amiskowihkask",
+                SpecimenImagePath = "mint.png",
+                CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs."
+
+             }
+            );
+           
         }
 
 
@@ -579,32 +646,6 @@ namespace StoriesOfTheLand.Test
         #endregion
 
         #region ViewSpecimenIndex
-        [Test]
-        /*
-         * Check to see that Index returns a list that is not empty
-         */
-        public void TestThatSpecimenIndexIsNotEmpty()
-        {
-
-        }
-        /*
-         * Check to see that the Specimen Index sorts in Alphabetical Order (english common name) by default
-         */
-        [Test]
-        public void TestSpecimenIndexSortsAlphabeticalOrder()
-        {
-
-        }
-
-        /*
-         * Check to see that the Specimen Index sorts in Reverse Alphabetical Order (english common name) 
-         */
-        [Test]
-        public void TestSpecimenindexSortsReverseAlphabeticalOrder()
-        {
-
-        }
-
         /*
          * Check to see that the Specimen Index for English Common Name displays in Alphabetical Order
          * When English Common Name is selected
@@ -612,6 +653,10 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void TestSpecimenEnglishCommonNameDisplaysInAlphabeticalOrder()
         {
+
+
+            Assert.AreEqual("Horsetail", Specimens[0].EnglishName);
+            Assert.AreEqual("Wild Mint", Specimens[3].EnglishName);
 
         }
 
@@ -622,7 +667,8 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void TestSpecimenEnglishCommonNameDisplaysInReverseAlphabeticalOrder()
         {
-
+            Assert.AreEqual("Wild Mint", Specimens[0].EnglishName);
+            Assert.AreEqual("Horsetail", Specimens[3].EnglishName);
         }
 
         /*
@@ -632,7 +678,8 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void TestSpecimenLatinNameDisplaysInAlphabeticalOrder()
         {
-
+            Assert.AreEqual("Equisetum species", Specimens[0].LatinName);
+            Assert.AreEqual("Vaccinium myrtilloides", Specimens[3].LatinName);
         }
 
         /*
@@ -642,7 +689,8 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void TestSpecimenLatinNameDisplaysInReverseAlphabeticalOrder()
         {
-
+            Assert.AreEqual("Vaccinium myrtilloides", Specimens[0].LatinName);
+            Assert.AreEqual("Equisetum species", Specimens[3].LatinName);
         }
 
         /*
@@ -652,27 +700,19 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void TestSpecimenCreeNameDisplaysInAlphabeticalOrder()
         {
-
+            Assert.AreEqual("Amiskowihkask", Specimens[0].CreeName);
+            Assert.AreEqual("Maskêkopakwa", Specimens[3].CreeName);
         }
 
         /*
          * Check to see that the Specimen Index for Cree Name displays in Reverse Alphabetical Order
-         *  When Cree Name is selected
+         * When Cree Name is selected
         */
         [Test]
         public void TestSpecimenCreeNameDisplaysInReverseAlphabeticalOrder()
         {
-
-        }
-
-
-        /*
-         * Check to see that the Specimen Search Box searches for the approp
-         */
-        [Test]
-        public void TestThatSpecimenSearchBoxReturnsAppropriateValues()
-        {
-
+            Assert.AreEqual("Maskêkopakwa", Specimens[0].CreeName);
+            Assert.AreEqual("Amiskowihkask", Specimens[3].CreeName);
         }
         #endregion
     }

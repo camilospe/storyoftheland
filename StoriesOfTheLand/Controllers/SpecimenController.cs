@@ -43,5 +43,15 @@ namespace StoriesOfTheLand.Controllers
             return View(specimen);
         }
 
+        public async Task<IActionResult> Index(string path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Specimen> SortList(string sortOption, string filterOption, List<Specimen> Specimens)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }
