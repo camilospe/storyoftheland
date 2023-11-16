@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Xml.Linq;
 
@@ -48,6 +49,15 @@ namespace StoriesOfTheLand.Models
         /* A required string that holds the specimen's cultural significance. This can be a long
          * paragraph or paragraphs and has only length as a constraint */
         public string CulturalSignificance { get; set; }
+
+        // This method will use the qr code API to generate a qr code containing the URL of this Specimen (based on it's ID).
+        // The QR code will be saved as a png (in StoriesOfTheLand\wwwroot\qrcodes\) and the SpecimenQRCodePath property will
+        // be set to the path of that png.
+        // Note: The URL contained 
+        public void generateQRCode()
+        {
+            // Not yet implemented...
+        }
 
         
     }

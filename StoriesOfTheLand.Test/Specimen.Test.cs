@@ -514,11 +514,13 @@ namespace StoriesOfTheLand.Test
             Assert.IsEmpty(errors); // Tests that there are no errors
         }
 
-        // Note that this is a Functional test, so move it to it's own namespace later
+        // Note that this is a Functional test, so it may need to go to it's own namespace
         [Test]
-        public void testThatQRCodeDirectsToTheCorrectPage()
+        public void testThatQRCodeIsSetToTheCorrectName()
         {
-
+            SpecimenObject.EnglishName = "Horsetail";
+            SpecimenObject.generateQRCode();
+            Assert.AreEqual("Horsetail_QRCode.png", SpecimenObject.SpecimenQRCodePath);
         }
 
 
