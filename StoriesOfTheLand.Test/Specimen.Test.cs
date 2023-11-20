@@ -10,8 +10,9 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using Microsoft.Extensions.DependencyInjection;
 using StoriesOfTheLand.Data;
 using StoriesOfTheLand.Controllers;
-using StoriesOfTheLand.Test.Utilities;
 using Moq;
+using Microsoft.Extensions.Options;
+using Microsoft.EntityFrameworkCore;
 
 namespace StoriesOfTheLand.Test
 {
@@ -20,6 +21,8 @@ namespace StoriesOfTheLand.Test
     {
         private Specimen SpecimenObject;
         private string SpecimenDescriptionError = "SpecimenDescription length must be between 10 and 5000";
+        private SpecimenController _controller;
+        private StoriesOfTheLandContext _context;
         private List<Specimen> Specimens;
 
         [SetUp]
@@ -35,6 +38,13 @@ namespace StoriesOfTheLand.Test
                 SpecimenImagePath = "abc.png",
                 CulturalSignificance = "Something Valid"
             };
+            //Necesarry for functionally testing, sets up the db
+            var options = new DbContextOptionsBuilder<StoriesOfTheLandContext>().UseInMemoryDatabase(databaseName: "TestDB").Options;
+            //Create a context based on options
+            _context = new StoriesOfTheLandContext(options);
+            //Create a controller based on the context
+            _controller = new SpecimenController(_context);
+            //Specimen Testing 
             Specimens = new List<Specimen>();
             Specimens.Add(
                 new Specimen
@@ -101,7 +111,13 @@ namespace StoriesOfTheLand.Test
 
              }
             );
-           
+            foreach (Specimen s in Specimens)
+            {
+                _context.Add(s);
+            }
+            _context.SaveChanges();
+
+
         }
 
 
@@ -654,19 +670,9 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void TestSpecimenEnglishCommonNameDisplaysInAlphabeticalOrder()
         {
-            var mockRepo = new Mock<StoriesOfTheLandContext>();
-            mockRepo.Setup(repo => repo.SortList("A-Z", "English", Specimens)).Returns(new List<Specimen>());
-
-            var controller = new SpecimenController(mockRepo.Object);
-
-
-            Specimens = controller.SortList("A-Z", "English", Specimens);
-
-
-
-
+            Specimens = _controller.SortList("A-Z", "English", Specimens);
             Assert.AreEqual("Horsetail", Specimens[0].EnglishName);
-            Assert.AreEqual("Wild Mint", Specimens[3].EnglishName);
+            Assert.AreEqual("Wild Mint", Specimens[4].EnglishName);
 
         }
 
@@ -677,8 +683,9 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void TestSpecimenEnglishCommonNameDisplaysInReverseAlphabeticalOrder()
         {
+            Specimens = _controller.SortList("Z-A", "English", Specimens);
             Assert.AreEqual("Wild Mint", Specimens[0].EnglishName);
-            Assert.AreEqual("Horsetail", Specimens[3].EnglishName);
+            Assert.AreEqual("Horsetail", Specimens[4].EnglishName);
         }
 
         /*
@@ -688,8 +695,9 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void TestSpecimenLatinNameDisplaysInAlphabeticalOrder()
         {
+            Specimens = _controller.SortList("A-Z", "Latin", Specimens);
             Assert.AreEqual("Equisetum species", Specimens[0].LatinName);
-            Assert.AreEqual("Vaccinium myrtilloides", Specimens[3].LatinName);
+            Assert.AreEqual("Vaccinium myrtilloides", Specimens[4].LatinName);
         }
 
         /*
@@ -699,8 +707,9 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void TestSpecimenLatinNameDisplaysInReverseAlphabeticalOrder()
         {
+            Specimens = _controller.SortList("Z-A", "Latin", Specimens);
             Assert.AreEqual("Vaccinium myrtilloides", Specimens[0].LatinName);
-            Assert.AreEqual("Equisetum species", Specimens[3].LatinName);
+            Assert.AreEqual("Equisetum species", Specimens[4].LatinName);
         }
 
         /*
@@ -710,8 +719,9 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void TestSpecimenCreeNameDisplaysInAlphabeticalOrder()
         {
+            Specimens = _controller.SortList("A-Z", "Cree", Specimens);
             Assert.AreEqual("Amiskowihkask", Specimens[0].CreeName);
-            Assert.AreEqual("Maskêkopakwa", Specimens[3].CreeName);
+            Assert.AreEqual("Maskêkopakwa", Specimens[4].CreeName);
         }
 
         /*
@@ -721,8 +731,9 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void TestSpecimenCreeNameDisplaysInReverseAlphabeticalOrder()
         {
+            Specimens = _controller.SortList("Z-A", "Latin", Specimens);
             Assert.AreEqual("Maskêkopakwa", Specimens[0].CreeName);
-            Assert.AreEqual("Amiskowihkask", Specimens[3].CreeName);
+            Assert.AreEqual("Amiskowihkask", Specimens[4].CreeName);
         }
         #endregion
     }
