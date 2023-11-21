@@ -1,4 +1,10 @@
-﻿using StoriesOfTheLand.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using NUnit.Framework;
+using StoriesOfTheLand.Controllers;
+using StoriesOfTheLand.Data;
+using StoriesOfTheLand.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,15 +16,58 @@ namespace StoriesOfTheLand.Test
     public class SponsorTests
     {
         private Sponsor SponsorObject;
+        private HomeController _controller;
+        private StoriesOfTheLandContext _context;
+
         [SetUp]
         public void SetUp()
         {
+
+            
+
             SponsorObject = new Sponsor()
             {
                 SponsorName = "test",
                 SponsorURL = "test",
             };
+
+
+
+            //Necesarry for functionally testing, sets up the db
+            var options = new DbContextOptionsBuilder<StoriesOfTheLandContext>().UseInMemoryDatabase(databaseName: "TestDB").Options;
+            //Create a context based on options
+            _context = new StoriesOfTheLandContext(options);
+            //Create a controller based on the context
+            _controller = new HomeController(_context);
+
+            _context.Sponsor.AddRange(
+                SponsorObject,
+                new Sponsor
+                {
+                    SponsorName = "test2",
+                    SponsorURL = "test2",
+                }
+                );
+            _context.SaveChanges();
+             
         }
+
+        [Test]
+        public void testHomeControllerIndexReturnsView()
+        {
+            var result = _controller.Index();
+            Assert.IsInstanceOf<ViewResult>(result);
+        }
+
+        [Test]
+        public void testHomeControllerIndexViewContainsListOfSponsors()
+        {
+            var result = _controller.Index();
+            Assert.IsInstanceOf<ViewResult>(result);
+            result.Model();
+        }
+
+
 
         #region sponsormodel
         [Test]

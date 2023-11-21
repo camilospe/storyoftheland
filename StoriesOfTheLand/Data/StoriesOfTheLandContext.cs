@@ -15,5 +15,7 @@ namespace StoriesOfTheLand.Data
         }
 
         public DbSet<StoriesOfTheLand.Models.Specimen> Specimen { get; set; } = default!;
+
+        public DbSet<StoriesOfTheLand.Models.Sponsor> Sponsor { get; set; } = default!;
     }
 }

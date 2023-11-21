@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using StoriesOfTheLand.Data;
 using StoriesOfTheLand.Models;
 using System.Diagnostics;
 
@@ -6,11 +7,12 @@ namespace StoriesOfTheLand.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        //private readonly ILogger<HomeController> _logger;
+        private readonly StoriesOfTheLandContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(StoriesOfTheLandContext context)
         {
-            _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
