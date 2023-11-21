@@ -519,7 +519,6 @@ namespace StoriesOfTheLand.Test
         public void testThatQRCodeIsSetToTheCorrectName()
         {
             SpecimenObject.EnglishName = "Horsetail";
-            SpecimenObject.generateQRCode();
             Assert.AreEqual("Horsetail_QRCode.png", SpecimenObject.SpecimenQRCodePath);
         }
 
