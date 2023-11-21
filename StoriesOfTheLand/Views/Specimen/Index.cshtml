@@ -1,0 +1,23 @@
+
+
+@{
+    ViewData["Title"] = "Specimen Index";
+}
+
+<h1>Index</h1>
+<!--This is a form for submitting the searched value that is passed into the index box that 
+    updates the list of specimen 
+-->
+<form asp-controller="Specimen" asp-action="Index">
+    <p>
+        Title: <input type="text" name="Specimen Name" />
+        <input type="submit" value="Search" />
+    </p>
+</form>
+
+<table class="table table-striped">
+      <thead>
+      </thead>
+      <tbody>
+      </tbody>
+</table>

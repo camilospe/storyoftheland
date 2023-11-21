@@ -43,9 +43,16 @@ namespace StoriesOfTheLand.Controllers
             return View(specimen);
         }
 
-        public async Task<IActionResult> Index(string path)
+        public async Task<IActionResult> Index()
         {
-            throw new NotImplementedException();
+            if (_context.Specimen == null)
+            {
+                return Problem("Entity set 'StoriesOfTheLandContext.Specimen' is null");
+            }
+
+            var specimens = from specimen in _context.Specimen select specimen;
+
+            return View(specimens.ToListAsync());
         }
 
         public List<Specimen> SortList(string sortOption, string filterOption, List<Specimen> Specimens)
