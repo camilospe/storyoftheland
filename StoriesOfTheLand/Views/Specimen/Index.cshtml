@@ -1,4 +1,4 @@
-
+@model IEnumerable<StoriesOfTheLand.Models.Specimen>
 
 @{
     ViewData["Title"] = "Specimen Index";
@@ -19,5 +19,19 @@
       <thead>
       </thead>
       <tbody>
-      </tbody>
+        @foreach(Specimen item in Model)
+        {
+            <tr>
+                <th>
+                    @Html.DisplayFor(Model => item.EnglishName)
+                </th>
+                <th>
+                    @Html.DisplayFor(Model => item.LatinName)
+                </th>
+                <th>
+                    @Html.DisplayFor(Model => item.CreeName)
+                </th>
+            </tr>   
+        }
+    </tbody>
 </table>

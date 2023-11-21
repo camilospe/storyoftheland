@@ -50,9 +50,9 @@ namespace StoriesOfTheLand.Controllers
                 return Problem("Entity set 'StoriesOfTheLandContext.Specimen' is null");
             }
 
-            var specimens = from specimen in _context.Specimen select specimen;
+            var specimens = from s in _context.Specimen select s;
 
-            return View(specimens.ToListAsync());
+            return View(await specimens.ToListAsync());
         }
 
         public List<Specimen> SortList(string sortOption, string filterOption, List<Specimen> Specimens)
