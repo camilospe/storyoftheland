@@ -38,8 +38,7 @@ namespace StoriesOfTheLand.Models
                             EnglishName = "Velvet Leaf Blueberry",
                             CreeName = "Idinimin",
                             //SpecimenImagePath = "blueberry.png",
-                            CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs.",
-                            
+                            CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs.",                        
 
                         },
                         new Specimen
@@ -52,7 +51,7 @@ namespace StoriesOfTheLand.Models
                             EnglishName = "Horsetail",
                             //SpecimenImagePath = "Horsetail.png",
                             CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs.",
-        
+                            
                         },
                         new Specimen
                         {
@@ -65,8 +64,8 @@ namespace StoriesOfTheLand.Models
                             CreeName = "Maskêkopakwa",
                             // SpecimenImagePath = "LabradorTea.png",
                             CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs.",
-                            
-       
+                           
+
                         },
                         new Specimen
                         {
@@ -78,8 +77,7 @@ namespace StoriesOfTheLand.Models
                             EnglishName = "Lungwort",
                             // SpecimenImagePath = "Lungwort.png",
                             CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs.",
-                          
-                           
+
                         },
                         new Specimen
                         {
@@ -92,7 +90,7 @@ namespace StoriesOfTheLand.Models
                             CreeName = "Amiskowihkask",
                             //SpecimenImagePath = "mint.png",
                             CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs.",
-                           
+                            
 
                         }/*,
                         new Specimen

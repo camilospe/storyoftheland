@@ -11,33 +11,65 @@ using Microsoft.Extensions.DependencyInjection;
 using StoriesOfTheLand.Data;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using NuGet.Packaging;
+using Microsoft.EntityFrameworkCore;
+using SQLitePCL;
+using StoriesOfTheLand.Controllers;
+using System.Runtime.InteropServices;
 
 namespace StoriesOfTheLand.Test
 {
     public class MediaTests
     {
         private Media MediaObject;
+        private SpecimenController _controller;
+        private StoriesOfTheLandContext _context;
 
         [SetUp]
         public void SetUp()
         {
             MediaObject = new Media()
             {
-                SpecimenImagePath =  "abc.png,abc.jpg",
+                SpecimenImagePath = "abc.png,abc.jpg",
                 SpecimenAudioPath = "abc.mp3"
             };
 
+            #region FunctionalTests
+            //set up database
+            var options = new DbContextOptionsBuilder<StoriesOfTheLandContext>().UseInMemoryDatabase(databaseName: "newDB").Options;
+
+            //create a new context
+            _context = new StoriesOfTheLandContext(options);
+
+            //create a new controller
+            _controller = new SpecimenController(_context);
+
+
+            _context.Specimen.AddRange(
+                new Specimen
+                {
+
+                    SpecimenMedia= new Media
+                    {
+                        SpecimenImagePath = "abc.png,abc.jpg",
+                        SpecimenAudioPath = "abc.mp3"
+                    }
+                }
+                
+             );
+
+            #endregion
         }
+
         #region SpecimenAudioTests
 
         [Test]
         public void testInvalidAudioPathFileType()
         {
-            MediaObject.SpecimenAudioPath = "abc.png";
+            MediaObject.SpecimenAudioPath = "Blueberry.png";
 
             var errors = ValidationHelper.Validate(MediaObject);
             Assert.AreEqual(1, errors.Count);
-            Assert.AreEqual("Image path must have atleast 5 characters and be of type mp3 or m4a.", errors[0].ErrorMessage);
+            Assert.AreEqual("Audio file must be of type m4a or mp3", errors[0].ErrorMessage);
         }
 
         [Test]
@@ -46,7 +78,7 @@ namespace StoriesOfTheLand.Test
             MediaObject.SpecimenAudioPath = "a.mp3";
             var errors = ValidationHelper.Validate(MediaObject);
             Assert.AreEqual(1, errors.Count);
-            Assert.AreEqual("Image path length must be between 6 and 254.", errors[0].ErrorMessage);
+            Assert.AreEqual("Audio path must be between 6 and 254 characters", errors[0].ErrorMessage);
         }
 
         [Test]
@@ -56,22 +88,22 @@ namespace StoriesOfTheLand.Test
             MediaObject.SpecimenAudioPath += ".mp3";
             var errors = ValidationHelper.Validate(MediaObject);
             Assert.AreEqual(1, errors.Count);
-            Assert.AreEqual("Image path length must be between 6 and 254.", errors[0].ErrorMessage);
+            Assert.AreEqual("Audio path must be between 6 and 254 characters", errors[0].ErrorMessage);
         }
 
         [Test]
         public void testInvalidAudioFileHasNoType()
         {
-            MediaObject.SpecimenAudioPath = "abcdefg";
+            MediaObject.SpecimenAudioPath = "Blueberrym4a";
             var errors = ValidationHelper.Validate(MediaObject);
             Assert.AreEqual(1, errors.Count);
-            Assert.AreEqual("Image path must have atleast 5 characters and be of type mp3 or m4a.", errors[0].ErrorMessage);
+            Assert.AreEqual("Audio file must be of type m4a or mp3", errors[0].ErrorMessage);
         }
 
         [Test]
         public void testValidAudioFileTypeMp3()
         {
-            MediaObject.SpecimenAudioPath = "plant.mp3";
+            MediaObject.SpecimenAudioPath = "Blueberry.mp3";
 
             var errors = ValidationHelper.Validate(MediaObject);
 
@@ -81,7 +113,7 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void testValidAudioFileTypeM4a()
         {
-            MediaObject.SpecimenAudioPath = "plant.m4a";
+            MediaObject.SpecimenAudioPath = "Blueberry.m4a";
 
             var errors = ValidationHelper.Validate(MediaObject);
 
@@ -115,11 +147,11 @@ namespace StoriesOfTheLand.Test
         #region SpecimenImagePath
 
         /* "abc.png" is passed in which is valid
-        */ 
+        */
         [Test]
         public void specimenImagePngIsValidtype()
         {
-            MediaObject.SpecimenImagePath = "abc.png";
+            MediaObject.SpecimenImagePath = "Blueberry.png";
             var errors = ValidationHelper.Validate(MediaObject);
 
 
@@ -133,7 +165,7 @@ namespace StoriesOfTheLand.Test
         public void specimenImageJpegIsValidtype()
         {
 
-            MediaObject.SpecimenImagePath = "abc.jpeg";
+            MediaObject.SpecimenImagePath = "Blueberry.jpeg";
 
             var errors = ValidationHelper.Validate(MediaObject);
 
@@ -147,7 +179,7 @@ namespace StoriesOfTheLand.Test
         public void specimenImageJpgIsValidtype()
         {
 
-            MediaObject.SpecimenImagePath="abc.jpg,abc.jpeg";
+            MediaObject.SpecimenImagePath = "Blueberry.jpg";
 
             var errors = ValidationHelper.Validate(MediaObject);
 
@@ -161,13 +193,13 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void specimenImageHasNoType()
         {
-           MediaObject.SpecimenImagePath =  "abcgfjdjfdpng" ;
+            MediaObject.SpecimenImagePath = "Blueberrypng";
 
 
             var errors = ValidationHelper.Validate(MediaObject);
 
             Assert.AreEqual(errors.Count, 1);
-            Assert.AreEqual("Image path must have atleast 5 characters and be of type png, jpg, or jpeg.", errors[0].ErrorMessage);
+            Assert.AreEqual("Image file must be of type png, jpg, or jpeg", errors[0].ErrorMessage);
 
 
         }
@@ -179,12 +211,12 @@ namespace StoriesOfTheLand.Test
         public void specimenImageIsNotValidtype()
         {
             //.abc .webp .pn .jp abcabc should fail
-           MediaObject.SpecimenImagePath = "abc.pn";
+            MediaObject.SpecimenImagePath = "Blueberry.pn";
 
             var errors = ValidationHelper.Validate(MediaObject);
 
             Assert.AreEqual(errors.Count, 1);
-            Assert.AreEqual("Image path must have atleast 5 characters and be of type png, jpg, or jpeg.", errors[0].ErrorMessage);
+            Assert.AreEqual("Image file must be of type png, jpg, or jpeg", errors[0].ErrorMessage);
         }
 
         /* 255 ending/including ".png" is passed in which is too large
@@ -206,7 +238,7 @@ namespace StoriesOfTheLand.Test
             var errors = ValidationHelper.Validate(MediaObject);
 
             Assert.AreEqual(errors.Count, 1);
-            Assert.AreEqual("Image path length must be between 6 and 254.", errors[0].ErrorMessage);
+            Assert.AreEqual("Image path length must be between 6 and 254", errors[0].ErrorMessage);
         }
 
         /* 254 ending/including ".png" is passed in which is just almost too big
@@ -233,11 +265,29 @@ namespace StoriesOfTheLand.Test
 
             var errors = ValidationHelper.Validate(MediaObject);
             Assert.AreEqual(errors.Count, 1);
-            Assert.AreEqual("Image path length must be between 6 and 254.", errors[0].ErrorMessage);
+            Assert.AreEqual("Image path length must be between 6 and 254", errors[0].ErrorMessage);
+        }
+
+        [Test]
+        public void specimenImagePathContainsMoreThanOneImageValid()
+        {
+            MediaObject.SpecimenImagePath = "abc.png,abc.jpg";
+            var errors = ValidationHelper.Validate(MediaObject);
+
+            Assert.IsEmpty(errors);
+        }
+
+        [Test]
+        public void specimenImagePathContainsMoreThanOneImageInvalid()
+        {
+            MediaObject.SpecimenImagePath = "abc.png,abc.mp3";
+            var errors = ValidationHelper.Validate(MediaObject);
+
+            Assert.AreEqual(errors.Count, 1);
+            Assert.AreEqual("Image file must be of type png, jpg, or jpeg", errors[0].ErrorMessage);
         }
 
         #endregion
-
 
     }
 }
