@@ -64,7 +64,10 @@ namespace StoriesOfTheLand.Test
         {
             var result = _controller.Index();
             Assert.IsInstanceOf<ViewResult>(result);
-            result.Model();
+            var model = ((ViewResult)result).Model;
+            //will fail because index isnt returning a view with an extra object
+            Assert.IsNotNull(model);
+            Assert.IsAssignableFrom<IEnumerable<Sponsor>>(model);
         }
 
 
