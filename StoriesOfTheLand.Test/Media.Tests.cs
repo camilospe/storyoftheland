@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using SQLitePCL;
 using StoriesOfTheLand.Controllers;
 using System.Runtime.InteropServices;
+using Microsoft.AspNetCore.Mvc;
 
 namespace StoriesOfTheLand.Test
 {
@@ -33,7 +34,7 @@ namespace StoriesOfTheLand.Test
                 SpecimenAudioPath = "abc.mp3"
             };
 
-            #region FunctionalTests
+           
             //set up database
             var options = new DbContextOptionsBuilder<StoriesOfTheLandContext>().UseInMemoryDatabase(databaseName: "newDB").Options;
 
@@ -56,9 +57,50 @@ namespace StoriesOfTheLand.Test
                 }
                 
              );
-
-            #endregion
+         
         }
+        #region FunctionalTests
+        [Test]
+        public void testHttpRequestReturnsNoImageWhenThereIsNoSpecimen()
+        {
+            //TODO test that when there is no specimen their will be no image on the page
+        }
+        [Test]
+        public void testHttpRequestReturnsOneImageWhenThereIsOnlyOneImageForTheSpecimen()
+        {
+            //TODO test that when there is a specimen with one image their will be one image on the page
+        }
+        [Test]
+        public void testHttpRequestReturnsMutilpeImagesWhenThereIsMoreThanOneImageForTheSpecimen()
+        {
+            //TODO test that when there is a specimen with more than one image their will be one image caraosel 
+        }
+
+        //TODO do the same as above but for the audioFilePath
+
+        [Test]
+        public void testDetailsReturnsNotFoundIfNull()
+        {
+            var result = _controller.Details(null);
+            Assert.IsInstanceOf<NotFoundResult>(result);
+        }
+
+        [Test]
+        public void testDetailsReturnsNotFoundIfSpecimenNotFound()
+        {
+            var result = _controller.Details(10);
+            Assert.IsInstanceOf<NotFoundResult>(result);
+        }
+
+        [Test]
+        public void testDetailsReturnsViewIfSpecimenWasFound()
+        {
+            var result = _controller.Details(1); 
+
+            Assert.IsInstanceOf<ViewResult>(result);
+        }
+
+        #endregion
 
         #region SpecimenAudioTests
 

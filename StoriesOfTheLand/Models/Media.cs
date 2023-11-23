@@ -6,7 +6,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace StoriesOfTheLand.Models
 {
     
-
     public class Media
     {
         [Key]
