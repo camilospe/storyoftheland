@@ -46,8 +46,13 @@ namespace StoriesOfTheLand.Controllers
         // GET: Specimen/
         // This method corresponds with the Index.cshtml page
         // Passing in Search String enables the user to search the specimen index.
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string searchString, string sortOrder)
         {
+            ViewData["EnglishSortParm"] = sortOrder == "EnglishName" ? "EnglishName_Desc" : "EnglishName";
+            ViewData["LatinSortParm"] = sortOrder == "LatinName" ? "LatinName_Desc" : "LatinName";
+            ViewData["CreeSortParm"] = sortOrder == "CreeName" ? "CreeName_Desc" : "CreeName";
+
+
             // Check to see if there are NO specimen inside of the list
             if (_context.Specimen == null)
             {
@@ -58,6 +63,29 @@ namespace StoriesOfTheLand.Controllers
             // Obtain the list of Specimen from the context
             var specimens = from s in _context.Specimen select s;
 
+            switch (sortOrder)
+            {
+                case "EnglishName_Desc":
+                    specimens = specimens.OrderByDescending(s => s.EnglishName);
+                    break;
+                case "EnglishName": 
+                    specimens = specimens.OrderBy(s => s.EnglishName);
+                    break;
+                case "LatinName_Desc":
+                    specimens = specimens.OrderByDescending(s => s.LatinName);
+                    break;
+                case "LatinName":
+                    specimens = specimens.OrderBy(s => s.LatinName);
+                    break;
+                case "CreeName_Desc":
+                    specimens = specimens.OrderByDescending(s => s.CreeName);
+                    break;
+                case "CreeName":
+                    specimens = specimens.OrderBy(s => s.CreeName);
+                    break;
+            }
+
+
             // Check to see if the string that the user searches is NOT empty, or NOT NULL
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -65,7 +93,6 @@ namespace StoriesOfTheLand.Controllers
                 // /Latin Name, Cree Name, make the list of specimen contain only those specimens"
                 specimens = specimens.Where(S => 
                 S.EnglishName.Contains(searchString) || S.LatinName.Contains(searchString) || S.CreeName.Contains(searchString));
-   
             }
 
             // Returns a View of the Specimen

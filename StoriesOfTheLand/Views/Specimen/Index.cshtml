@@ -15,6 +15,7 @@
         Enter a English Name, Latin Name, or Cree Name: <input type="text" name="SearchString" />
         <input type="submit" value="Search" />
     </p>
+    <input type="submit" value="Refresh List"/>
 </form>
 <!--Table for the Specimen Index-->
 <table class="table table-striped">
@@ -24,14 +25,18 @@
             <!--Display English Name above English Name column-->
             <th>
                 <h3>English Name</h3>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["EnglishSortParm"]">@Html.DisplayNameFor(model => model.EnglishName)</a>
             </th>
             <!--Display Latin Name above Latin Name column-->
             <th>
                 <h3>Latin Name</h3>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["LatinSortParm"]">@Html.DisplayNameFor(model => model.LatinName)</a>
+
             </th>
             <!--Display Cree Name above Cree Name column-->
             <th>
                 <h3>Cree Name</h3>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["CreeSortParm"]">@Html.DisplayNameFor(model => model.CreeName)</a>
              </th>
       </thead>
       <!--Body of the table, Where the data in the database will go-->
@@ -53,7 +58,6 @@
                 <!--Display each Cree Name-->
                 <th>
                     @Html.DisplayFor(Model => item.CreeName)
-                   @if(string.IsNullOrEmpty(item.CreeName)) {@Html.DisplayFor(model => "-")}
                 </th>
             </tr>   
         }
