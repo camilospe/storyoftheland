@@ -516,10 +516,11 @@ namespace StoriesOfTheLand.Test
 
         // Note that this is a Functional test, so it may need to go to it's own namespace
         [Test]
-        public void testThatQRCodeIsSetToTheCorrectName()
+        public void testThatQRCodeIsSetToTheCorrectFilePath()
         {
+            // Changes the specimen's english name to a valid name
             SpecimenObject.EnglishName = "Horsetail";
-            Assert.AreEqual("Horsetail_QRCode.png", SpecimenObject.SpecimenQRCodePath);
+            Assert.AreEqual("Horsetail_QRCode.png", SpecimenObject.SpecimenQRCodePath); // Tests that the QR code path has been set to the english name with "_QRCode.png" appended
         }
 
 
