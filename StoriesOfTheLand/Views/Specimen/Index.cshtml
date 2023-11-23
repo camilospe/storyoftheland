@@ -1,35 +1,59 @@
+<!--IEnumerable is required in order to pass in a list into the Index page-->
 @model IEnumerable<StoriesOfTheLand.Models.Specimen>
 
+<!--Set the Title of the Page, being Specimen Index-->
 @{
     ViewData["Title"] = "Specimen Index";
 }
 
-<h1>Index</h1>
+<h1>Specimen Index</h1>
 <!--This is a form for submitting the searched value that is passed into the index box that 
     updates the list of specimen 
 -->
 <form asp-controller="Specimen" asp-action="Index">
     <p>
-        Title: <input type="text" name="Specimen Name" />
+        Enter a English Name, Latin Name, or Cree Name: <input type="text" name="SearchString" />
         <input type="submit" value="Search" />
     </p>
 </form>
-
+<!--Table for the Specimen Index-->
 <table class="table table-striped">
+      <!--Top of the Table-->
       <thead>
+        <tr>
+            <!--Display English Name above English Name column-->
+            <th>
+                <h3>English Name</h3>
+            </th>
+            <!--Display Latin Name above Latin Name column-->
+            <th>
+                <h3>Latin Name</h3>
+            </th>
+            <!--Display Cree Name above Cree Name column-->
+            <th>
+                <h3>Cree Name</h3>
+             </th>
       </thead>
+      <!--Body of the table, Where the data in the database will go-->
       <tbody>
+          <!--Loop through each specimen-->
         @foreach(Specimen item in Model)
         {
             <tr>
-                <th>
+                <!--Display each English Name-->
+                <th>        
                     @Html.DisplayFor(Model => item.EnglishName)
                 </th>
+                <!--Display each Latin Name-->
                 <th>
+   
                     @Html.DisplayFor(Model => item.LatinName)
+
                 </th>
+                <!--Display each Cree Name-->
                 <th>
                     @Html.DisplayFor(Model => item.CreeName)
+                   @if(string.IsNullOrEmpty(item.CreeName)) {@Html.DisplayFor(model => "-")}
                 </th>
             </tr>   
         }
