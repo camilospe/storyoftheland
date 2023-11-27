@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using StoriesOfTheLand.Data;
 using StoriesOfTheLand.Models;
 using System.Diagnostics;
@@ -15,9 +16,11 @@ namespace StoriesOfTheLand.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return _context.Sponsor != null ?
+                          View(await _context.Sponsor.ToListAsync()) :
+                          Problem("Entity set 'StorisOfTheLandContext.Specimen'  is null.");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

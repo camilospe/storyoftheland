@@ -1,7 +1,36 @@
-﻿@{
+﻿@model IEnumerable<StoriesOfTheLand.Models.Sponsor>
+
+@{
     ViewData["Title"] = "Stories of the Land";
 }
 
 <div class="text-center">
     <h1 class="display-4">Stories of the Land</h1>
 </div>
+
+/*pretty nice image or something*/
+
+/*add a href to hanin creek education center*/
+<div>
+    <p>
+       Stories of the Land is a land-based learning initiative that connects the learner with the natural environment of the boreal forest. 
+       Trails throughout the Hannin Creek Education Centre feature markers with QR codes near plants of the boreal forest. 
+       The QR code connects learners with identifying information about the plant including common name, Latin binomial name, 
+       the Cree name and pronunciation and traditional Indigenous uses or culturally significant applications.
+    </p>
+</div>
+
+/*dynamic grid?, column wrapping*/
+<table>
+    @foreach (var item in Model)
+    {
+        /*row with sponsor name*/
+    }
+    @foreach (var item in Model)
+    {
+        /*row with sponsor icon with hrefurl*/
+    }
+</table>
+
+
+
