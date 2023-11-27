@@ -16,6 +16,8 @@ namespace StoriesOfTheLand.Models
         [StringLength(100, ErrorMessage = "Sponsor Link length must be between {2} and {1}", MinimumLength = 1)]
         public string SponsorURL { get; set; }
 
+        public string SponsorImagePath {  get; set; }
+
 
     }
 }

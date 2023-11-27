@@ -13,24 +13,28 @@
 /*add a href to hanin creek education center*/
 <div>
     <p>
-       Stories of the Land is a land-based learning initiative that connects the learner with the natural environment of the boreal forest. 
-       Trails throughout the Hannin Creek Education Centre feature markers with QR codes near plants of the boreal forest. 
-       The QR code connects learners with identifying information about the plant including common name, Latin binomial name, 
+       Stories of the Land is a land-based learning initiative that connects the learner with the natural environment of the boreal forest.
+        Trails throughout the <a href="https://saskpolytech.ca/about/hannin-creek-education-centre/">Hannin Creek Education Centre</a> 
+        feature markers with QR codes near plants of the boreal forest.
+        The QR code connects learners with identifying information about the plant including common name, Latin binomial name, 
        the Cree name and pronunciation and traditional Indigenous uses or culturally significant applications.
     </p>
 </div>
 
 /*dynamic grid?, column wrapping*/
-<table>
+<div class="d-flex flex-wrap">
     @foreach (var item in Model)
     {
-        /*row with sponsor name*/
+        <div style="width: 320px">
+            <div>
+            <a href="@item.SponsorURL"><img src="@item.SponsorImagePath" alt="@item.SponsorName"></a>
+            </div>
+            <div>
+                <p>@item.SponsorName</p>
+            </div>
+        </div>
     }
-    @foreach (var item in Model)
-    {
-        /*row with sponsor icon with hrefurl*/
-    }
-</table>
+</div>
 
 
 
