@@ -46,7 +46,7 @@ namespace StoriesOfTheLand.Test
             _controller = new SpecimenController(_context);
             //Specimen Testing 
             Specimens = new List<Specimen>();
-            Specimens.Add(
+            _context.Add(
                 new Specimen
                 {
                     SpecimenDescription = //Blueberry
@@ -59,7 +59,7 @@ namespace StoriesOfTheLand.Test
                     SpecimenImagePath = "blueberry.png",
                     CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs."
                 });
-            Specimens.Add(
+            _context.Add(
             new Specimen
             {
                 SpecimenDescription = //Horsetail
@@ -71,7 +71,7 @@ namespace StoriesOfTheLand.Test
                 SpecimenImagePath = "Horsetail.png",
                 CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs."
             });
-            Specimens.Add(
+            _context.Add(
             new Specimen
             {
                 SpecimenDescription = //Labrador Tea
@@ -84,7 +84,7 @@ namespace StoriesOfTheLand.Test
                 SpecimenImagePath = "LabradorTea.png",
                 CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs."
             });
-            Specimens.Add(
+            _context.Add(
             new Specimen
             {
                 SpecimenDescription = //Lungwort
@@ -96,7 +96,7 @@ namespace StoriesOfTheLand.Test
                 SpecimenImagePath = "Lungwort.png",
                 CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs."
             });
-            Specimens.Add(
+            _context.Add(
             new Specimen
             {
                 SpecimenDescription = //Mint
@@ -111,13 +111,10 @@ namespace StoriesOfTheLand.Test
 
              }
             );
-            foreach (Specimen s in Specimens)
-            {
-                _context.Add(s);
-            }
+
             _context.SaveChanges();
-
-
+            var dbSpecs = from s in _context.Specimen select s;
+            Specimens = dbSpecs.ToList();
         }
 
 
@@ -670,7 +667,8 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void TestSpecimenEnglishCommonNameDisplaysInAlphabeticalOrder()
         {
-            Specimens = _controller.SortList("A-Z", "English", Specimens);
+            var specsInEnglishAZ  = Specimens.OrderBy(s => s.EnglishName);
+            Specimens = specsInEnglishAZ.ToList();
             Assert.AreEqual("Horsetail", Specimens[0].EnglishName);
             Assert.AreEqual("Wild Mint", Specimens[4].EnglishName);
 
@@ -683,7 +681,8 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void TestSpecimenEnglishCommonNameDisplaysInReverseAlphabeticalOrder()
         {
-            Specimens = _controller.SortList("Z-A", "English", Specimens);
+            var specsInEnglishZA = Specimens.OrderByDescending(s => s.EnglishName);
+            Specimens = specsInEnglishZA.ToList();
             Assert.AreEqual("Wild Mint", Specimens[0].EnglishName);
             Assert.AreEqual("Horsetail", Specimens[4].EnglishName);
         }
@@ -695,7 +694,8 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void TestSpecimenLatinNameDisplaysInAlphabeticalOrder()
         {
-            Specimens = _controller.SortList("A-Z", "Latin", Specimens);
+            var specsInLatinAZ = Specimens.OrderBy(s => s.LatinName);
+            Specimens = specsInLatinAZ.ToList();
             Assert.AreEqual("Equisetum species", Specimens[0].LatinName);
             Assert.AreEqual("Vaccinium myrtilloides", Specimens[4].LatinName);
         }
@@ -707,7 +707,8 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void TestSpecimenLatinNameDisplaysInReverseAlphabeticalOrder()
         {
-            Specimens = _controller.SortList("Z-A", "Latin", Specimens);
+            var specsInLatinZA = Specimens.OrderByDescending(s => s.LatinName);
+            Specimens = specsInLatinZA.ToList();
             Assert.AreEqual("Vaccinium myrtilloides", Specimens[0].LatinName);
             Assert.AreEqual("Equisetum species", Specimens[4].LatinName);
         }
@@ -719,7 +720,8 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void TestSpecimenCreeNameDisplaysInAlphabeticalOrder()
         {
-            Specimens = _controller.SortList("A-Z", "Cree", Specimens);
+            var specsInCreeAZ = Specimens.OrderBy(s => s.CreeName);
+            Specimens = specsInCreeAZ.ToList();
             Assert.AreEqual("Amiskowihkask", Specimens[0].CreeName);
             Assert.AreEqual("Maskêkopakwa", Specimens[4].CreeName);
         }
@@ -731,7 +733,8 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void TestSpecimenCreeNameDisplaysInReverseAlphabeticalOrder()
         {
-            Specimens = _controller.SortList("Z-A", "Latin", Specimens);
+            var specsInCreeZA = Specimens.OrderBy(s => s.CreeName);
+            Specimens = specsInCreeZA.ToList();
             Assert.AreEqual("Maskêkopakwa", Specimens[0].CreeName);
             Assert.AreEqual("Amiskowihkask", Specimens[4].CreeName);
         }

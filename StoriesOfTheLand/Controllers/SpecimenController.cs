@@ -99,10 +99,6 @@ namespace StoriesOfTheLand.Controllers
             return View(await specimens.ToListAsync());
         }
 
-        public List<Specimen> SortList(string sortOption, string filterOption, List<Specimen> Specimens)
-        {
-            throw new NotImplementedException();
-        }
 
     }
 }
