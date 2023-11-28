@@ -25,11 +25,11 @@
 <div class="d-flex flex-wrap">
     @foreach (var item in Model)
     {
-        <div style="width: 320px">
-            <div>
-            <a href="@item.SponsorURL"><img src="@item.SponsorImagePath" alt="@item.SponsorName"></a>
+        <div style="width: 320px" class="mx-auto">
+            <div style="height: 200px">
+                <a href="@item.SponsorURL"><img src="/images/@item.SponsorImagePath" alt="@item.SponsorName" style="max-width: 100%; max-height: 100%"></a>
             </div>
-            <div>
+            <div style="height: 100px">
                 <p>@item.SponsorName</p>
             </div>
         </div>

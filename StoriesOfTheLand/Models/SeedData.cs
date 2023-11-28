@@ -140,8 +140,21 @@ namespace StoriesOfTheLand.Models
                         SponsorName = "Saskatchewan Polytechnic",
                         SponsorURL = "https://saskpolytech.ca",
                         SponsorImagePath = "Saskatchewan_Polytechnic_Logo.png"
+                    },
+                    new Sponsor
+                    {
+                        SponsorName = "Saskatchewan Wildlife Federation",
+                        SponsorURL = "https://swf.sk.ca",
+                        SponsorImagePath = "SWF-2-Circle-Logo-horizontal-2C-copy-2048x837.png"
+                    },
+                    new Sponsor
+                    {
+                        SponsorName = "Prince Albert Grand Council",
+                        SponsorURL = "https://www.pagc.sk.ca",
+                        SponsorImagePath = "pa-grand-council-logo.jpg"
                     }
                     );
+                context.SaveChanges();
             }
 
 
