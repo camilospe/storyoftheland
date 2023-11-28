@@ -40,18 +40,23 @@
         @Html.DisplayFor(model => model.SpecimenDescription)
     </div>
 
-    <div class="overflow-auto">
+    <div class="text-center">
         <button>View the QR code for this specimen</button>
         @{
-            QRCoder.QRCodeGenerator qrGenerator = new QRCoder.QRCodeGenerator();
-            QRCoder.QRCodeData qrData = qrGenerator.CreateQrCode("test", QRCoder.QRCodeGenerator.ECCLevel.M);
-            QRCoder.BitmapByteQRCode qrCode = new QRCoder.BitmapByteQRCode(qrData);
-            byte[] qrCodeBytes = qrCode.GetGraphic(20); // can add colours here
-        }
-        <img src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(qrCodeBytes))"
+            // This code block will dynamically generate the QR Code based on the current page's URL
+            
+            // Because of how Razor Core MVC works, this has to be done in the weirdest way possible
+            String stringToEncode = Url.Action("Details", "Specimen", new { id = Model.SpecimenID }, protocol: Context.Request.Scheme);
 
-          
-          alt="@Model.EnglishName" />
+            // Uses the QrCoder Library to generate a QR Code using the given URL string and display it
+            QRCoder.QRCodeGenerator qrGenerator = new QRCoder.QRCodeGenerator();
+            QRCoder.QRCodeData qrData = qrGenerator.CreateQrCode(stringToEncode, QRCoder.QRCodeGenerator.ECCLevel.M);
+            QRCoder.BitmapByteQRCode qrCode = new QRCoder.BitmapByteQRCode(qrData);
+
+            // Converts it into a Bitmap that can be displayed in the img HTML tag
+            byte[] qrCodeBytes = qrCode.GetGraphic(20); // Can add colours here
+        }
+        <img src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(qrCodeBytes))" alt="@Model.EnglishName" />
     </div>
 </div>
 
