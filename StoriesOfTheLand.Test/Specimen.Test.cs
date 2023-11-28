@@ -68,9 +68,10 @@ namespace StoriesOfTheLand.Test
                            They are ancient primitive plants dating back over 300 million years!",
                 LatinName = "Equisetum species",
                 EnglishName = "Horsetail",
+                CreeName = "Sample Cree Name",
                 SpecimenImagePath = "Horsetail.png",
                 CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs."
-            });
+            }); 
             _context.Add(
             new Specimen
             {
@@ -93,6 +94,7 @@ namespace StoriesOfTheLand.Test
                 Leaves are covered with short hairs making them feel rough to the touch. ",
                 LatinName = "Mertensia paniculata",
                 EnglishName = "Lungwort",
+                CreeName = "Sample Cree Name 2",
                 SpecimenImagePath = "Lungwort.png",
                 CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs."
             });
@@ -111,7 +113,6 @@ namespace StoriesOfTheLand.Test
 
              }
             );
-
             _context.SaveChanges();
             var dbSpecs = from s in _context.Specimen select s;
             Specimens = dbSpecs.ToList();
@@ -667,7 +668,8 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void TestSpecimenEnglishCommonNameDisplaysInAlphabeticalOrder()
         {
-            var specsInEnglishAZ  = Specimens.OrderBy(s => s.EnglishName);
+            var dbSpecs = from s in _context.Specimen select s;
+            var specsInEnglishAZ  = dbSpecs.OrderBy(s => s.EnglishName);
             Specimens = specsInEnglishAZ.ToList();
             Assert.AreEqual("Horsetail", Specimens[0].EnglishName);
             Assert.AreEqual("Wild Mint", Specimens[4].EnglishName);
@@ -681,8 +683,9 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void TestSpecimenEnglishCommonNameDisplaysInReverseAlphabeticalOrder()
         {
+            var dbSpecs = from s in _context.Specimen select s;
             var specsInEnglishZA = Specimens.OrderByDescending(s => s.EnglishName);
-            Specimens = specsInEnglishZA.ToList();
+            Specimens = specsInEnglishZA.ToListAsync();
             Assert.AreEqual("Wild Mint", Specimens[0].EnglishName);
             Assert.AreEqual("Horsetail", Specimens[4].EnglishName);
         }
@@ -696,8 +699,8 @@ namespace StoriesOfTheLand.Test
         {
             var specsInLatinAZ = Specimens.OrderBy(s => s.LatinName);
             Specimens = specsInLatinAZ.ToList();
-            Assert.AreEqual("Equisetum species", Specimens[0].LatinName);
-            Assert.AreEqual("Vaccinium myrtilloides", Specimens[4].LatinName);
+            Assert.AreEqual("Vaccinium myrtilloides", Specimens[0].LatinName);
+            Assert.AreEqual("Equisetum species", Specimens[4].LatinName);
         }
 
         /*
@@ -709,8 +712,8 @@ namespace StoriesOfTheLand.Test
         {
             var specsInLatinZA = Specimens.OrderByDescending(s => s.LatinName);
             Specimens = specsInLatinZA.ToList();
-            Assert.AreEqual("Vaccinium myrtilloides", Specimens[0].LatinName);
-            Assert.AreEqual("Equisetum species", Specimens[4].LatinName);
+            Assert.AreEqual("Equisetum species", Specimens[0].LatinName);
+            Assert.AreEqual("Vaccinium myrtilloides", Specimens[4].LatinName);
         }
 
         /*
@@ -723,7 +726,7 @@ namespace StoriesOfTheLand.Test
             var specsInCreeAZ = Specimens.OrderBy(s => s.CreeName);
             Specimens = specsInCreeAZ.ToList();
             Assert.AreEqual("Amiskowihkask", Specimens[0].CreeName);
-            Assert.AreEqual("Maskêkopakwa", Specimens[4].CreeName);
+            Assert.AreEqual("Maskêkopakwa", Specimens[3].CreeName);
         }
 
         /*
@@ -733,10 +736,11 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void TestSpecimenCreeNameDisplaysInReverseAlphabeticalOrder()
         {
-            var specsInCreeZA = Specimens.OrderBy(s => s.CreeName);
+            Console.WriteLine(Specimens);
+            var specsInCreeZA = Specimens.OrderByDescending(s => s.CreeName);
             Specimens = specsInCreeZA.ToList();
             Assert.AreEqual("Maskêkopakwa", Specimens[0].CreeName);
-            Assert.AreEqual("Amiskowihkask", Specimens[4].CreeName);
+            Assert.AreEqual("Amiskowihkask", Specimens[3].CreeName);
         }
         #endregion
     }
