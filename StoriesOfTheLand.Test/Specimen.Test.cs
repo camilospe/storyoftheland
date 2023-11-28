@@ -488,6 +488,7 @@ namespace StoriesOfTheLand.Test
             Assert.AreEqual("QR Code file path must have between 5 and 150 characters", errors[0].ErrorMessage); // Tests that there is a StringLength error
         }
 
+
         [Test]
         public void testThatQRCodePathCannotExceed150Characters()
         {
@@ -514,7 +515,6 @@ namespace StoriesOfTheLand.Test
             Assert.IsEmpty(errors); // Tests that there are no errors
         }
 
-        // Note that this is a Functional test, so it may need to go to it's own namespace
         [Test]
         public void testThatQRCodeIsSetToTheCorrectFilePath()
         {

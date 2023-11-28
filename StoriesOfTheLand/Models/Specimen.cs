@@ -40,9 +40,9 @@ namespace StoriesOfTheLand.Models
         [Required]
         public string SpecimenImagePath { get; set; }
 
-        [RegularExpression(".+png$", ErrorMessage = "QR Code file path must end in .png")]
-        [StringLength(150, MinimumLength = 5, ErrorMessage = "QR Code file path must have between 5 and 150 characters")]
-        public string SpecimenQRCodePath { get; set; }
+        //[RegularExpression(".+png$", ErrorMessage = "QR Code file path must end in .png")]
+        //[StringLength(150, MinimumLength = 5, ErrorMessage = "QR Code file path must have between 5 and 150 characters")]
+        //public string SpecimenQRCodePath { get; set; }
 
         [Required(ErrorMessage = "Cultural Significance is required")]
         [StringLength(3500, MinimumLength = 1, ErrorMessage = "Cultural Significance must have between 1 and 3500 characters")]
@@ -55,7 +55,7 @@ namespace StoriesOfTheLand.Models
         // be set to the path of that png.
         // Returns the QR Code Path
         // Note: The QR code generated is static, not dynamic. This means that the URL in contained in its data is not editable afterwards.
-        public string generateQRCode() { }
+        //public string generateQRCode() { }
 
         
     }
