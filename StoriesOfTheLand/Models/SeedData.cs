@@ -133,6 +133,15 @@ namespace StoriesOfTheLand.Models
                     );
 
                 context.SaveChanges();
+
+                context.Sponsor.AddRange(
+                    new Sponsor
+                    {
+                        SponsorName = "Saskatchewan Polytechnic",
+                        SponsorURL = "https://saskpolytech.ca",
+                        SponsorImagePath = "Saskatchewan_Polytechnic_Logo.png"
+                    }
+                    );
             }
 
 
