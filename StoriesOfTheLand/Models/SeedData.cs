@@ -40,7 +40,9 @@ namespace StoriesOfTheLand.Models
                             CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs.",                        
                             SpecimenMedia = new Media
                             {
-                                SpecimenImagePath= "blueberry.png,LabradorTea.png"
+                                SpecimenImagePath= "blueberry.png,blueberry2.png",
+                                SpecimenAudioPath= "Blueberry.m4a"
+                                
                             }
                         },
                         new Specimen
@@ -69,7 +71,7 @@ namespace StoriesOfTheLand.Models
                             CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs.",
                             SpecimenMedia = new Media
                             {
-                                SpecimenImagePath = "LabradorTea.png"
+                                SpecimenImagePath = "LabradorTea.png,LabTeaLeaves.png,LabTeaPlants.png"
                             }
 
                         },
@@ -99,7 +101,8 @@ namespace StoriesOfTheLand.Models
                             CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs.",
                             SpecimenMedia = new Media
                             {
-                                SpecimenImagePath = "mint.png"
+                                SpecimenImagePath = "mint.png",
+                                SpecimenAudioPath = "Mint.m4a"
                             }
 
                         }/*,

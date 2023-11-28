@@ -21,6 +21,16 @@
         <div>
             @Html.DisplayFor(model => model.CreeName)
         </div>
+        @*Display the audio player for the cree name if there is a path for it*@
+            @if (!string.IsNullOrEmpty(Model.SpecimenMedia.SpecimenAudioPath))
+            {
+                <div>
+                    <audio controls>
+                        <source src="/audio/@Model.SpecimenMedia.SpecimenAudioPath" type="audio/mp3">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+            }
     </div>
     }
     <div>
@@ -29,32 +39,38 @@
     </div>
     
     
-    <div class="h-100 d-flex align-items-center justify-content-center">
+    <div class="h-20 d-flex align-items-center justify-content-center">
+        @*If the SpecimenImagePath split is more than one we will make a carousel*@
         @if (Model.SpecimenMedia.SpecimenImagePath.Split(',').Length > 1)
         {
-            string[] imagePaths = Model.SpecimenMedia.SpecimenImagePath.Split(',');
             <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
-                    <div class="carousel-item active custom-carousel-item">
-                        <img src="/images/@imagePaths[0].Trim()" class="d-block w-320px" alt="">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="/images/@imagePaths[1].Trim()" class="d-block w-320px" alt="">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="/images/@imagePaths[0].Trim()" class="d-block w-320px" alt="">
-                    </div>
+                    @if (!string.IsNullOrWhiteSpace(Model.SpecimenMedia.SpecimenImagePath))
+                    {
+                        @*creates an array of strings split by the comma in the specimenImagePath*@
+                        string[] imagePaths = Model.SpecimenMedia.SpecimenImagePath.Split(',');
+                        @*for every image we will have carousel item for*@
+                        for (int i = 0; i < imagePaths.Length; i++)
+                        {
+                            <div class="carousel-item @(i == 0 ? "active" : "")" >
+                                <img src="/images/@imagePaths[i].Trim()" alt="@imagePaths[i].Trim()" style="width: 320px;">
+                            </div>
+                        }
+                    }
                 </div>
+                @*Button to go the the previous image in the carousel*@
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Previous</span>
                 </button>
+                @*Button to go the the next image in the carousel*@
                 <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Next</span>
                 </button>
             </div>
         }
+        @*Else we would just show the one image that is not in a carousel*@
         else
         {
             <img src="/images/@Model.SpecimenMedia.SpecimenImagePath" alt="@Model.SpecimenMedia.SpecimenImagePath" width="320px" class="img-thumbnail" />
