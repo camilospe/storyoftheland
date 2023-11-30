@@ -39,7 +39,7 @@
     </div>
     
     
-    <div class="h-20 d-flex align-items-center justify-content-center">
+    <div class="h-40 d-flex align-items-center justify-content-center" style="height: 350px;">
         @*If the SpecimenImagePath split is more than one we will make a carousel*@
         @if (Model.SpecimenMedia.SpecimenImagePath.Split(',').Length > 1)
         {
@@ -53,7 +53,7 @@
                         for (int i = 0; i < imagePaths.Length; i++)
                         {
                             <div class="carousel-item @(i == 0 ? "active" : "")" >
-                                <img src="/images/@imagePaths[i].Trim()" alt="@imagePaths[i].Trim()" style="width: 320px;">
+                                <img src="/images/@imagePaths[i].Trim()" alt="@imagePaths[i].Trim()" style="width: 400px; height: 350px; object-fit: contain;">
                             </div>
                         }
                     }
@@ -73,7 +73,7 @@
         @*Else we would just show the one image that is not in a carousel*@
         else
         {
-            <img src="/images/@Model.SpecimenMedia.SpecimenImagePath" alt="@Model.SpecimenMedia.SpecimenImagePath" width="320px" class="img-thumbnail" />
+            <img src="/images/@Model.SpecimenMedia.SpecimenImagePath" alt="@Model.SpecimenMedia.SpecimenImagePath" style="width: 400px; height: 350px; object-fit: contain;" />
         }
     </div>
     
