@@ -48,9 +48,13 @@ namespace StoriesOfTheLand.Controllers
         // Passing in Search String enables the user to search the specimen index.
         public async Task<IActionResult> Index(string searchString, string sortOrder)
         {
-            ViewData["EnglishSortParm"] = sortOrder == "EnglishName" ? "EnglishName_Desc" : "EnglishName";
-            ViewData["LatinSortParm"] = sortOrder == "LatinName" ? "LatinName_Desc" : "LatinName";
-            ViewData["CreeSortParm"] = sortOrder == "CreeName" ? "CreeName_Desc" : "CreeName";
+            ViewData["EnglishSortParm"] = sortOrder == "EnglishName" ? "EnglishName" : "EnglishName";
+            ViewData["EnglishSortParmDescending"] = sortOrder == "EnglishName_Desc" ? "EnglishName_Desc" : "EnglishName_Desc";
+            ViewData["LatinSortParm"] = sortOrder == "LatinName" ? "LatinName" : "LatinName";
+            ViewData["LatinSortParmDescending"] = sortOrder == "LatinName_Desc" ? "LatinName_Desc" : "LatinName_Desc";
+            ViewData["CreeSortParm"] = sortOrder == "CreeName" ? "CreeName" : "CreeName";
+            ViewData["CreeSortParmDescending"] = sortOrder == "CreeName_Desc" ? "CreeName_Desc" : "CreeName_Desc";
+
 
 
             // Check to see if there are NO specimen inside of the list
@@ -67,6 +71,7 @@ namespace StoriesOfTheLand.Controllers
             {
                 case "EnglishName_Desc":
                     specimens = specimens.OrderByDescending(s => s.EnglishName);
+                    
                     break;
                 case "EnglishName": 
                     specimens = specimens.OrderBy(s => s.EnglishName);

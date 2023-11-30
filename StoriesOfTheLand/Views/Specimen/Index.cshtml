@@ -25,18 +25,20 @@
             <!--Display English Name above English Name column-->
             <th>
                 <h3>English Name</h3>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["EnglishSortParm"]">@Html.DisplayNameFor(model => model.EnglishName)</a>
+                <a style="text-decoration: none; color: black;" asp-action="Index" asp-route-sortOrder="@ViewData["EnglishSortParm"]">@Html.Raw("&#x25B2")</a></br>
+                <a style="text-decoration: none; color: black;" asp-action="Index" asp-route-sortOrder="@ViewData["EnglishSortParmDescending"]">@Html.Raw("&#x25BC")</a>
             </th>
             <!--Display Latin Name above Latin Name column-->
             <th>
                 <h3>Latin Name</h3>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["LatinSortParm"]">@Html.DisplayNameFor(model => model.LatinName)</a>
-
+                <a style="text-decoration: none; color: black;"  asp-action="Index" asp-route-sortOrder="@ViewData["LatinSortParm"]">@Html.Raw("&#x25B2")</a></br>
+                <a style="text-decoration: none; color: black;" asp-action="Index" asp-route-sortOrder="@ViewData["LatinSortParmDescending"]">@Html.Raw("&#x25BC")</a>
             </th>
             <!--Display Cree Name above Cree Name column-->
             <th>
                 <h3>Cree Name</h3>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["CreeSortParm"]">@Html.DisplayNameFor(model => model.CreeName)</a>
+                <a style="text-decoration: none; color: black;" asp-action="Index" asp-route-sortOrder="@ViewData["CreeSortParm"]">@Html.Raw("&#x25B2")</a></br>
+                <a style="text-decoration: none; color: black;" asp-action="Index" asp-route-sortOrder="@ViewData["CreeSortParmDescending"]">@Html.Raw("&#x25BC")</a>
              </th>
       </thead>
       <!--Body of the table, Where the data in the database will go-->
@@ -50,18 +52,15 @@
             <tr>
                 <!--Display each English Name-->
                 <th class="">
-                    <a style="text-decoration: none; color: black;" href="@Html.Raw(linkToSpecimen)">@Html.DisplayFor(Model => item.EnglishName)</a>
-                    
+                    <a style="text-decoration: none; color: black;" href="@Html.Raw(linkToSpecimen)">@Html.DisplayFor(Model => item.EnglishName)</a>                   
                 </th>
                 <!--Display each Latin Name-->
                 <th>
-
                     <a style="text-decoration: none; color: black;" href="@Html.Raw(linkToSpecimen)">@Html.DisplayFor(Model => item.LatinName)</a>
-
                 </th>
                 <!--Display each Cree Name-->
                 <th>
-                    <a style="text-decoration: none; color: black;" href="@Html.Raw(linkToSpecimen)">@Html.DisplayFor(Model => item.CreeName)</a>
+                    <a style="text-decoration: none; color: black;" href="@Html.Raw(linkToSpecimen)">@Html.DisplayFor(Model => {{if (item.CreeName == null) {Html.Display("-");} else {@Html.Display(item.CreeName);}}}))</a>
                 </th>
             </tr>   
         }
