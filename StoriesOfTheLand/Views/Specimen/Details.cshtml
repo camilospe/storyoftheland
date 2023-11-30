@@ -40,12 +40,17 @@
         @Html.DisplayFor(model => model.SpecimenDescription)
     </div>
 
-    <div class="text-center">
-        <button>View the QR code for this specimen</button>
+    <!-- QR Code Code -->
+    <div class="text-center mt-5">
+
+        <button onclick="toggleHidden">
+            Show/Hide the QR code for this specimen
+        </button>
+
         @{
             // This code block will dynamically generate the QR Code based on the current page's URL
             
-            // Because of how Razor Core MVC works, this has to be done in the weirdest way possible
+            // Because of how Core MVC works, this has to be done in the weirdest way possible
             String stringToEncode = Url.Action("Details", "Specimen", new { id = Model.SpecimenID }, protocol: Context.Request.Scheme);
 
             // Uses the QrCoder Library to generate a QR Code using the given URL string and display it
@@ -54,10 +59,27 @@
             QRCoder.BitmapByteQRCode qrCode = new QRCoder.BitmapByteQRCode(qrData);
 
             // Converts it into a Bitmap that can be displayed in the img HTML tag
-            byte[] qrCodeBytes = qrCode.GetGraphic(20); // Can add colours here
+            byte[] qrCodeBytes = qrCode.GetGraphic(10); // Can add colours here
         }
-        <img src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(qrCodeBytes))" alt="@Model.EnglishName" />
     </div>
+    <div class="text-center" id="qrCodeDiv">
+        <img src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(qrCodeBytes))" alt="@Model.EnglishName"/>
+    </div>
+
+    <script>
+        let qrCode = getElementById('qrCodeDiv');
+        function toggleHidden() {
+
+            qrCode.style.display = "none";
+            //let hidden = qrCode.getAttribute('hidden') != null;
+            //if (hidden) {
+            //    qrCode.hidden = false;
+            //}
+            //else {
+            //    qrCode.hidden = true;
+            //}
+        }
+    </script>
 </div>
 
         
