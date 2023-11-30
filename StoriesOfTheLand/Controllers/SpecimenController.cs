@@ -39,6 +39,9 @@ namespace StoriesOfTheLand.Controllers
                 // Returns not found
                 return NotFound();
             }
+
+            var sponsorService = new SponsorService(_context);
+            ViewBag.Sponsors = await sponsorService.GetSponsorsAsync();
             // Render's the specimen's details.cshtml file
             return View(specimen);
         }

@@ -42,17 +42,9 @@
             
         </div>
         <div class="container">
-            <div class="d-flex justify-content-center">
-                <div class="d-flex justify-content-center">
-                    @model IEnumerable<StoriesOfTheLand.Models.Sponsor>
-                    @foreach (var item in Model)
-                    {
-                        <div class="col-sm mx-auto p-2 justify-content-center">
-                            <img src="/images/@item.SponsorImagePath" style="max-width: 150px; max-height: 100px;">
-                        </div>
-                    }
-                </div>
-            </div>
+            @{
+                await Html.RenderPartialAsync("_Footer", ViewBag.Sponsors);
+            }
             &copy;. 2023
         </div>
     </footer>

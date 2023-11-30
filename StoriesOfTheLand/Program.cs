@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using StoriesOfTheLand.Controllers;
 using StoriesOfTheLand.Data;
 using StoriesOfTheLand.Models;
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +9,8 @@ builder.Services.AddDbContext<StoriesOfTheLandContext>(options =>
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<SponsorService>();
 
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
@@ -21,9 +24,11 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
 
+
     SeedData.Initialize(services);
 
 }
+
 
 
 
