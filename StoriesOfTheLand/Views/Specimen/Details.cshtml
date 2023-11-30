@@ -5,7 +5,6 @@
 }
 
 
-@* Display the Specimen's Latin Name *@
 <div class="text-center">
     @*Display For displays the model's property, in this case, it's a Latin Name*@
     <div>
@@ -40,46 +39,39 @@
         @Html.DisplayFor(model => model.SpecimenDescription)
     </div>
 
-    <!-- QR Code Code -->
-    <div class="text-center mt-5">
+    @* QR Code Generation Code *@
+    @{
+        // This code block will dynamically generate the QR Code based on the current page's URL
 
-        <button onclick="toggleHidden">
+        // Because of how Core MVC works, this is done in a slightly odd way
+        // Url.Action builds a url using the current context's request scheme 
+        // (essentially, it should build the same URL that is in the URL bar when viewing this details page)
+        String stringToEncode = Url.Action("Details", "Specimen", new { id = @Model.SpecimenID }, protocol: Context.Request.Scheme);
+
+        // Uses the QrCoder Library to generate a QR Code using the given URL string and display it
+        QRCoder.QRCodeGenerator qrGenerator = new QRCoder.QRCodeGenerator();
+        QRCoder.QRCodeData qrData = qrGenerator.CreateQrCode(stringToEncode, QRCoder.QRCodeGenerator.ECCLevel.M);
+        QRCoder.BitmapByteQRCode qrCode = new QRCoder.BitmapByteQRCode(qrData);
+
+        // Converts it into a Bitmap that can be displayed in the img HTML tag
+        byte[] qrCodeBytes = qrCode.GetGraphic(10, "#000000", "#ffffff"); // Can add a little bit of colour here
+    }
+
+    @* QR Code display toggle *@
+    <div class="text-center mt-5">
+        <button class="btn btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#qrCollapse" aria-expanded="false" aria-controls="qrCollapse">
             Show/Hide the QR code for this specimen
         </button>
-
-        @{
-            // This code block will dynamically generate the QR Code based on the current page's URL
-            
-            // Because of how Core MVC works, this has to be done in the weirdest way possible
-            String stringToEncode = Url.Action("Details", "Specimen", new { id = Model.SpecimenID }, protocol: Context.Request.Scheme);
-
-            // Uses the QrCoder Library to generate a QR Code using the given URL string and display it
-            QRCoder.QRCodeGenerator qrGenerator = new QRCoder.QRCodeGenerator();
-            QRCoder.QRCodeData qrData = qrGenerator.CreateQrCode(stringToEncode, QRCoder.QRCodeGenerator.ECCLevel.M);
-            QRCoder.BitmapByteQRCode qrCode = new QRCoder.BitmapByteQRCode(qrData);
-
-            // Converts it into a Bitmap that can be displayed in the img HTML tag
-            byte[] qrCodeBytes = qrCode.GetGraphic(10); // Can add colours here
-        }
-    </div>
-    <div class="text-center" id="qrCodeDiv">
-        <img src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(qrCodeBytes))" alt="@Model.EnglishName"/>
     </div>
 
-    <script>
-        let qrCode = getElementById('qrCodeDiv');
-        function toggleHidden() {
-
-            qrCode.style.display = "none";
-            //let hidden = qrCode.getAttribute('hidden') != null;
-            //if (hidden) {
-            //    qrCode.hidden = false;
-            //}
-            //else {
-            //    qrCode.hidden = true;
-            //}
-        }
-    </script>
+    @* QR Code *@
+    <div class="collapse" id="qrCollapse">
+        <div class="text-center mt-1" id="qrCodeDiv">
+            <img class="border" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(qrCodeBytes))" alt="@Model.EnglishName"/>
+            <p>@Model.EnglishName QR Code</p>
+        </div>
+    </div>
+    
 </div>
 
         
