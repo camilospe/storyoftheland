@@ -48,7 +48,10 @@
         {
             int currentID = item.SpecimenID;
             string linkToSpecimen = "/specimen/Details/" + currentID;
-            
+            if (item.CreeName == null)
+            {
+                item.CreeName = "-";
+            }
             <tr>
                 <!--Display each English Name-->
                 <th class="">
@@ -60,7 +63,7 @@
                 </th>
                 <!--Display each Cree Name-->
                 <th>
-                    <a style="text-decoration: none; color: black;" href="@Html.Raw(linkToSpecimen)">@Html.DisplayFor(Model => {{if (item.CreeName == null) {Html.Display("-");} else {@Html.Display(item.CreeName);}}}))</a>
+                    <a style="text-decoration: none; color: black;" href="@Html.Raw(linkToSpecimen)">@Html.DisplayFor(Model => item.CreeName)</a>
                 </th>
             </tr>   
         }

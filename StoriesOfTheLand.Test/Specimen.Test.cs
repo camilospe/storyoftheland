@@ -13,6 +13,7 @@ using StoriesOfTheLand.Controllers;
 using Moq;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 
 namespace StoriesOfTheLand.Test
 {
@@ -685,7 +686,6 @@ namespace StoriesOfTheLand.Test
         {
             var dbSpecs = from s in _context.Specimen select s;
             var specsInEnglishZA = Specimens.OrderByDescending(s => s.EnglishName);
-            Specimens = specsInEnglishZA.ToListAsync();
             Assert.AreEqual("Wild Mint", Specimens[0].EnglishName);
             Assert.AreEqual("Horsetail", Specimens[4].EnglishName);
         }
@@ -742,6 +742,18 @@ namespace StoriesOfTheLand.Test
             Assert.AreEqual("Maskêkopakwa", Specimens[0].CreeName);
             Assert.AreEqual("Amiskowihkask", Specimens[3].CreeName);
         }
+
+        [Test]
+        public async void TestThatHttpPostWorks()
+        {
+            var result = await _controller.Index("", "");
+         Assert.IsInstanceOf<RedirectToActionResult>(result);
+        Assert.AreEqual("Home", result.ControllerName);
+        Assert.AreEqual("Index", result.ActionName);
+}
+            
+        }
+
         #endregion
     }
 
