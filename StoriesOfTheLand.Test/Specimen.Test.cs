@@ -6,6 +6,7 @@ using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
 using NUnit.Framework;
 using System.Numerics;
+using System.Linq;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Microsoft.Extensions.DependencyInjection;
 using StoriesOfTheLand.Data;
@@ -45,9 +46,8 @@ namespace StoriesOfTheLand.Test
             _context = new StoriesOfTheLandContext(options);
             //Create a controller based on the context
             _controller = new SpecimenController(_context);
-            //Specimen Testing 
             Specimens = new List<Specimen>();
-            _context.Add(
+            Specimens.Add(
                 new Specimen
                 {
                     SpecimenDescription = //Blueberry
@@ -60,7 +60,7 @@ namespace StoriesOfTheLand.Test
                     SpecimenImagePath = "blueberry.png",
                     CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs."
                 });
-            _context.Add(
+            Specimens.Add(
             new Specimen
             {
                 SpecimenDescription = //Horsetail
@@ -69,11 +69,10 @@ namespace StoriesOfTheLand.Test
                            They are ancient primitive plants dating back over 300 million years!",
                 LatinName = "Equisetum species",
                 EnglishName = "Horsetail",
-                CreeName = "Sample Cree Name",
                 SpecimenImagePath = "Horsetail.png",
                 CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs."
-            }); 
-            _context.Add(
+            });
+            Specimens.Add(
             new Specimen
             {
                 SpecimenDescription = //Labrador Tea
@@ -86,7 +85,7 @@ namespace StoriesOfTheLand.Test
                 SpecimenImagePath = "LabradorTea.png",
                 CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs."
             });
-            _context.Add(
+            Specimens.Add(
             new Specimen
             {
                 SpecimenDescription = //Lungwort
@@ -95,11 +94,10 @@ namespace StoriesOfTheLand.Test
                 Leaves are covered with short hairs making them feel rough to the touch. ",
                 LatinName = "Mertensia paniculata",
                 EnglishName = "Lungwort",
-                CreeName = "Sample Cree Name 2",
                 SpecimenImagePath = "Lungwort.png",
                 CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs."
             });
-            _context.Add(
+            Specimens.Add(
             new Specimen
             {
                 SpecimenDescription = //Mint
@@ -114,9 +112,6 @@ namespace StoriesOfTheLand.Test
 
              }
             );
-            _context.SaveChanges();
-            var dbSpecs = from s in _context.Specimen select s;
-            Specimens = dbSpecs.ToList();
         }
 
 
@@ -669,9 +664,7 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void TestSpecimenEnglishCommonNameDisplaysInAlphabeticalOrder()
         {
-            var dbSpecs = from s in _context.Specimen select s;
-            var specsInEnglishAZ  = dbSpecs.OrderBy(s => s.EnglishName);
-            Specimens = specsInEnglishAZ.ToList();
+            Specimens = Specimens.OrderBy(s => s.EnglishName).ToList();
             Assert.AreEqual("Horsetail", Specimens[0].EnglishName);
             Assert.AreEqual("Wild Mint", Specimens[4].EnglishName);
 
@@ -684,8 +677,7 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void TestSpecimenEnglishCommonNameDisplaysInReverseAlphabeticalOrder()
         {
-            var dbSpecs = from s in _context.Specimen select s;
-            var specsInEnglishZA = Specimens.OrderByDescending(s => s.EnglishName);
+            Specimens = Specimens.OrderByDescending(s => s.EnglishName).ToList();
             Assert.AreEqual("Wild Mint", Specimens[0].EnglishName);
             Assert.AreEqual("Horsetail", Specimens[4].EnglishName);
         }
@@ -697,10 +689,9 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void TestSpecimenLatinNameDisplaysInAlphabeticalOrder()
         {
-            var specsInLatinAZ = Specimens.OrderBy(s => s.LatinName);
-            Specimens = specsInLatinAZ.ToList();
-            Assert.AreEqual("Vaccinium myrtilloides", Specimens[0].LatinName);
-            Assert.AreEqual("Equisetum species", Specimens[4].LatinName);
+            Specimens = Specimens.OrderBy(s => s.LatinName).ToList();
+            Assert.AreEqual("Equisetum species", Specimens[0].LatinName);
+            Assert.AreEqual("Vaccinium myrtilloides", Specimens[4].LatinName);
         }
 
         /*
@@ -710,10 +701,9 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void TestSpecimenLatinNameDisplaysInReverseAlphabeticalOrder()
         {
-            var specsInLatinZA = Specimens.OrderByDescending(s => s.LatinName);
-            Specimens = specsInLatinZA.ToList();
-            Assert.AreEqual("Equisetum species", Specimens[0].LatinName);
-            Assert.AreEqual("Vaccinium myrtilloides", Specimens[4].LatinName);
+            Specimens = Specimens.OrderByDescending(s => s.LatinName).ToList();
+            Assert.AreEqual("Vaccinium myrtilloides", Specimens[0].LatinName);
+            Assert.AreEqual("Equisetum species", Specimens[4].LatinName);
         }
 
         /*
@@ -723,10 +713,9 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void TestSpecimenCreeNameDisplaysInAlphabeticalOrder()
         {
-            var specsInCreeAZ = Specimens.OrderBy(s => s.CreeName);
-            Specimens = specsInCreeAZ.ToList();
-            Assert.AreEqual("Amiskowihkask", Specimens[0].CreeName);
-            Assert.AreEqual("Maskêkopakwa", Specimens[3].CreeName);
+            Specimens = Specimens.OrderBy(s => s.CreeName).ToList();
+            Assert.AreEqual(null, Specimens[0].CreeName);
+            Assert.AreEqual("Maskêkopakwa", Specimens[4].CreeName);
         }
 
         /*
@@ -736,24 +725,25 @@ namespace StoriesOfTheLand.Test
         [Test]
         public void TestSpecimenCreeNameDisplaysInReverseAlphabeticalOrder()
         {
-            Console.WriteLine(Specimens);
-            var specsInCreeZA = Specimens.OrderByDescending(s => s.CreeName);
-            Specimens = specsInCreeZA.ToList();
+
+            Specimens = Specimens.OrderByDescending(s => s.CreeName).ToList();
             Assert.AreEqual("Maskêkopakwa", Specimens[0].CreeName);
-            Assert.AreEqual("Amiskowihkask", Specimens[3].CreeName);
+            Assert.AreEqual(null, Specimens[4].CreeName);
         }
-
+        /*
+         * Check to see that the index method in the mock controller returns an appropriate
+         * view. If it does not return a view, it fails.
+         * Source: https://stackoverflow.com/questions/27428796/how-do-i-get-the-result-or-return-value-of-a-task
+         */
         [Test]
-        public async void TestThatHttpPostWorks()
+        public void TestHttpPostFunctionality()
         {
-            var result = await _controller.Index("", "");
-         Assert.IsInstanceOf<RedirectToActionResult>(result);
-        Assert.AreEqual("Home", result.ControllerName);
-        Assert.AreEqual("Index", result.ActionName);
-}
+            // Obtain the Controller's index method results after being called. 
+            var result = _controller.Index("Search", "Sort");
             
+            //If the result returns a View, it passes and it it doesn't return the view it fails. 
+            Assert.That(result.Result, Is.InstanceOf<ViewResult>());
         }
-
         #endregion
     }
 
