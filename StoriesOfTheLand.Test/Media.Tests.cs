@@ -26,32 +26,7 @@ namespace StoriesOfTheLand.Test
 {
 
 
-    [TestFixture]
-    public class HtmlTest
-    {
-        private static readonly HttpClient httpClient = new HttpClient();
-
-        [Test]
-        public void TestHtmlContent()
-        {
-            // Replace "your_url_here" with the actual URL you want to test
-            string url = "https://storiesoftheland-app-20231026140.politesky-06cf0fa3.canadacentral.azurecontainerapps.io/Specimen/Details/1";
-
-            // Make a request to the URL
-            HttpResponseMessage response = httpClient.GetAsync(url).Result;
-
-            // Ensure the request was successful
-            Assert.IsTrue(response.IsSuccessStatusCode, $"Failed to retrieve content from {url}. Status code: {response.StatusCode}");
-
-            // Read the HTML content from the response
-            string htmlContent = response.Content.ReadAsStringAsync().Result;
-
-            // Perform assertions or checks on the HTML content
-            Assert.IsTrue(htmlContent.Contains("<h3>English Name</h3>"), "Expected content not found in HTML");
-
-            // You can perform more checks or validations here
-        }
-    }
+   
 
 
 
@@ -96,7 +71,116 @@ namespace StoriesOfTheLand.Test
          
         }
         #region FunctionalTests
-        
+         [TestFixture]
+    public class HtmlTest
+    {
+        private static readonly HttpClient httpClient = new HttpClient();
+
+            [Test]
+            public void TestCarouselHTMLIfThereIsMoreThanOneImage()
+            {
+                // Replace "your_url_here" with the actual URL you want to test
+                string url = "https://storiesoftheland-app-20231204104.mangohill-c81df601.canadacentral.azurecontainerapps.io/Specimen/Details/1";
+
+                // Make a request to the URL
+                HttpResponseMessage response = httpClient.GetAsync(url).Result;
+
+                // Ensure the request was successful
+                Assert.IsTrue(response.IsSuccessStatusCode, $"Failed to retrieve content from {url}. Status code: {response.StatusCode}");
+
+                // Read the HTML content from the response
+                string htmlContent = response.Content.ReadAsStringAsync().Result;
+
+                // Perform assertions or checks on the HTML content
+                Assert.IsTrue(htmlContent.Contains("<div id=\"carouselExampleControls\" class=\"carousel slide\" data-bs-ride=\"carousel\">"), "Expected content not found in HTML");
+
+                // You can perform more checks or validations here
+            }
+
+            [Test]
+            public void TestNoCarouselHTMLIfThereIsOneImage()
+            {
+                // Replace "your_url_here" with the actual URL you want to test
+                string url = "https://storiesoftheland-app-20231204104.mangohill-c81df601.canadacentral.azurecontainerapps.io/Specimen/Details/2";
+
+                // Make a request to the URL
+                HttpResponseMessage response = httpClient.GetAsync(url).Result;
+
+                // Ensure the request was successful
+                Assert.IsTrue(response.IsSuccessStatusCode, $"Failed to retrieve content from {url}. Status code: {response.StatusCode}");
+
+                // Read the HTML content from the response
+                string htmlContent = response.Content.ReadAsStringAsync().Result;
+
+                // Perform assertions or checks on the HTML content
+                Assert.IsTrue(htmlContent.Contains("<div id=\"oneImage\">"), "Expected content not found in HTML");
+
+                // You can perform more checks or validations here
+            }
+            [Test]
+            public void TestNoImageHTMLIfThereIsNoImage()
+            {
+                // Replace "your_url_here" with the actual URL you want to test
+                string url = "https://storiesoftheland-app-20231204104.mangohill-c81df601.canadacentral.azurecontainerapps.io/Specimen/Details/6";
+
+                // Make a request to the URL
+                HttpResponseMessage response = httpClient.GetAsync(url).Result;
+
+                // Ensure the request was successful
+                Assert.IsTrue(response.IsSuccessStatusCode, $"Failed to retrieve content from {url}. Status code: {response.StatusCode}");
+
+                // Read the HTML content from the response
+                string htmlContent = response.Content.ReadAsStringAsync().Result;
+
+                // Perform assertions or checks on the HTML content
+                Assert.IsFalse(htmlContent.Contains("<div id=\"carouselExampleControls\" class=\"carousel slide\" data-bs-ride=\"carousel\">"), "Expected content not found in HTML");
+                Assert.IsFalse(htmlContent.Contains("<div id=\"oneImage\">"), "Expected content not found in HTML");
+
+                // You can perform more checks or validations here
+            }
+
+            [Test]
+            public void TestAudioPlayerIfThereIsAnAudioFile()
+            {
+                // Replace "your_url_here" with the actual URL you want to test
+                string url = "https://storiesoftheland-app-20231204104.mangohill-c81df601.canadacentral.azurecontainerapps.io/Specimen/Details/1";
+
+                // Make a request to the URL
+                HttpResponseMessage response = httpClient.GetAsync(url).Result;
+
+                // Ensure the request was successful
+                Assert.IsTrue(response.IsSuccessStatusCode, $"Failed to retrieve content from {url}. Status code: {response.StatusCode}");
+
+                // Read the HTML content from the response
+                string htmlContent = response.Content.ReadAsStringAsync().Result;
+
+                // Perform assertions or checks on the HTML content
+                Assert.IsTrue(htmlContent.Contains("<audio controls>"), "Expected content not found in HTML");
+
+                // You can perform more checks or validations here
+            }
+
+            [Test]
+            public void TestNoAudioPlayerIfThereIsNoAudioFile()
+            {
+                // Replace "your_url_here" with the actual URL you want to test
+                string url = "https://storiesoftheland-app-20231204104.mangohill-c81df601.canadacentral.azurecontainerapps.io/Specimen/Details/2";
+
+                // Make a request to the URL
+                HttpResponseMessage response = httpClient.GetAsync(url).Result;
+
+                // Ensure the request was successful
+                Assert.IsTrue(response.IsSuccessStatusCode, $"Failed to retrieve content from {url}. Status code: {response.StatusCode}");
+
+                // Read the HTML content from the response
+                string htmlContent = response.Content.ReadAsStringAsync().Result;
+
+                // Perform assertions or checks on the HTML content
+                Assert.IsFalse(htmlContent.Contains("<audio controls>"), "Expected content not found in HTML");
+
+                // You can perform more checks or validations here
+            }
+        }
         
         #endregion
 

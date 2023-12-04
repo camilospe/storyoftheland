@@ -37,47 +37,49 @@
         <h3>Latin Name</h3>
         @Html.DisplayFor(model => model.LatinName)
     </div>
-    
-    
-    <div class="h-40 d-flex align-items-center justify-content-center" style="height: 350px;">
-        @*If the SpecimenImagePath split is more than one we will make a carousel*@
-        @if (Model.SpecimenMedia.SpecimenImagePath.Split(',').Length > 1)
-        {
-            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                    @if (!string.IsNullOrWhiteSpace(Model.SpecimenMedia.SpecimenImagePath))
-                    {
-                        @*creates an array of strings split by the comma in the specimenImagePath*@
-                        string[] imagePaths = Model.SpecimenMedia.SpecimenImagePath.Split(',');
-                        @*for every image we will have carousel item for*@
-                        for (int i = 0; i < imagePaths.Length; i++)
-                        {
-                            <div class="carousel-item @(i == 0 ? "active" : "")" >
-                                <img src="/images/@imagePaths[i].Trim()" alt="@imagePaths[i].Trim()" style="width: 400px; height: 350px; object-fit: contain;">
-                            </div>
-                        }
-                    }
-                </div>
-                @*Button to go the the previous image in the carousel*@
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                @*Button to go the the next image in the carousel*@
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
-            </div>
-        }
-        @*Else we would just show the one image that is not in a carousel*@
-        else
-        {
-            <img src="/images/@Model.SpecimenMedia.SpecimenImagePath" alt="@Model.SpecimenMedia.SpecimenImagePath" style="width: 400px; height: 350px; object-fit: contain;" />
-        }
-    </div>
-    
 
+    @if (Model.SpecimenMedia.SpecimenImagePath != "")
+    {
+        <div class="h-40 d-flex align-items-center justify-content-center" style="height: 350px;">
+            @*If the SpecimenImagePath split is more than one we will make a carousel*@
+            @if (Model.SpecimenMedia.SpecimenImagePath.Split(',').Length > 1)
+            {
+                <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        @if (!string.IsNullOrWhiteSpace(Model.SpecimenMedia.SpecimenImagePath))
+                        {
+                            @*creates an array of strings split by the comma in the specimenImagePath*@
+                            string[] imagePaths = Model.SpecimenMedia.SpecimenImagePath.Split(',');
+                            @*for every image we will have carousel item for*@
+                            for (int i = 0; i < imagePaths.Length; i++)
+                            {
+                                <div class="carousel-item @(i == 0 ? "active" : "")">
+                                    <img src="/images/@imagePaths[i].Trim()" alt="@imagePaths[i].Trim()" style="width: 400px; height: 350px; object-fit: contain;">
+                                </div>
+                            }
+                        }
+                    </div>
+                    @*Button to go the the previous image in the carousel*@
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    @*Button to go the the next image in the carousel*@
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            }
+            @*Else we would just show the one image that is not in a carousel*@
+            else
+            {
+                <div id="oneImage">
+                    <img src="/images/@Model.SpecimenMedia.SpecimenImagePath" alt="@Model.SpecimenMedia.SpecimenImagePath" style="width: 400px; height: 350px; object-fit: contain;" />
+                </div>
+            }
+        </div>
+    }
     <div class="overflow-auto">
         <h3>Cultural Significance</h3>
         @Html.DisplayFor(model => model.CulturalSignificance)
