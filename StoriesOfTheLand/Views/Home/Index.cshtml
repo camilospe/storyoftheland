@@ -8,33 +8,37 @@
     <h1 class="display-4">Stories of the Land</h1>
 </div>
 
-/*pretty nice image or something*/
 
-/*add a href to hanin creek education center*/
-<div>
-    <p>
-       Stories of the Land is a land-based learning initiative that connects the learner with the natural environment of the boreal forest.
-        Trails throughout the <a href="https://saskpolytech.ca/about/hannin-creek-education-centre/">Hannin Creek Education Centre</a> 
-        feature markers with QR codes near plants of the boreal forest.
-        The QR code connects learners with identifying information about the plant including common name, Latin binomial name, 
-       the Cree name and pronunciation and traditional Indigenous uses or culturally significant applications.
-    </p>
+<div class="mx-auto" style="max-width: 1000px;">
+    <div class="text-center">
+        <p>
+            Stories of the Land is a land-based learning initiative that connects the learner with the natural environment of the boreal forest.
+            Trails throughout the <a href="https://saskpolytech.ca/about/hannin-creek-education-centre/">Hannin Creek Education Centre</a>
+            feature markers with QR codes near plants of the boreal forest.
+            The QR code connects learners with identifying information about the plant including common name, Latin binomial name,
+            the Cree name and pronunciation and traditional Indigenous uses or culturally significant applications.
+        </p>
+    </div>
 </div>
 
-/*dynamic grid?, column wrapping*/
-<div class="d-flex flex-wrap">
-    @foreach (var item in Model)
-    {
-        <div style="width: 320px" class="mx-auto">
-            <div style="height: 200px">
-                <a href="@item.SponsorURL"><img src="/images/@item.SponsorImagePath" alt="@item.SponsorName" style="max-width: 100%; max-height: 100%"></a>
+<div class="text-center">
+    <h3>In partnership with</h3>
+    <div class="d-flex flex-wrap">
+
+        @foreach (var item in Model)
+        {
+            <div style="width: 320px" class="mx-auto">
+                <div style="height: 200px">
+                    <a href="@item.SponsorURL"><img src="/images/@item.SponsorImagePath" alt="@item.SponsorName" style="max-width: 100%; max-height: 100%"></a>
+                </div>
+                <div style="height: 100px">
+                    <p>@item.SponsorName</p>
+                </div>
             </div>
-            <div style="height: 100px">
-                <p>@item.SponsorName</p>
-            </div>
-        </div>
-    }
+        }
+    </div>
 </div>
+
 
 @section footer {
     <div class="d-flex justify-content-center">

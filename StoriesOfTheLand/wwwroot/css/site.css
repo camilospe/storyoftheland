@@ -1,6 +1,7 @@
 html {
     font-size: 14px;
     font-family: "HCo Gotham SSm",Arial,Helvetica;
+    background-color: #f9f9f9;
 }
 
 html, body {
@@ -40,6 +41,8 @@ body {
 }
 
 footer {
+    border-top: solid;
+    border-color: #743c97; 
     width: 100%;
 }
 
