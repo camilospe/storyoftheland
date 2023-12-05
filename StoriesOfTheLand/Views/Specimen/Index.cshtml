@@ -1,0 +1,71 @@
+<!--IEnumerable is required in order to pass in a list into the Index page-->
+@model IEnumerable<StoriesOfTheLand.Models.Specimen>
+
+<!--Set the Title of the Page, being Specimen Index-->
+@{
+    ViewData["Title"] = "Specimen Index";
+}
+
+<h1>Specimen Index</h1>
+<!--This is a form for submitting the searched value that is passed into the index box that 
+    updates the list of specimen 
+-->
+<form asp-controller="Specimen" asp-action="Index" class="pb-3">
+    <p>
+        Enter a English Name, Latin Name, or Cree Name: <input type="text" name="SearchString" />
+        <input type="submit" value="Search" />
+    </p>
+    <input type="submit" value="Refresh List"/>
+</form>
+<!--Table for the Specimen Index-->
+<table class="table table-striped table-bordered">
+    <!--Top of the Table-->
+      <thead>
+        <tr>
+            <!--Display English Name above English Name column-->
+            <th>
+                <h3>English Name</h3>
+                <a style="text-decoration: none; color: black;" asp-action="Index" asp-route-sortOrder="@ViewData["EnglishSortParm"]">@Html.Raw("&#x25B2")</a></br>
+                <a style="text-decoration: none; color: black;" asp-action="Index" asp-route-sortOrder="@ViewData["EnglishSortParmDescending"]">@Html.Raw("&#x25BC")</a>
+            </th>
+            <!--Display Latin Name above Latin Name column-->
+            <th>
+                <h3>Latin Name</h3>
+                <a style="text-decoration: none; color: black;"  asp-action="Index" asp-route-sortOrder="@ViewData["LatinSortParm"]">@Html.Raw("&#x25B2")</a></br>
+                <a style="text-decoration: none; color: black;" asp-action="Index" asp-route-sortOrder="@ViewData["LatinSortParmDescending"]">@Html.Raw("&#x25BC")</a>
+            </th>
+            <!--Display Cree Name above Cree Name column-->
+            <th>
+                <h3>Cree Name</h3>
+                <a style="text-decoration: none; color: black;" asp-action="Index" asp-route-sortOrder="@ViewData["CreeSortParm"]">@Html.Raw("&#x25B2")</a></br>
+                <a style="text-decoration: none; color: black;" asp-action="Index" asp-route-sortOrder="@ViewData["CreeSortParmDescending"]">@Html.Raw("&#x25BC")</a>
+             </th>
+      </thead>
+      <!--Body of the table, Where the data in the database will go-->
+      <tbody>
+          <!--Loop through each specimen-->
+        @foreach(Specimen item in Model)
+        {
+            int currentID = item.SpecimenID;
+            string linkToSpecimen = "/specimen/Details/" + currentID;
+            if (item.CreeName == null)
+            {
+                item.CreeName = "-";
+            }
+            <tr>
+                <!--Display each English Name-->
+                <th class="">
+                    <a style="text-decoration: none; color: black;" href="@Html.Raw(linkToSpecimen)">@Html.DisplayFor(Model => item.EnglishName)</a>                   
+                </th>
+                <!--Display each Latin Name-->
+                <th>
+                    <a style="text-decoration: none; color: black;" href="@Html.Raw(linkToSpecimen)">@Html.DisplayFor(Model => item.LatinName)</a>
+                </th>
+                <!--Display each Cree Name-->
+                <th>
+                    <a style="text-decoration: none; color: black;" href="@Html.Raw(linkToSpecimen)">@Html.DisplayFor(Model => item.CreeName)</a>
+                </th>
+            </tr>   
+        }
+    </tbody>
+</table>
