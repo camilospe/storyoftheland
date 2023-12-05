@@ -22,7 +22,6 @@ namespace StoriesOfTheLand.Controllers
         // GET: Specimens/Details/5
         //Method gets details for a specimen based in the SpecimenID and returns a 
         //corresponding veiw
-        [HttpPost]
         public async Task<IActionResult> Details(int? id)
         {
             //checks to see if the id is null or the specimen context is null
@@ -104,7 +103,5 @@ namespace StoriesOfTheLand.Controllers
             // Returns a View of the Specimen
             return View(await specimens.ToListAsync());
         }
-
-
     }
 }
