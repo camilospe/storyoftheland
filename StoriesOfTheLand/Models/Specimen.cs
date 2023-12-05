@@ -34,11 +34,6 @@ namespace StoriesOfTheLand.Models
         [MaxLength(90, ErrorMessage = "Cree name must be up to 90 characters")]
         public string? CreeName { get; set; }
 
-        //[RegularExpression("([^\\s]+(\\.(?i)(jpe?g|png))$)", ErrorMessage = "Image path must have atleast 5 characters and be of type png, jpg, or jpeg.")]
-        //[StringLength(254, ErrorMessage = "Image path length must be between {2} and {1}.", MinimumLength = 5)]
-        //[Required]
-       // public string SpecimenImagePath { get; set; }
-
         [Required(ErrorMessage = "Cultural Significance is required")]
         [StringLength(3500, MinimumLength = 1, ErrorMessage = "Cultural Significance must have between 1 and 3500 characters")]
         /* A required string that holds the specimen's cultural significance. This can be a long
