@@ -473,6 +473,7 @@ namespace StoriesOfTheLand.Test
             string htmlContent = response.Content.ReadAsStringAsync().Result;
 
             // Perform assertions or checks on the HTML content
+            // May have to change this
             Assert.IsTrue(htmlContent.Contains("<img class=\"border\" src=\"@String.Format(\"data:image/png;base64,{0}\", Convert.ToBase64String(qrCodeBytes))\" alt=\"@Model.EnglishName\"/>"), "Expected content not found in HTML");
 
         }
