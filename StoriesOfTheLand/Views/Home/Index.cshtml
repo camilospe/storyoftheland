@@ -36,5 +36,16 @@
     }
 </div>
 
-
+@section footer {
+    <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center">
+            @foreach (var item in Model)
+            {
+                <div class="col-sm mx-auto p-2 justify-content-center">
+                    <img src="/images/@item.SponsorImagePath" style="max-width: 150px; max-height: 100px;">
+                </div>
+            }
+        </div>
+    </div>
+}
 

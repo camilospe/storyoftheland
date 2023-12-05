@@ -1,6 +1,17 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
+    font-family: "HCo Gotham SSm",Arial,Helvetica;
 }
+
+html, body {
+    font-family: "HCo Gotham SSm",Arial,Helvetica;
+    padding: 0;
+    margin: 0;
+    font-size: 16px;
+    box-sizing: border-box;
+    scroll-behavior: smooth
+}
+
 
 @media (min-width: 768px) {
   html {
@@ -18,15 +29,54 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    max-width: 1280px;
+    position: relative;
+    display: block;
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto 100px auto;
+    padding: 0 10px
 }
 
-.footer-top {
-    background-color: #743c97;
-    height: 5px;
+footer {
     width: 100%;
 }
 
+
+h1 {
+    font-weight: 700;
+    font-family: "HCo Gotham SSm",Arial,Helvetica;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 2rem;
+    line-height: 2.3rem;
+    color: #222
+}
+
+h2 {
+    font-family: "HCo Gotham SSm",Arial,Helvetica;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 1.6rem;
+    line-height: 1.9rem;
+    color: #222
+}
+
 h3 {
-    color: #743c97;
+    font-family: "HCo Gotham SSm",Arial,Helvetica;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 1.438rem;
+    line-height: 1.688rem;
+    color: #743c97
+}
+
+h4 {
+    font-family: "HCo Gotham SSm",Arial,Helvetica;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 1.313rem;
+    line-height: 1.5rem;
+    color: #743c97
 }
