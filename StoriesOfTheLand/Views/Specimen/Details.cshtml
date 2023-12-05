@@ -118,7 +118,7 @@
     @* QR Code *@
     <div class="collapse" id="qrCollapse">
         <div class="text-center mt-1" id="qrCodeDiv">
-            <img class="border" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(qrCodeBytes))" alt="@Model.EnglishName" />
+            <img class="border" alt="@Model.EnglishName" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(qrCodeBytes))" />
             <p>@Model.EnglishName QR Code</p>
         </div>
     </div>

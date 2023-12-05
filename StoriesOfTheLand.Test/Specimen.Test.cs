@@ -651,7 +651,7 @@ namespace StoriesOfTheLand.Test
         public void TestThatViewQRCodeButtonDisplaysQRCode()
         {
             // Eventually want this URL as a global variable
-            string url = "https://storiesoftheland-app-20231204104.mangohill-c81df601.canadacentral.azurecontainerapps.io/Specimen/Details/1";
+            string url = "https://storiesoftheland.azurewebsites.net/Specimen/Details/1";
 
             // Make a request to the URL
             HttpResponseMessage response = httpClient.GetAsync(url).Result;
@@ -664,7 +664,8 @@ namespace StoriesOfTheLand.Test
 
             // Perform assertions or checks on the HTML content
             // May have to change this
-            Assert.IsTrue(htmlContent.Contains("<img class=\"border\" src=\"@String.Format(\"data:image/png;base64,{0}\", Convert.ToBase64String(qrCodeBytes))\" alt=\"@Model.EnglishName\"/>"), "Expected content not found in HTML");
+            Assert.IsTrue(htmlContent.Contains("class=\"border\""), "Expected content not found in HTML");
+            Assert.IsTrue(htmlContent.Contains("alt=\"Velvet Leaf Blueberry\""), "Expected content not found in HTML");
 
         }
 
