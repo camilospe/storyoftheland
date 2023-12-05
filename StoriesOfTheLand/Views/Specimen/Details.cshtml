@@ -12,7 +12,7 @@
     @*Display For displays the model's property, in this case, it's a Latin Name*@
     <div>
     <h3>English Name</h3>
-   Test
+        @Html.DisplayFor(model => model.EnglishName)
     </div>
     @if (!string.IsNullOrWhiteSpace(Model.CreeName))
     {

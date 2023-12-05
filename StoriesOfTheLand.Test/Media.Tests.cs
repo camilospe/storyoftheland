@@ -25,16 +25,9 @@ using System.Net;
 namespace StoriesOfTheLand.Test
 {
 
-
-   
-
-
-
     public class MediaTests
     {
         private Media MediaObject;
-        private SpecimenController _controller;
-        private StoriesOfTheLandContext _context;
 
         [SetUp]
         public void SetUp()
@@ -44,31 +37,6 @@ namespace StoriesOfTheLand.Test
                 SpecimenImagePath = "abc.png,abc.jpg",
                 SpecimenAudioPath = "abc.mp3"
             };
-
-           
-            //set up database
-            var options = new DbContextOptionsBuilder<StoriesOfTheLandContext>().UseInMemoryDatabase(databaseName: "newDB").Options;
-
-            //create a new context
-            _context = new StoriesOfTheLandContext(options);
-
-            //create a new controller
-            _controller = new SpecimenController(_context);
-
-
-            _context.Specimen.AddRange(
-                new Specimen
-                {
-
-                    SpecimenMedia= new Media
-                    {
-                        SpecimenImagePath = "abc.png,abc.jpg",
-                        SpecimenAudioPath = "abc.mp3"
-                    }
-                }
-                
-             );
-         
         }
         #region FunctionalTests
          [TestFixture]
@@ -79,7 +47,6 @@ namespace StoriesOfTheLand.Test
             [Test]
             public void TestCarouselHTMLIfThereIsMoreThanOneImage()
             {
-                // Replace "your_url_here" with the actual URL you want to test
                 string url = "https://storiesoftheland-app-20231204104.mangohill-c81df601.canadacentral.azurecontainerapps.io/Specimen/Details/1";
 
                 // Make a request to the URL
@@ -94,13 +61,11 @@ namespace StoriesOfTheLand.Test
                 // Perform assertions or checks on the HTML content
                 Assert.IsTrue(htmlContent.Contains("<div id=\"carouselExampleControls\" class=\"carousel slide\" data-bs-ride=\"carousel\">"), "Expected content not found in HTML");
 
-                // You can perform more checks or validations here
             }
 
             [Test]
             public void TestNoCarouselHTMLIfThereIsOneImage()
             {
-                // Replace "your_url_here" with the actual URL you want to test
                 string url = "https://storiesoftheland-app-20231204104.mangohill-c81df601.canadacentral.azurecontainerapps.io/Specimen/Details/2";
 
                 // Make a request to the URL
@@ -115,12 +80,10 @@ namespace StoriesOfTheLand.Test
                 // Perform assertions or checks on the HTML content
                 Assert.IsTrue(htmlContent.Contains("<div id=\"oneImage\">"), "Expected content not found in HTML");
 
-                // You can perform more checks or validations here
             }
             [Test]
             public void TestNoImageHTMLIfThereIsNoImage()
             {
-                // Replace "your_url_here" with the actual URL you want to test
                 string url = "https://storiesoftheland-app-20231204104.mangohill-c81df601.canadacentral.azurecontainerapps.io/Specimen/Details/6";
 
                 // Make a request to the URL
@@ -136,13 +99,11 @@ namespace StoriesOfTheLand.Test
                 Assert.IsFalse(htmlContent.Contains("<div id=\"carouselExampleControls\" class=\"carousel slide\" data-bs-ride=\"carousel\">"), "Expected content not found in HTML");
                 Assert.IsFalse(htmlContent.Contains("<div id=\"oneImage\">"), "Expected content not found in HTML");
 
-                // You can perform more checks or validations here
             }
 
             [Test]
             public void TestAudioPlayerIfThereIsAnAudioFile()
             {
-                // Replace "your_url_here" with the actual URL you want to test
                 string url = "https://storiesoftheland-app-20231204104.mangohill-c81df601.canadacentral.azurecontainerapps.io/Specimen/Details/1";
 
                 // Make a request to the URL
@@ -157,13 +118,11 @@ namespace StoriesOfTheLand.Test
                 // Perform assertions or checks on the HTML content
                 Assert.IsTrue(htmlContent.Contains("<audio controls>"), "Expected content not found in HTML");
 
-                // You can perform more checks or validations here
             }
 
             [Test]
             public void TestNoAudioPlayerIfThereIsNoAudioFile()
             {
-                // Replace "your_url_here" with the actual URL you want to test
                 string url = "https://storiesoftheland-app-20231204104.mangohill-c81df601.canadacentral.azurecontainerapps.io/Specimen/Details/2";
 
                 // Make a request to the URL
@@ -178,7 +137,6 @@ namespace StoriesOfTheLand.Test
                 // Perform assertions or checks on the HTML content
                 Assert.IsFalse(htmlContent.Contains("<audio controls>"), "Expected content not found in HTML");
 
-                // You can perform more checks or validations here
             }
         }
         
