@@ -642,6 +642,34 @@ namespace StoriesOfTheLand.Test
             Assert.That(result.Result, Is.InstanceOf<ViewResult>());
         }
         #endregion
+
+        #region QR Code Functional Tests
+
+        private static readonly HttpClient httpClient = new HttpClient();
+
+        [Test]
+        public void TestThatViewQRCodeButtonDisplaysQRCode()
+        {
+            // Eventually want this URL as a global variable
+            string url = "https://storiesoftheland-app-20231204104.mangohill-c81df601.canadacentral.azurecontainerapps.io/Specimen/Details/1";
+
+            // Make a request to the URL
+            HttpResponseMessage response = httpClient.GetAsync(url).Result;
+
+            // Ensure the request was successful
+            Assert.IsTrue(response.IsSuccessStatusCode, $"Failed to retrieve content from {url}. Status code: {response.StatusCode}");
+
+            // Read the HTML content from the response
+            string htmlContent = response.Content.ReadAsStringAsync().Result;
+
+            // Perform assertions or checks on the HTML content
+            // May have to change this
+            Assert.IsTrue(htmlContent.Contains("<img class=\"border\" src=\"@String.Format(\"data:image/png;base64,{0}\", Convert.ToBase64String(qrCodeBytes))\" alt=\"@Model.EnglishName\"/>"), "Expected content not found in HTML");
+
+        }
+
+        #endregion
+
     }
 
 }
