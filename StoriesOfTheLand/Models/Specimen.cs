@@ -50,13 +50,6 @@ namespace StoriesOfTheLand.Models
          * paragraph or paragraphs and has only length as a constraint */
         public string CulturalSignificance { get; set; }
 
-        // This method will use the qr code API to generate a qr code containing the URL of this Specimen (based on it's ID).
-        // The QR code will be saved as a png (in StoriesOfTheLand\wwwroot\qrcodes\) and the SpecimenQRCodePath property will
-        // be set to the path of that png.
-        // Returns the QR Code Path
-        // Note: The QR code generated is static, not dynamic. This means that the URL in contained in its data is not editable afterwards.
-        //public string generateQRCode() { }
-
         
     }
 }

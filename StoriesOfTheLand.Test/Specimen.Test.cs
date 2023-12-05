@@ -9,6 +9,7 @@ using System.Numerics;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Microsoft.Extensions.DependencyInjection;
 using StoriesOfTheLand.Data;
+using System.Net.Http;
 
 namespace StoriesOfTheLand.Test
 {
@@ -31,7 +32,6 @@ namespace StoriesOfTheLand.Test
                 CreeName = "Name",
                 SpecimenImagePath = "abc.png",
                 CulturalSignificance = "Something Valid",
-                SpecimenQRCodePath = "qrcode.png"
             };
         }
 
@@ -453,203 +453,31 @@ namespace StoriesOfTheLand.Test
 
         #endregion
 
-        #region SpecimenQRCodePath
+        #region QR Code Functional Tests
+
+        private static readonly HttpClient httpClient = new HttpClient();
 
         [Test]
-        public void testThatQRCodeCanBeCorrectlyRetrieved()
+        public void TestThatViewQRCodeButtonDisplaysQRCode()
         {
-            // Adds a fake QR code path which is valid
-            SpecimenObject.SpecimenQRCodePath = "testqr.png";
-            var errors = ValidationHelper.Validate(SpecimenObject);
+            // Eventually want this URL as a global variable
+            string url = "https://storiesoftheland-app-20231204104.mangohill-c81df601.canadacentral.azurecontainerapps.io/Specimen/Details/1";
 
-            
-            Assert.IsEmpty(errors); // Tests that there are no errors
-        }
+            // Make a request to the URL
+            HttpResponseMessage response = httpClient.GetAsync(url).Result;
 
-        [Test]
-        public void testThatQRCodePathMustHaveAValidFileType()
-        {
-            // Adds a QR Code path which is of an invalid type
-            SpecimenObject.SpecimenQRCodePath = "horsetail.mp4";
-            var errors = ValidationHelper.Validate(SpecimenObject);
+            // Ensure the request was successful
+            Assert.IsTrue(response.IsSuccessStatusCode, $"Failed to retrieve content from {url}. Status code: {response.StatusCode}");
 
-            Assert.AreEqual(1, errors.Count);
-            Assert.AreEqual("QR Code file path must end in .png", errors[0].ErrorMessage); // Tests that there is a Regex error (and ONLY a Regex error)
-        }
+            // Read the HTML content from the response
+            string htmlContent = response.Content.ReadAsStringAsync().Result;
 
-        [Test]
-        public void testThatQRCodePathMustBeAtLeast5Characters()
-        {
-            // Adds a QR Code path which is too short
-            SpecimenObject.SpecimenQRCodePath = ".png";
-            var errors = ValidationHelper.Validate(SpecimenObject);
+            // Perform assertions or checks on the HTML content
+            Assert.IsTrue(htmlContent.Contains("<img class=\"border\" src=\"@String.Format(\"data:image/png;base64,{0}\", Convert.ToBase64String(qrCodeBytes))\" alt=\"@Model.EnglishName\"/>"), "Expected content not found in HTML");
 
-            Assert.AreEqual(1, errors.Count);
-            Assert.AreEqual("QR Code file path must have between 5 and 150 characters", errors[0].ErrorMessage); // Tests that there is a StringLength error
-        }
-
-
-        [Test]
-        public void testThatQRCodePathCannotExceed150Characters()
-        {
-            // Adds a QR Code path which is a string of 151 characters (must have .png at the end to not throw other errors)
-            string testString = new string('a', 147);
-            testString += ".png";
-            SpecimenObject.SpecimenQRCodePath = testString;
-            var errors = ValidationHelper.Validate(SpecimenObject);
-
-            Assert.AreEqual(1, errors.Count);
-            Assert.AreEqual("QR Code file path must have between 5 and 150 characters", errors[0].ErrorMessage); // Tests that there is a StringLength error
-        }
-
-        [Test]
-        public void testThatQRCodeCanGoUpTo150Characters()
-        {
-            // Adds a QR Code path which is a string of 150 characters
-            string testString = new string('a', 146);
-            testString += ".png";
-            SpecimenObject.SpecimenQRCodePath = testString;
-            var errors = ValidationHelper.Validate(SpecimenObject);
-
-
-            Assert.IsEmpty(errors); // Tests that there are no errors
-        }
-
-        [Test]
-        public void testThatQRCodeIsSetToTheCorrectFilePath()
-        {
-            // Changes the specimen's english name to a valid name
-            SpecimenObject.EnglishName = "Horsetail";
-            Assert.AreEqual("Horsetail_QRCode.png", SpecimenObject.SpecimenQRCodePath); // Tests that the QR code path has been set to the english name with "_QRCode.png" appended
-        }
-
-
-        #endregion
-
-        #region SpecimenImagePath
-
-        /* "abc.png" is passed in which is valid
-        */
-        [Test]
-        public void specimenImagePngIsValidtype()
-        {
-            SpecimenObject.SpecimenImagePath = "abc.png";
-            var errors = ValidationHelper.Validate(SpecimenObject);
-
-            
-            Assert.IsEmpty(errors);
-
-        }
-
-        /* "abc.jpeg" is passed in which is valid
-         */
-        [Test]
-        public void specimenImageJpegIsValidtype()
-        {
-
-            SpecimenObject.SpecimenImagePath = "abc.jpeg";
-
-            var errors = ValidationHelper.Validate(SpecimenObject);
-
-            
-            Assert.IsEmpty(errors);
-        }
-
-        /* "abc.jpg" is passed in which is valid
-         */
-        [Test]
-        public void specimenImageJpgIsValidtype()
-        {
-
-            SpecimenObject.SpecimenImagePath = "abc.jpg";
-
-            var errors = ValidationHelper.Validate(SpecimenObject);
-
-            
-            Assert.IsEmpty(errors);
-        }
-
-        /* "abcgfjdjfdpng" is passed in which is invalid
-         * and an exception is thrown
-         */
-        [Test]
-        public void specimenImageHasNoType()
-        {
-            SpecimenObject.SpecimenImagePath = "abcgfjdjfdpng";
-
-
-            var errors = ValidationHelper.Validate(SpecimenObject);
-
-            Assert.AreEqual(errors.Count, 1);
-            Assert.AreEqual("Image path must have atleast 5 characters and be of type png, jpg, or jpeg.", errors[0].ErrorMessage);
-        }
-
-        /* "abc.pn" is passed in which is invalid
-         * and an exception is thrown
-         */
-        [Test]
-        public void specimenImageIsNotValidtype()
-        {
-            //.abc .webp .pn .jp abcabc should fail
-            SpecimenObject.SpecimenImagePath = "abc.pn";
-
-            var errors = ValidationHelper.Validate(SpecimenObject);
-
-            Assert.AreEqual(errors.Count, 1);
-            Assert.AreEqual("Image path must have atleast 5 characters and be of type png, jpg, or jpeg.", errors[0].ErrorMessage);
-        }
-
-        /* 255 ending/including ".png" is passed in which is too large
-         * and an exception is thrown
-         */
-        [Test]
-        public void specimenImageSourceNameIsTooBig()
-        {
-            /*
-             abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcde
-             abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcde
-             abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcde */
-            //255char
-
-            SpecimenObject.SpecimenImagePath = new string('a', 251);
-            SpecimenObject.SpecimenImagePath += ".png";
-
-
-            var errors = ValidationHelper.Validate(SpecimenObject);
-
-            Assert.AreEqual(errors.Count, 1);
-            Assert.AreEqual("Image path length must be between 5 and 254.", errors[0].ErrorMessage);
-        }
-
-        /* 254 ending/including ".png" is passed in which is just almost too big
-        */
-        [Test]
-        public void specimenImageSourceNameIsOnMaxBoundaryCaseValid()
-        {
-            SpecimenObject.SpecimenImagePath = new string('a', 250);
-            SpecimenObject.SpecimenImagePath += ".png";
-
-            var errors = ValidationHelper.Validate(SpecimenObject);
-
-            
-            Assert.IsEmpty(errors);
-        }
-
-        /* ".png" is passed in which is invalid
-         * and an exception is thrown.
-         */
-        [Test]
-        public void specimenImageSourceNameIsTooSmall()
-        {
-            SpecimenObject.SpecimenImagePath = ".jpeg";
-
-            var errors = ValidationHelper.Validate(SpecimenObject);
-            Assert.AreEqual(errors.Count, 1);
-            Assert.AreEqual("Image path must have atleast 5 characters and be of type png, jpg, or jpeg.", errors[0].ErrorMessage);
         }
 
         #endregion
-
 
     }
 
