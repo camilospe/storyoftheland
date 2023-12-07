@@ -63,7 +63,7 @@ namespace StoriesOfTheLand.Test
             [Test]
             public void testSponsorListNotEmpty()
             {
-                string url = "https://storiesoftheland20231206200631.azurewebsites.net/";
+                string url = "https://storiesoftheland-app-20231206210.greenrock-f1e4ba9c.eastus.azurecontainerapps.io/";
 
                 HttpResponseMessage response = httpClient.GetAsync(url).Result;
 
