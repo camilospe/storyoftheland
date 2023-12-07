@@ -6,18 +6,26 @@ using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
 using NUnit.Framework;
 using System.Numerics;
+using System.Linq;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Microsoft.Extensions.DependencyInjection;
 using StoriesOfTheLand.Data;
+using StoriesOfTheLand.Controllers;
+using Moq;
+using Microsoft.Extensions.Options;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 
 namespace StoriesOfTheLand.Test
 {
-   
+
     public class Tests
     {
         private Specimen SpecimenObject;
         private string SpecimenDescriptionError = "SpecimenDescription length must be between 10 and 5000";
-
+        private SpecimenController _controller;
+        private StoriesOfTheLandContext _context;
+        private List<Specimen> Specimens;
 
         [SetUp]
         public void SetUp()
@@ -29,12 +37,103 @@ namespace StoriesOfTheLand.Test
                 SpecimenDescription = new string('a', 11),
                 LatinName = new string('a', 10),
                 CreeName = "Name",
-                SpecimenImagePath = "abc.png",
-                CulturalSignificance = "Something Valid"
+                CulturalSignificance = "Something Valid",
+                
             };
+            //Necesarry for functionally testing, sets up the db
+            var options = new DbContextOptionsBuilder<StoriesOfTheLandContext>().UseInMemoryDatabase(databaseName: "TestDB").Options;
+            //Create a context based on options
+            _context = new StoriesOfTheLandContext(options);
+            //Create a controller based on the context
+            _controller = new SpecimenController(_context);
+            Specimens = new List<Specimen>();
+            Specimens.Add(
+                new Specimen
+                {
+                    SpecimenDescription = //Blueberry
+                            @"A small shrub, 10-50cm tall, growing in sandy or gravel soils. It thrives in clearings of coniferous stands of the boreal forest. 
+                             This woody plant can grow in dense clusters and is characterized by its soft, lance-shaped, velvety leaves. The spring flowers are shaped like delicate white urns,
+                             which develop into the petite, blue fruit, familiar to all “pickers”!",
+                    LatinName = "Vaccinium myrtilloides",
+                    EnglishName = "Velvet Leaf Blueberry",
+                    CreeName = "Idinimin",
+                    SpecimenMedia = new Media
+                    {
+                        SpecimenImagePath = "blueberry.png"
+                      
+                    },
+                    CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs."
+                });
+            Specimens.Add(
+            new Specimen
+            {
+                SpecimenDescription = //Horsetail
+                            @"Horsetail plants tend to favour cool, moist, forested areas. Species grow from low to the ground to 1m tall. All horsetails are characterized by jointed, grooved, 
+                            hollow stems with a honeycomb like top where the spores are housed. Horsetails reproduce by spores as apposed to seed. 
+                           They are ancient primitive plants dating back over 300 million years!",
+                LatinName = "Equisetum species",
+                EnglishName = "Horsetail",
+                SpecimenMedia = new Media
+                {
+                    SpecimenImagePath = "Horsetail.png"
+
+                },
+                CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs."
+            });
+            Specimens.Add(
+            new Specimen
+            {
+                SpecimenDescription = //Labrador Tea
+                            @"Labrador tea is a low shrub found in bogs, swamps, and moist lowland woods in nutrient poor soil. This plant keeps its leaves all year round though they 
+                            often turn brownish orange in the winter. The leaves alternate around the stem like a spiral staircase. The leaves are thick and leathery with orange fuzzy hairs 
+                            on the underside. White coloured flowers sit on top of the plant.",
+                LatinName = "Ledum groenlandicum",
+                EnglishName = "Labrador Tea",
+                CreeName = "Maskêkopakwa",
+                SpecimenMedia = new Media
+                {
+                    SpecimenImagePath = "LabradorTea.png"
+
+                }, 
+                CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs."
+            });
+            Specimens.Add(
+            new Specimen
+            {
+                SpecimenDescription = //Lungwort
+                @"Lungwort is an erect, perennial plant, (growing from 20-80cm tall) commonly found in moist woods, and meadows. 
+                It has wide pointed leaves that alternate up the stem and pink or blue bell-shaped flowers on bowing branches
+                Leaves are covered with short hairs making them feel rough to the touch. ",
+                LatinName = "Mertensia paniculata",
+                EnglishName = "Lungwort",
+                SpecimenMedia = new Media
+                {
+                    SpecimenImagePath = "Lungwort.png"
+
+                },
+                CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs."
+            });
+            Specimens.Add(
+            new Specimen
+            {
+                SpecimenDescription = //Mint
+                @"Wild mint is found in moist soil, on shorelines, stream banks and damp clearings. It can grow from 10-60cm tall, 
+                has serrated leaves in pairs around a square stem and small, purple-pink flowers in dense whorls at the base of the leaves. Walking on or 
+                disturbing mint releases the familiar mint smell.",
+                LatinName = "Mentha arvensis",
+                EnglishName = "Wild Mint",
+                CreeName = "Amiskowihkask",
+                SpecimenMedia = new Media
+                {
+                    SpecimenImagePath = "mint.png"
+
+                },
+                CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs."
+
+             }
+            );
         }
-
-
+       
         #region EnglishName
         [Test]
         //test invlaid upper bounds by entering 51 characters
@@ -452,130 +551,125 @@ namespace StoriesOfTheLand.Test
 
         #endregion
 
-        #region SpecimenImagePath
+       
 
-        /* "abc.png" is passed in which is valid
+        #region ViewSpecimenIndex
+        /*
+         * Check to see that the Specimen Index for English Common Name displays in Alphabetical Order
+         * When English Common Name is selected
+         */
+        [Test]
+        public void TestSpecimenEnglishCommonNameDisplaysInAlphabeticalOrder()
+        {
+            Specimens = Specimens.OrderBy(s => s.EnglishName).ToList();
+            Assert.AreEqual("Horsetail", Specimens[0].EnglishName);
+            Assert.AreEqual("Wild Mint", Specimens[4].EnglishName);
+
+        }
+
+        /*
+         * Check to see that the Specimen Index for English Common Name displays in Reverse Alphabetical Order
+         * When English Common Name is selected
+         */
+        [Test]
+        public void TestSpecimenEnglishCommonNameDisplaysInReverseAlphabeticalOrder()
+        {
+            Specimens = Specimens.OrderByDescending(s => s.EnglishName).ToList();
+            Assert.AreEqual("Wild Mint", Specimens[0].EnglishName);
+            Assert.AreEqual("Horsetail", Specimens[4].EnglishName);
+        }
+
+        /*
+         * Check to see that the Specimen Index for Latin Name displays in Reverse Alphabetical Order
+         * When Latin Name is selected
+         */
+        [Test]
+        public void TestSpecimenLatinNameDisplaysInAlphabeticalOrder()
+        {
+            Specimens = Specimens.OrderBy(s => s.LatinName).ToList();
+            Assert.AreEqual("Equisetum species", Specimens[0].LatinName);
+            Assert.AreEqual("Vaccinium myrtilloides", Specimens[4].LatinName);
+        }
+
+        /*
+         * Check to see that the Specimen Index for Latin Name displays in Reverse Alphabetical Order
+         * When Latin Name is selected
+         */
+        [Test]
+        public void TestSpecimenLatinNameDisplaysInReverseAlphabeticalOrder()
+        {
+            Specimens = Specimens.OrderByDescending(s => s.LatinName).ToList();
+            Assert.AreEqual("Vaccinium myrtilloides", Specimens[0].LatinName);
+            Assert.AreEqual("Equisetum species", Specimens[4].LatinName);
+        }
+
+        /*
+         * Check to see that the Specimen Index for Cree Name displays in Reverse Alphabetical Order
+         * When Cree Name is selected
+         */
+        [Test]
+        public void TestSpecimenCreeNameDisplaysInAlphabeticalOrder()
+        {
+            Specimens = Specimens.OrderBy(s => s.CreeName).ToList();
+            Assert.AreEqual(null, Specimens[0].CreeName);
+            Assert.AreEqual("Maskêkopakwa", Specimens[4].CreeName);
+        }
+
+        /*
+         * Check to see that the Specimen Index for Cree Name displays in Reverse Alphabetical Order
+         * When Cree Name is selected
         */
         [Test]
-        public void specimenImagePngIsValidtype()
+        public void TestSpecimenCreeNameDisplaysInReverseAlphabeticalOrder()
         {
-            SpecimenObject.SpecimenImagePath = "abc.png";
-            var errors = ValidationHelper.Validate(SpecimenObject);
 
+            Specimens = Specimens.OrderByDescending(s => s.CreeName).ToList();
+            Assert.AreEqual("Maskêkopakwa", Specimens[0].CreeName);
+            Assert.AreEqual(null, Specimens[4].CreeName);
+        }
+        /*
+         * Check to see that the index method in the mock controller returns an appropriate
+         * view. If it does not return a view, it fails.
+         * Source: https://stackoverflow.com/questions/27428796/how-do-i-get-the-result-or-return-value-of-a-task
+         */
+        [Test]
+        public void TestHttpPostFunctionality()
+        {
+            // Obtain the Controller's index method results after being called. 
+            var result = _controller.Index("Search", "Sort");
             
-            Assert.IsEmpty(errors);
-
+            //If the result returns a View, it passes and it it doesn't return the view it fails. 
+            Assert.That(result.Result, Is.InstanceOf<ViewResult>());
         }
+        #endregion
 
-        /* "abc.jpeg" is passed in which is valid
-         */
+        #region QR Code Functional Tests
+
+        private static readonly HttpClient httpClient = new HttpClient();
+
         [Test]
-        public void specimenImageJpegIsValidtype()
+        public void TestThatViewQRCodeButtonDisplaysQRCode()
         {
+            // Eventually want this URL as a global variable
+            string url = "https://storiesoftheland.azurewebsites.net/Specimen/Details/1";
 
-            SpecimenObject.SpecimenImagePath = "abc.jpeg";
+            // Make a request to the URL
+            HttpResponseMessage response = httpClient.GetAsync(url).Result;
 
-            var errors = ValidationHelper.Validate(SpecimenObject);
+            // Ensure the request was successful
+            Assert.IsTrue(response.IsSuccessStatusCode, $"Failed to retrieve content from {url}. Status code: {response.StatusCode}");
 
-            
-            Assert.IsEmpty(errors);
-        }
+            // Read the HTML content from the response
+            string htmlContent = response.Content.ReadAsStringAsync().Result;
 
-        /* "abc.jpg" is passed in which is valid
-         */
-        [Test]
-        public void specimenImageJpgIsValidtype()
-        {
+            // Perform assertions or checks on the HTML content
+            // May have to change this
+            Assert.IsTrue(htmlContent.Contains("class=\"border\""), "Expected content not found in HTML");
+            Assert.IsTrue(htmlContent.Contains("alt=\"Velvet Leaf Blueberry\""), "Expected content not found in HTML");
 
-            SpecimenObject.SpecimenImagePath = "abc.jpg";
-
-            var errors = ValidationHelper.Validate(SpecimenObject);
-
-            
-            Assert.IsEmpty(errors);
-        }
-
-        /* "abcgfjdjfdpng" is passed in which is invalid
-         * and an exception is thrown
-         */
-        [Test]
-        public void specimenImageHasNoType()
-        {
-            SpecimenObject.SpecimenImagePath = "abcgfjdjfdpng";
-
-
-            var errors = ValidationHelper.Validate(SpecimenObject);
-
-            Assert.AreEqual(errors.Count, 1);
-            Assert.AreEqual("Image path must have atleast 5 characters and be of type png, jpg, or jpeg.", errors[0].ErrorMessage);
-        }
-
-        /* "abc.pn" is passed in which is invalid
-         * and an exception is thrown
-         */
-        [Test]
-        public void specimenImageIsNotValidtype()
-        {
-            //.abc .webp .pn .jp abcabc should fail
-            SpecimenObject.SpecimenImagePath = "abc.pn";
-
-            var errors = ValidationHelper.Validate(SpecimenObject);
-
-            Assert.AreEqual(errors.Count, 1);
-            Assert.AreEqual("Image path must have atleast 5 characters and be of type png, jpg, or jpeg.", errors[0].ErrorMessage);
-        }
-
-        /* 255 ending/including ".png" is passed in which is too large
-         * and an exception is thrown
-         */
-        [Test]
-        public void specimenImageSourceNameIsTooBig()
-        {
-            /*
-             abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcde
-             abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcde
-             abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcde */
-            //255char
-
-            SpecimenObject.SpecimenImagePath = new string('a', 251);
-            SpecimenObject.SpecimenImagePath += ".png";
-
-
-            var errors = ValidationHelper.Validate(SpecimenObject);
-
-            Assert.AreEqual(errors.Count, 1);
-            Assert.AreEqual("Image path length must be between 5 and 254.", errors[0].ErrorMessage);
-        }
-
-        /* 254 ending/including ".png" is passed in which is just almost too big
-        */
-        [Test]
-        public void specimenImageSourceNameIsOnMaxBoundaryCaseValid()
-        {
-            SpecimenObject.SpecimenImagePath = new string('a', 250);
-            SpecimenObject.SpecimenImagePath += ".png";
-
-            var errors = ValidationHelper.Validate(SpecimenObject);
-
-            
-            Assert.IsEmpty(errors);
-        }
-
-        /* ".png" is passed in which is invalid
-         * and an exception is thrown.
-         */
-        [Test]
-        public void specimenImageSourceNameIsTooSmall()
-        {
-            SpecimenObject.SpecimenImagePath = ".jpeg";
-
-            var errors = ValidationHelper.Validate(SpecimenObject);
-            Assert.AreEqual(errors.Count, 1);
-            Assert.AreEqual("Image path must have atleast 5 characters and be of type png, jpg, or jpeg.", errors[0].ErrorMessage);
         }
 
         #endregion
-
 
     }
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using StoriesOfTheLand.Data;
 using System;
@@ -35,9 +36,14 @@ namespace StoriesOfTheLand.Models
                              which develop into the petite, blue fruit, familiar to all “pickers”!",
                             LatinName = "Vaccinium myrtilloides",
                             EnglishName = "Velvet Leaf Blueberry",
-                            CreeName = "Idinimin",
-                            SpecimenImagePath = "blueberry.png",
-                            CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs."
+                            CreeName = "Idinimin",              
+                            CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs.",                        
+                            SpecimenMedia = new Media
+                            {
+                                SpecimenImagePath= "blueberry.png,blueberry2.png",
+                                SpecimenAudioPath= "Blueberry.m4a"
+                                
+                            }
                         },
                         new Specimen
                         {
@@ -47,8 +53,11 @@ namespace StoriesOfTheLand.Models
                            They are ancient primitive plants dating back over 300 million years!",
                             LatinName = "Equisetum species",
                             EnglishName = "Horsetail",
-                            SpecimenImagePath = "Horsetail.png",
-                            CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs."
+                            CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs.",
+                            SpecimenMedia = new Media
+                            {
+                                SpecimenImagePath = "Horsetail.png"
+                            }
                         },
                         new Specimen
                         {
@@ -59,8 +68,12 @@ namespace StoriesOfTheLand.Models
                             LatinName = "Ledum groenlandicum",
                             EnglishName = "Labrador Tea",
                             CreeName = "Maskêkopakwa",
-                            SpecimenImagePath = "LabradorTea.png",
-                            CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs."
+                            CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs.",
+                            SpecimenMedia = new Media
+                            {
+                                SpecimenImagePath = "LabradorTea.png,LabTeaLeaves.png,LabTeaPlants.png"
+                            }
+
                         },
                         new Specimen
                         {
@@ -70,8 +83,11 @@ namespace StoriesOfTheLand.Models
                              Leaves are covered with short hairs making them feel rough to the touch. ",
                             LatinName = "Mertensia paniculata",
                             EnglishName = "Lungwort",
-                            SpecimenImagePath = "Lungwort.png",
-                            CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs."
+                            CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs.",
+                            SpecimenMedia = new Media
+                            {
+                                SpecimenImagePath = "Lungwort.png"
+                            }
                         },
                         new Specimen
                         {
@@ -82,18 +98,29 @@ namespace StoriesOfTheLand.Models
                             LatinName = "Mentha arvensis",
                             EnglishName = "Wild Mint",
                             CreeName = "Amiskowihkask",
-                            SpecimenImagePath = "mint.png",
-                            CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs."
+                            CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs.",
+                            SpecimenMedia = new Media
+                            {
+                                SpecimenImagePath = "mint.png",
+                                SpecimenAudioPath = "Mint.m4a"
+                            }
 
-                        }/*,
+                        },
                         new Specimen
                         {
                             SpecimenDescription = //Stinging Nettle
-                            "Stinging Nettle is found in moist open areas around stream/riverbanks, open low areas, thickets, and disturbed sites. It grows tall, usually 0.5m-2.0m," +
-                            " with square stems and narrow, toothed leaves in pairs around the stem. Tiny inconspicuous, greenish flowers form drooping clusters at the base of the leaves. " +
-                            "The plant spreads through underground stems called rhizomes. \r\nNote: Stinging Nettle has hairs on the leaves and stems that contain formic acid. " +
-                            "Handling or brushing up against any part of the plant can irritate the skin, causing a burning rash that can last for days!\r\n"
-                        },
+                            @"Stinging Nettle is found in moist open areas around stream/riverbanks, open low areas, thickets, and disturbed sites. It grows tall, usually 0.5m-2.0m, with square stems and narrow, toothed leaves in pairs around the stem. Tiny inconspicuous, greenish flowers form drooping clusters at the base of the leaves. 
+                            The plant spreads through underground stems called rhizomes. Note: Stinging Nettle has hairs on the leaves and stems that contain formic acid. 
+                            Handling or brushing up against any part of the plant can irritate the skin, causing a burning rash that can last for days!",
+                            LatinName = "Mentha arvensis",
+                            EnglishName = "Stinging Nettle",
+                            CreeName = "Amiskowihkask",
+                            CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs.",
+                            SpecimenMedia = new Media
+                             {
+                                 SpecimenImagePath = ""
+                             }
+                        }/*,
                         new Specimen
                         {
                             SpecimenDescription = //Paper Birch
@@ -130,7 +157,7 @@ namespace StoriesOfTheLand.Models
                             "It has both erect stems that grow 10-70cm tall and horizontal, underground stems called rhizomes that allow it to spread over an area.  "
                         }*/
 
-                    );
+                    ) ;
 
                 context.SaveChanges();
 

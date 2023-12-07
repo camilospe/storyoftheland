@@ -1,7 +1,10 @@
-@model StoriesOfTheLand.Models.Specimen
+@model StoriesOfTheLand.Models.Specimen;
+
+
 @{
     ViewData["Title"] = Model.SpecimenID;
 }
+
 
 
 @* Display the Specimen's Latin Name *@
@@ -9,7 +12,7 @@
     @*Display For displays the model's property, in this case, it's a Latin Name*@
     <div>
     <h3>English Name</h3>
-    @Html.DisplayFor(model => model.EnglishName)
+        @Html.DisplayFor(model => model.EnglishName)
     </div>
     @if (!string.IsNullOrWhiteSpace(Model.CreeName))
     {
@@ -18,6 +21,16 @@
         <div>
             @Html.DisplayFor(model => model.CreeName)
         </div>
+        @*Display the audio player for the cree name if there is a path for it*@
+            @if (!string.IsNullOrEmpty(Model.SpecimenMedia.SpecimenAudioPath))
+            {
+                <div>
+                    <audio controls>
+                        <source src="/audio/@Model.SpecimenMedia.SpecimenAudioPath" type="audio/mp3">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+            }
     </div>
     }
     <div>
@@ -25,10 +38,48 @@
         @Html.DisplayFor(model => model.LatinName)
     </div>
 
-    <div>
-        <img src="/images/@Model.SpecimenImagePath" alt="@Model.SpecimenImagePath" width="320px" class="img-thumbnail" />
-    </div>
-
+    @if (Model.SpecimenMedia.SpecimenImagePath != "")
+    {
+        <div class="h-40 d-flex align-items-center justify-content-center" style="height: 350px;">
+            @*If the SpecimenImagePath split is more than one we will make a carousel*@
+            @if (Model.SpecimenMedia.SpecimenImagePath.Split(',').Length > 1)
+            {
+                <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        @if (!string.IsNullOrWhiteSpace(Model.SpecimenMedia.SpecimenImagePath))
+                        {
+                            @*creates an array of strings split by the comma in the specimenImagePath*@
+                            string[] imagePaths = Model.SpecimenMedia.SpecimenImagePath.Split(',');
+                            @*for every image we will have carousel item for*@
+                            for (int i = 0; i < imagePaths.Length; i++)
+                            {
+                                <div class="carousel-item @(i == 0 ? "active" : "")">
+                                    <img src="/images/@imagePaths[i].Trim()" alt="@imagePaths[i].Trim()" style="width: 400px; height: 350px; object-fit: contain;">
+                                </div>
+                            }
+                        }
+                    </div>
+                    @*Button to go the the previous image in the carousel*@
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    @*Button to go the the next image in the carousel*@
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            }
+            @*Else we would just show the one image that is not in a carousel*@
+            else
+            {
+                <div id="oneImage">
+                    <img src="/images/@Model.SpecimenMedia.SpecimenImagePath" alt="@Model.SpecimenMedia.SpecimenImagePath" style="width: 400px; height: 350px; object-fit: contain;" />
+                </div>
+            }
+        </div>
+    }
     <div class="overflow-auto">
         <h3>Cultural Significance</h3>
         @Html.DisplayFor(model => model.CulturalSignificance)
@@ -38,6 +89,40 @@
         <h3>Description</h3>
         @Html.DisplayFor(model => model.SpecimenDescription)
     </div>
+
+    @* QR Code Generation Code *@
+    @{
+        // This code block will dynamically generate the QR Code based on the current page's URL
+
+        // Because of how Core MVC works, this is done in a slightly odd way
+        // Url.Action builds a url using the current context's request scheme
+        // (essentially, it should build the same URL that is in the URL bar when viewing this details page)
+        String stringToEncode = Url.Action("Details", "Specimen", new { id = @Model.SpecimenID }, protocol: Context.Request.Scheme);
+
+        // Uses the QrCoder Library to generate a QR Code using the given URL string and display it
+        QRCoder.QRCodeGenerator qrGenerator = new QRCoder.QRCodeGenerator();
+        QRCoder.QRCodeData qrData = qrGenerator.CreateQrCode(stringToEncode, QRCoder.QRCodeGenerator.ECCLevel.M);
+        QRCoder.BitmapByteQRCode qrCode = new QRCoder.BitmapByteQRCode(qrData);
+
+        // Converts it into a Bitmap that can be displayed in the img HTML tag
+        byte[] qrCodeBytes = qrCode.GetGraphic(10, "#000000", "#ffffff"); // Can add a little bit of colour here
+    }
+
+    @* QR Code display toggle *@
+    <div class="text-center mt-5">
+        <button class="btn btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#qrCollapse" aria-expanded="false" aria-controls="qrCollapse">
+            Show/Hide the QR code for this specimen
+        </button>
+    </div>
+
+    @* QR Code *@
+    <div class="collapse" id="qrCollapse">
+        <div class="text-center mt-1" id="qrCodeDiv">
+            <img class="border" alt="@Model.EnglishName" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(qrCodeBytes))" />
+            <p>@Model.EnglishName QR Code</p>
+        </div>
+    </div>
+
 </div>
 
 @section footer {
