@@ -43,7 +43,7 @@ namespace StoriesOfTheLand.Controllers
                     ModelState.AddModelError(string.Empty, "A specimen with the same name(s) already exists. Please double check");
                     return View(specimen); // Return to the form with the current data and error message
                 }
-
+                Console.WriteLine("The media is "+specimen.SpecimenMedia.SpecimenImagePath);
                 // If no duplicates, proceed to add the new specimen
                 _context.Add(specimen);
                 await _context.SaveChangesAsync();

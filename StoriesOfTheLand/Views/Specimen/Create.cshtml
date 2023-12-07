@@ -42,17 +42,17 @@
                     <span asp-validation-for="CulturalSignificance" class="text-danger"></span>
                 </div>
 
-                <!-- Hidden field for Specimen Image Path with default value -->
+                <!-- Hidden field for Specimen Image Path with default value as empty -->
                 <div class="form-group mb-3" style="display: none;">
                     <label asp-for="SpecimenMedia.SpecimenImagePath" class="form-label">Image Path:</label>
-                    <input asp-for="SpecimenMedia.SpecimenImagePath" class="form-control" value="image.png" />
+                    <input asp-for="SpecimenMedia.SpecimenImagePath" class="form-control" />
                     <span asp-validation-for="SpecimenMedia.SpecimenImagePath" class="text-danger"></span>
                 </div>
 
-                <!-- Hidden field for Specimen Audio Path with default value -->
+                <!-- Hidden field for Specimen Audio Path with default value as empty -->
                 <div class="form-group mb-3" style="display: none;">
                     <label asp-for="SpecimenMedia.SpecimenAudioPath" class="form-label">Audio Path:</label>
-                    <input asp-for="SpecimenMedia.SpecimenAudioPath" class="form-control" value="audio.mp3" />
+                    <input asp-for="SpecimenMedia.SpecimenAudioPath" class="form-control" />
                     <span asp-validation-for="SpecimenMedia.SpecimenAudioPath" class="text-danger"></span>
                 </div>
                 <div class="text-center mt-5">
@@ -69,6 +69,21 @@
         <a asp-action="Index">Back to List</a>
     </div>
 </div>
+@section footer {
+    <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center">
+            <div class="col-sm mx-auto p-2 justify-content-center">
+                <img src="/images/Saskatchewan_Polytechnic_Logo.png" style="max-width: 150px; max-height: 100px;">
+            </div>
+            <div class="col-sm mx-auto p-2 justify-content-center">
+                <img src="/images/SWF-2-Circle-Logo-horizontal-2C-copy-2048x837.png" style="max-width: 150px; max-height: 100px;">
+            </div>
+            <div class="col-sm mx-auto p-2 justify-content-center">
+                <img src="/images/pa-grand-council-logo.jpg" style="max-width: 150px; max-height: 100px;">
+            </div>
+        </div>
+    </div>
+}
 
 @section Scripts {
     @{

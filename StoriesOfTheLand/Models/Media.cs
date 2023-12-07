@@ -9,7 +9,7 @@ namespace StoriesOfTheLand.Models
     public class Media
     {
         [Key]
-        public int Id { get; set; }
+        public int? Id { get; set; }
         
         [RegularExpression("(^(?:[^,\\s]+(\\.(?i)(jpe?g|png)))(?:,[^,\\s]+(\\.(?i)(jpe?g|png)))*$)", ErrorMessage = "Image file must be of type png, jpg, or jpeg")]
         [StringLength(254, ErrorMessage = "Image path length must be between 6 and 254", MinimumLength = 6)]

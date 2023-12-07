@@ -40,6 +40,6 @@ namespace StoriesOfTheLand.Models
          * paragraph or paragraphs and has only length as a constraint */
         public string CulturalSignificance { get; set; }
 
-        public Media SpecimenMedia { get; set; }
+        public Media? SpecimenMedia { get; set; }
     }
 }
