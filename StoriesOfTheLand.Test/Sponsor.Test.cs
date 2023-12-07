@@ -76,23 +76,6 @@ namespace StoriesOfTheLand.Test
                 Assert.IsTrue(htmlContent.Contains("<div id=\"partnerships\" class=\"partnerships\" data-bs-ride=\"partnerships\">"), "Expected content not found in HTML");
             }
 
-
-            [Test]
-            public void testSponsorListIsEmpty()
-            {
-               
-                string url = "https://storiesoftheland20231206200631.azurewebsites.net/";
-
-                HttpResponseMessage response = httpClient.GetAsync(url).Result;
-
-                // Ensure the request was successful
-                Assert.IsTrue(response.IsSuccessStatusCode, $"Failed to retrieve content from {url}. Status code: {response.StatusCode}");
-
-                // Read the HTML content from the response
-                string htmlContent = response.Content.ReadAsStringAsync().Result;
-
-                Assert.IsFalse(htmlContent.Contains("<div id=\"partnerships\" class=\"partnerships\" data-bs-ride=\"partnerships\">"), "Expected content not found in HTML");
-            }
         }
 
         [Test]
