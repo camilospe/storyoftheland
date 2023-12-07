@@ -64,6 +64,7 @@ namespace StoriesOfTheLand.Test
             public void testSponsorListNotEmpty()
             {
                 string url = "https://storiesoftheland-app-20231206210.greenrock-f1e4ba9c.eastus.azurecontainerapps.io/";
+                //put in enviroment variable or config file, no hard card url
 
                 HttpResponseMessage response = httpClient.GetAsync(url).Result;
 
@@ -91,15 +92,12 @@ namespace StoriesOfTheLand.Test
             var result = await _controller.Index();
             Assert.IsInstanceOf<ViewResult>(result);
             var model = ((ViewResult)result).Model;
-            //will fail because home controller index isnt returning a view with a model
+            
             Assert.IsNotNull(model);
             Assert.IsAssignableFrom<List<Sponsor>>(model);
         }
 
-        //put in tests for 0, 1 , 3 sponsors being returned
-        //test for html returns, if 1sponsor get xyz html if 2 get xyz html
-
-
+       
 
         #region sponsormodel
         [Test]

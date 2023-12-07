@@ -181,6 +181,13 @@ namespace StoriesOfTheLand.Models
                         SponsorName = "Prince Albert Grand Council",
                         SponsorURL = "https://www.pagc.sk.ca",
                         SponsorImagePath = "pa-grand-council-logo.jpg"
+                    },
+                    new Sponsor
+                    {
+                    
+                        SponsorName = "Saskatchewan Polytechnic1",
+                        SponsorURL = "https://saskpolytech.ca",
+                        SponsorImagePath = "Saskatchewan_Polytechnic_Logo.png"
                     }
                     );
                 context.SaveChanges();
