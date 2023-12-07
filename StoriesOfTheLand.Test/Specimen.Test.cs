@@ -15,6 +15,10 @@ using Moq;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
+
 
 namespace StoriesOfTheLand.Test
 {
@@ -26,6 +30,8 @@ namespace StoriesOfTheLand.Test
         private SpecimenController _controller;
         private StoriesOfTheLandContext _context;
         private List<Specimen> Specimens;
+        private Specimen NewSpecimen;
+        private string detailUrl;
 
         [SetUp]
         public void SetUp()
@@ -39,6 +45,15 @@ namespace StoriesOfTheLand.Test
                 CreeName = "Name",
                 CulturalSignificance = "Something Valid",
                 
+            };
+
+            NewSpecimen = new Specimen()
+            {
+                EnglishName = "English Name",
+                SpecimenDescription = "Valid Description",
+                LatinName = "Latin Name",
+                CreeName = "Cree Name",
+                CulturalSignificance = "Valid Significance",
             };
             //Necesarry for functionally testing, sets up the db
             var options = new DbContextOptionsBuilder<StoriesOfTheLandContext>().UseInMemoryDatabase(databaseName: "TestDB").Options;
@@ -670,7 +685,508 @@ namespace StoriesOfTheLand.Test
         }
 
         #endregion
+        #region CreateSpecimen
 
+        [Test]
+
+        public void TestOpenCreatePage()
+        {
+            // Eventually want this URL as a global variable
+            string url = "https://storiesoftheland-app-20231207012.blackstone-8fc98515.canadacentral.azurecontainerapps.io/Specimen/Create";
+
+            // Make a request to the URL
+            HttpResponseMessage response = httpClient.GetAsync(url).Result;
+
+            // Ensure the request was successful
+            Assert.IsTrue(response.IsSuccessStatusCode, $"Failed to retrieve content from {url}. Status code: {response.StatusCode}");
+
+            // Read the HTML content from the response
+            string htmlContent = response.Content.ReadAsStringAsync().Result;
+
+            // Check for form and its elements
+            Assert.IsTrue(htmlContent.Contains("form"), "Create form not found");
+            Console.WriteLine(htmlContent);
+            Assert.IsTrue(htmlContent.Contains(" <input class=\"form-control\" type=\"text\" data-val=\"true\" data-val-length=\"Name cannot be more than 50 characters\" data-val-length-max=\"50\" data-val-required=\"Latin Name is required\" id=\"LatinName\" maxlength=\"50\" name=\"LatinName\" value=\"\" />"), "Latin Name label text is incorrect or not found");
+        }
+
+        [Test]
+        public void TestThatRepeatedLatinNameSpecimenWontBeSavedIntoTheDatabase()
+        {
+            using (IWebDriver driver = new ChromeDriver())
+            {
+                string url = "https://storiesoftheland-app-20231207012.blackstone-8fc98515.canadacentral.azurecontainerapps.io/Specimen/Create";
+                driver.Navigate().GoToUrl(url);
+
+                void FillForm()
+                {
+                    driver.FindElement(By.Id("LatinName")).SendKeys("Vaccinium myrtilloides");
+                    driver.FindElement(By.Id("EnglishName")).SendKeys("Test English Name");
+                    driver.FindElement(By.Id("CreeName")).SendKeys("Test Cree Name");
+                    driver.FindElement(By.Id("SpecimenDescription")).SendKeys("Test Specimen Description");
+                    driver.FindElement(By.Id("CulturalSignificance")).SendKeys("Test Cultural Significance");
+                }
+
+                FillForm();
+
+                var button = driver.FindElement(By.CssSelector("button.btn.btn-secondary[type='submit']"));
+                string currentUrl = driver.Url; // Get the current URL before clicking the button
+
+                var attempts = 0;
+                while (attempts < 3)
+                {
+                    try
+                    {
+                        button.Click();
+                        break;
+                    }
+                    catch (ElementClickInterceptedException)
+                    {
+                        Thread.Sleep(1000); // Wait for 1 second before retrying
+                        attempts++;
+                    }
+                }
+
+                Thread.Sleep(1000);
+
+                // Check if the URL has changed
+                Assert.AreEqual(currentUrl, driver.Url, "The page did not redirect after form submission.");
+
+                driver.Quit();
+            }
+        }
+
+        [Test]
+        public void TestThatRepeatedEnglishNameSpecimenWontBeSavedIntoTheDatabase()
+        {
+            using (IWebDriver driver = new ChromeDriver())
+            {
+                string url = "https://storiesoftheland-app-20231207012.blackstone-8fc98515.canadacentral.azurecontainerapps.io/Specimen/Create";
+                driver.Navigate().GoToUrl(url);
+
+                void FillForm()
+                {
+                    driver.FindElement(By.Id("LatinName")).SendKeys("Test English Name");
+                    driver.FindElement(By.Id("EnglishName")).SendKeys("Lungwort");
+                    driver.FindElement(By.Id("CreeName")).SendKeys("Test Cree Name");
+                    driver.FindElement(By.Id("SpecimenDescription")).SendKeys("Test Specimen Description");
+                    driver.FindElement(By.Id("CulturalSignificance")).SendKeys("Test Cultural Significance");
+                }
+
+                FillForm();
+
+                var button = driver.FindElement(By.CssSelector("button.btn.btn-secondary[type='submit']"));
+                string currentUrl = driver.Url; // Get the current URL before clicking the button
+
+                var attempts = 0;
+                while (attempts < 3)
+                {
+                    try
+                    {
+                        button.Click();
+                        break;
+                    }
+                    catch (ElementClickInterceptedException)
+                    {
+                        Thread.Sleep(1000); // Wait for 1 second before retrying
+                        attempts++;
+                    }
+                }
+
+                Thread.Sleep(1000);
+
+                // Check if the URL has changed
+                Assert.AreEqual(currentUrl, driver.Url, "The page did not redirect after form submission.");
+
+                driver.Quit();
+            }
+        }
+
+        [Test]
+        public void TestThatRepeatedCreeNameSpecimenWontBeSavedIntoTheDatabase()
+        {
+            using (IWebDriver driver = new ChromeDriver())
+            {
+                string url = "https://storiesoftheland-app-20231207012.blackstone-8fc98515.canadacentral.azurecontainerapps.io/Specimen/Create";
+                driver.Navigate().GoToUrl(url);
+
+                void FillForm()
+                {
+                    driver.FindElement(By.Id("LatinName")).SendKeys("Test English Name");
+                    driver.FindElement(By.Id("EnglishName")).SendKeys("Test English");
+                    driver.FindElement(By.Id("CreeName")).SendKeys("Amiskowihkask");
+                    driver.FindElement(By.Id("SpecimenDescription")).SendKeys("Test Specimen Description");
+                    driver.FindElement(By.Id("CulturalSignificance")).SendKeys("Test Cultural Significance");
+                }
+
+                FillForm();
+
+                var button = driver.FindElement(By.CssSelector("button.btn.btn-secondary[type='submit']"));
+                string currentUrl = driver.Url; // Get the current URL before clicking the button
+
+                var attempts = 0;
+                while (attempts < 3)
+                {
+                    try
+                    {
+                        button.Click();
+                        break;
+                    }
+                    catch (ElementClickInterceptedException)
+                    {
+                        Thread.Sleep(1000); // Wait for 1 second before retrying
+                        attempts++;
+                    }
+                }
+
+                Thread.Sleep(1000);
+
+                // Check if the URL has changed
+                Assert.AreEqual(currentUrl, driver.Url, "The page did not redirect after form submission.");
+
+                driver.Quit();
+            }
+        }
+
+        [Test]
+        public void TestAddValidSpecimenRedirectsToIndex()
+        {
+            using (IWebDriver driver = new ChromeDriver())
+            {
+                string url = "https://storiesoftheland-app-20231207012.blackstone-8fc98515.canadacentral.azurecontainerapps.io/Specimen/Create";
+                driver.Navigate().GoToUrl(url);
+
+                // Function to generate a random 4-character string
+                string GenerateRandomString()
+                {
+                    var random = new Random();
+                    const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+                    return new string(Enumerable.Repeat(chars, 4).Select(s => s[random.Next(s.Length)]).ToArray());
+                }
+
+                // Function to fill the form with random data
+                void FillFormWithRandomData()
+                {
+                    driver.FindElement(By.Id("LatinName")).SendKeys(NewSpecimen.LatinName + GenerateRandomString());
+                    driver.FindElement(By.Id("EnglishName")).SendKeys(NewSpecimen.EnglishName + GenerateRandomString());
+                    driver.FindElement(By.Id("CreeName")).SendKeys(NewSpecimen.CreeName + GenerateRandomString());
+                    driver.FindElement(By.Id("SpecimenDescription")).SendKeys(NewSpecimen.SpecimenDescription + GenerateRandomString());
+                    driver.FindElement(By.Id("CulturalSignificance")).SendKeys(NewSpecimen.CulturalSignificance + GenerateRandomString());
+                }
+
+                FillFormWithRandomData();
+
+                var button = driver.FindElement(By.CssSelector("button.btn.btn-secondary[type='submit']"));
+                string currentUrl = driver.Url; // Get the current URL before clicking the button
+
+                var attempts = 0;
+                while (attempts < 3)
+                {
+                    try
+                    {
+                        button.Click();
+                        break;
+                    }
+                    catch (ElementClickInterceptedException)
+                    {
+                        Thread.Sleep(1000); // Wait for 1 second before retrying
+                        attempts++;
+                    }
+                }
+
+                Thread.Sleep(1000);
+
+                // Check if the URL has changed
+                Assert.AreNotEqual(currentUrl, driver.Url, "The page did not redirect after form submission.");
+
+                driver.Quit();
+            }
+        }
+        [Test]
+        public void TestAddValidSpecimenCountNumberOfSpecimens()
+        {
+            using (IWebDriver driver = new ChromeDriver())
+            {
+                string listUrl = "https://storiesoftheland-app-20231207012.blackstone-8fc98515.canadacentral.azurecontainerapps.io/Specimen/";
+                string createUrl = "https://storiesoftheland-app-20231207012.blackstone-8fc98515.canadacentral.azurecontainerapps.io/Specimen/Create";
+
+                // Navigate to the Specimen list page and count the current number of specimens
+                driver.Navigate().GoToUrl(listUrl);
+                var specimenRows = driver.FindElements(By.CssSelector("table tbody tr"));
+                int initialCount = specimenRows.Count;
+
+                // Navigate to the Create Specimen page
+                driver.Navigate().GoToUrl(createUrl);
+
+                // Function to generate a random 4-character string
+                string GenerateRandomString()
+                {
+                    var random = new Random();
+                    const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+                    return new string(Enumerable.Repeat(chars, 4).Select(s => s[random.Next(s.Length)]).ToArray());
+                }
+
+                // Function to fill the form with random data
+                void FillFormWithRandomData()
+                {
+                    driver.FindElement(By.Id("LatinName")).SendKeys("Latin" + GenerateRandomString());
+                    driver.FindElement(By.Id("EnglishName")).SendKeys("English" + GenerateRandomString());
+                    driver.FindElement(By.Id("CreeName")).SendKeys("Cree" + GenerateRandomString());
+                    driver.FindElement(By.Id("SpecimenDescription")).SendKeys("Description" + GenerateRandomString());
+                    driver.FindElement(By.Id("CulturalSignificance")).SendKeys("Significance" + GenerateRandomString());
+                }
+
+                FillFormWithRandomData();
+
+                // Submit the form
+                var button = driver.FindElement(By.CssSelector("button.btn.btn-secondary[type='submit']"));
+                var attempts = 0;
+                while (attempts < 3)
+                {
+                    try
+                    {
+                        button.Click();
+                        break;
+                    }
+                    catch (ElementClickInterceptedException)
+                    {
+                        Thread.Sleep(1000); // Wait for 1 second before retrying
+                        attempts++;
+                    }
+                }
+
+                // Wait for the redirect to complete or for a confirmation message
+                new WebDriverWait(driver, TimeSpan.FromSeconds(10)).Until(d => d.Url != createUrl);
+
+                // Navigate back to the Specimen list page and count the specimens again
+                driver.Navigate().GoToUrl(listUrl);
+                specimenRows = driver.FindElements(By.CssSelector("table tbody tr"));
+                int finalCount = specimenRows.Count;
+
+                // Check if the count has increased by 1
+                Assert.AreEqual(initialCount + 1, finalCount, "The count of specimens did not increase as expected.");
+
+                driver.Quit();
+            }
+        }
+
+
+        [Test]
+        public void TestAddMultipleSpecimensCountNumberOfSpecimens()
+        {
+            using (IWebDriver driver = new ChromeDriver())
+            {
+                string listUrl = "https://storiesoftheland-app-20231207012.blackstone-8fc98515.canadacentral.azurecontainerapps.io/Specimen/";
+                string createUrl = "https://storiesoftheland-app-20231207012.blackstone-8fc98515.canadacentral.azurecontainerapps.io/Specimen/Create";
+
+                // Navigate to the Specimen list page and count the current number of specimens
+                driver.Navigate().GoToUrl(listUrl);
+                var specimenRows = driver.FindElements(By.CssSelector("table tbody tr"));
+                int initialCount = specimenRows.Count;
+
+                // Navigate to the Create Specimen page
+                driver.Navigate().GoToUrl(createUrl);
+
+                // Function to generate a random 4-character string
+                string GenerateRandomString()
+                {
+                    var random = new Random();
+                    const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+                    return new string(Enumerable.Repeat(chars, 4).Select(s => s[random.Next(s.Length)]).ToArray());
+                }
+
+                // Function to fill the form with random data
+                void FillFormWithRandomData()
+                {
+                    driver.FindElement(By.Id("LatinName")).SendKeys("Latin" + GenerateRandomString());
+                    driver.FindElement(By.Id("EnglishName")).SendKeys("English" + GenerateRandomString());
+                    driver.FindElement(By.Id("CreeName")).SendKeys("Cree" + GenerateRandomString());
+                    driver.FindElement(By.Id("SpecimenDescription")).SendKeys("Description" + GenerateRandomString());
+                    driver.FindElement(By.Id("CulturalSignificance")).SendKeys("Significance" + GenerateRandomString());
+                }
+
+                FillFormWithRandomData();
+
+                // Submit the form
+                var button = driver.FindElement(By.CssSelector("button.btn.btn-secondary[type='submit']"));
+                var attempts = 0;
+                while (attempts < 3)
+                {
+                    try
+                    {
+                        button.Click();
+                        break;
+                    }
+                    catch (ElementClickInterceptedException)
+                    {
+                        Thread.Sleep(1000); // Wait for 1 second before retrying
+                        attempts++;
+                    }
+                }
+
+                // Wait for the redirect to complete or for a confirmation message
+                new WebDriverWait(driver, TimeSpan.FromSeconds(10)).Until(d => d.Url != createUrl);
+
+                //Go back to the form
+                driver.Navigate().GoToUrl(createUrl);
+
+                // Function to fill the form with random data
+
+
+                FillFormWithRandomData();
+
+                // Submit the form
+                button = driver.FindElement(By.CssSelector("button.btn.btn-secondary[type='submit']"));
+                attempts = 0;
+                while (attempts < 3)
+                {
+                    try
+                    {
+                        button.Click();
+                        break;
+                    }
+                    catch (ElementClickInterceptedException)
+                    {
+                        Thread.Sleep(1000); // Wait for 1 second before retrying
+                        attempts++;
+                    }
+                }
+
+                // Wait for the redirect to complete or for a confirmation message
+                new WebDriverWait(driver, TimeSpan.FromSeconds(10)).Until(d => d.Url != createUrl);
+
+                // Navigate back to the Specimen list page and count the specimens again
+                driver.Navigate().GoToUrl(listUrl);
+                specimenRows = driver.FindElements(By.CssSelector("table tbody tr"));
+                int finalCount = specimenRows.Count;
+
+                // Check if the count has increased by 1
+                Assert.AreEqual(initialCount + 2, finalCount, "The count of specimens did not increase as expected.");
+
+                driver.Quit();
+            }
+        }
+
+
+        [Test]
+        public void TestIntegrityRecordsSpecimen()
+        {
+            using (IWebDriver driver = new ChromeDriver())
+            {
+                string listUrl = "https://storiesoftheland-app-20231207012.blackstone-8fc98515.canadacentral.azurecontainerapps.io/Specimen/";
+                string createUrl = "https://storiesoftheland-app-20231207012.blackstone-8fc98515.canadacentral.azurecontainerapps.io/Specimen/Create";
+
+                // Navigate to the Specimen list page and count the current number of specimens
+                driver.Navigate().GoToUrl(listUrl);
+                var specimenRows = driver.FindElements(By.CssSelector("table tbody tr"));
+                int FinalCount = specimenRows.Count + 1; // Assuming new ID will be the next sequential number
+
+                // Navigate to the Create Specimen page
+                driver.Navigate().GoToUrl(createUrl);
+
+                // Function to generate a random 4-character string
+                string GenerateRandomString()
+                {
+                    var random = new Random();
+                    const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+                    return new string(Enumerable.Repeat(chars, 4).Select(s => s[random.Next(s.Length)]).ToArray());
+                }
+
+                NewSpecimen.LatinName = "Latin" + GenerateRandomString();
+                NewSpecimen.EnglishName = "English" + GenerateRandomString();
+                NewSpecimen.CreeName = "Cree" + GenerateRandomString();
+                NewSpecimen.SpecimenDescription = "Description" + GenerateRandomString();
+                NewSpecimen.CulturalSignificance = "Significance" + GenerateRandomString();
+
+                // Function to fill the form with random data
+                void FillFormWithRandomData()
+                {
+                    driver.FindElement(By.Id("LatinName")).SendKeys(NewSpecimen.LatinName);
+                    driver.FindElement(By.Id("EnglishName")).SendKeys(NewSpecimen.EnglishName);
+                    driver.FindElement(By.Id("CreeName")).SendKeys(NewSpecimen.CreeName);
+                    driver.FindElement(By.Id("SpecimenDescription")).SendKeys(NewSpecimen.SpecimenDescription);
+                    driver.FindElement(By.Id("CulturalSignificance")).SendKeys(NewSpecimen.CulturalSignificance);
+                }
+
+                FillFormWithRandomData();
+
+                // Submit the form
+                var button = driver.FindElement(By.CssSelector("button.btn.btn-secondary[type='submit']"));
+                int attempts = 0;
+                while (attempts < 3)
+                {
+                    try
+                    {
+                        button.Click();
+                        break;
+                    }
+                    catch (ElementClickInterceptedException)
+                    {
+                        Thread.Sleep(1000); // Wait for 1 second before retrying
+                        attempts++;
+                    }
+                }
+
+                // Wait for the redirect to complete or for a confirmation message
+                new WebDriverWait(driver, TimeSpan.FromSeconds(10)).Until(d => d.Url != createUrl);
+
+                // Navigate to the detail page of the newly added specimen
+                detailUrl = "https://storiesoftheland-app-20231207012.blackstone-8fc98515.canadacentral.azurecontainerapps.io/specimen/Details/" + FinalCount;
+
+                driver.Quit();
+            }
+
+            // Use HttpClient to check the details of the created specimen
+            HttpResponseMessage response = httpClient.GetAsync(detailUrl).Result;
+
+            // Ensure the request was successful
+            Assert.IsTrue(response.IsSuccessStatusCode, $"Failed to retrieve content from {detailUrl}. Status code: {response.StatusCode}");
+
+            // Read the HTML content from the response
+            string htmlContent = response.Content.ReadAsStringAsync().Result;
+
+            // Perform assertions or checks on the HTML content
+            Assert.IsTrue(htmlContent.Contains(NewSpecimen.EnglishName), "English Name was changed found in HTML");
+            Assert.IsTrue(htmlContent.Contains(NewSpecimen.CreeName), "Cree Name was changed or not found in HTML");
+            Assert.IsTrue(htmlContent.Contains(NewSpecimen.LatinName), "Latin Name was changed or not found in HTML");
+            Assert.IsTrue(htmlContent.Contains(NewSpecimen.CulturalSignificance), "Cultural Significance was changed or not found in HTML");
+            Assert.IsTrue(htmlContent.Contains(NewSpecimen.SpecimenDescription), "Description was changed or not found in HTML");
+        }
+        [Test]
+        public void testThatEmptyFormIsNotValid()
+        {
+            using (IWebDriver driver = new ChromeDriver())
+            {
+                string createUrl = "https://storiesoftheland-app-20231207012.blackstone-8fc98515.canadacentral.azurecontainerapps.io/Specimen/Create";
+
+                // Navigate to the Create Specimen page
+                driver.Navigate().GoToUrl(createUrl);
+                // Submit the form
+
+                var button = driver.FindElement(By.CssSelector("button.btn.btn-secondary[type='submit']"));
+                int attempts = 0;
+                while (attempts < 3)
+                {
+                    try
+                    {
+                        button.Click();
+                        break;
+                    }
+                    catch (ElementClickInterceptedException)
+                    {
+                        Thread.Sleep(1000); // Wait for 1 second before retrying
+                        attempts++;
+                    }
+                }
+                Thread.Sleep(1000);
+
+                // Check if the URL has changed
+                Assert.AreEqual(createUrl, driver.Url, "The page is not supposed to change");
+
+                driver.Quit();
+            }
+        }
+
+        #endregion
     }
 
 }

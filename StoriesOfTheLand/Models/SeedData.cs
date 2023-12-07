@@ -17,16 +17,14 @@ namespace StoriesOfTheLand.Models
                 serviceProvider.GetRequiredService<
                     DbContextOptions<StoriesOfTheLandContext>>()))
             {
-
                 // Look for any movies.
-                context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
 
                 // Look for any Specimens.
-                //if (context.Specimen.Any())
-                //{
-                //    return;   // DB has been seeded
-                //}
+                if (context.Specimen.Any())
+                {
+                    return;   // DB has been seeded
+                }
 
                 context.Specimen.AddRange(
 

@@ -19,6 +19,44 @@ namespace StoriesOfTheLand.Controllers
             _context = context;
         }
 
+
+        // GET: Specimen/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+        // POST: Specimens/Create
+        [HttpPost]
+        public async Task<IActionResult> Create([Bind("SpecimenID,LatinName,SpecimenDescription,EnglishName,CreeName,CulturalSignificance,SpecimenMedia")] Specimen specimen)
+        {
+            if (ModelState.IsValid)
+            {
+                // Check for duplicate names in the database
+                var existingSpecimen = await _context.Specimen
+                    .FirstOrDefaultAsync(s => s.EnglishName == specimen.EnglishName
+                                           || s.LatinName == specimen.LatinName
+                                           || s.CreeName == specimen.CreeName);
+
+                if (existingSpecimen != null)
+                {
+                    // Add an error to ModelState if a duplicate is found
+                    ModelState.AddModelError(string.Empty, "A specimen with the same name(s) already exists. Please double check");
+                    return View(specimen); // Return to the form with the current data and error message
+                }
+
+                // If no duplicates, proceed to add the new specimen
+                _context.Add(specimen);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                // If ModelState is not valid, return to the form with the current data
+                return View(specimen);
+            }
+        }
+
+
         // GET: Specimens/Details/5
         //Method gets details for a specimen based in the SpecimenID and returns a 
         //corresponding veiw
