@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+
 using Microsoft.Extensions.DependencyInjection;
 using StoriesOfTheLand.Data;
 using System;
@@ -36,13 +38,13 @@ namespace StoriesOfTheLand.Models
                              which develop into the petite, blue fruit, familiar to all “pickers”!",
                             LatinName = "Vaccinium myrtilloides",
                             EnglishName = "Velvet Leaf Blueberry",
-                            CreeName = "Idinimin",              
-                            CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs.",                        
+                            CreeName = "Idinimin",
+                            CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs.",
                             SpecimenMedia = new Media
                             {
-                                SpecimenImagePath= "blueberry.png,blueberry2.png",
-                                SpecimenAudioPath= "Blueberry.m4a"
-                                
+                                SpecimenImagePath = "blueberry.png,blueberry2.png",
+                                SpecimenAudioPath = "Blueberry.m4a"
+
                             }
                         },
                         new Specimen
@@ -117,9 +119,9 @@ namespace StoriesOfTheLand.Models
                             CreeName = "Amiskowihkask",
                             CulturalSignificance = "When you stumble on her you may see a pretty wildflower, but she is so much more, strong, beautiful and healing in nature the lungwort plant offers relief from stomach ailments, diarrhea, wounds healing and most commonly like its name its used for coughs, colds and irritation of the lungs.",
                             SpecimenMedia = new Media
-                             {
-                                 SpecimenImagePath = ""
-                             }
+                            {
+                                SpecimenImagePath = ""
+                            }
                         }/*,
                         new Specimen
                         {
@@ -157,11 +159,11 @@ namespace StoriesOfTheLand.Models
                             "It has both erect stems that grow 10-70cm tall and horizontal, underground stems called rhizomes that allow it to spread over an area.  "
                         }*/
 
-                    ) ;
+                    );
 
                 context.SaveChanges();
 
-               context.Sponsor.AddRange(
+                context.Sponsor.AddRange(
                     new Sponsor
                     {
                         SponsorName = "Saskatchewan Polytechnic",
@@ -182,6 +184,11 @@ namespace StoriesOfTheLand.Models
                     }
                     );
                 context.SaveChanges();
+
+                    
+
+                context.SaveChanges();
+
             }
 
 
