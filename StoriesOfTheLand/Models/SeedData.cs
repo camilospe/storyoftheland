@@ -134,7 +134,7 @@ namespace StoriesOfTheLand.Models
 
                 context.SaveChanges();
 
-                context.Sponsor.AddRange(
+               context.Sponsor.AddRange(
                     new Sponsor
                     {
                         SponsorName = "Saskatchewan Polytechnic",

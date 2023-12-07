@@ -21,23 +21,30 @@
     </div>
 </div>
 
-<div class="text-center">
-    <h3>In partnership with</h3>
-    <div class="d-flex flex-wrap">
+@if (Model.Count() > 1)
+{
+    <div id="partnerships" class="partnerships" data-bs-ride="partnerships">
+        <div class="text-center">
+            <h3>In partnership with</h3>
+            <div class="d-flex flex-wrap">
 
-        @foreach (var item in Model)
-        {
-            <div style="width: 320px" class="mx-auto">
-                <div style="height: 200px">
-                    <a href="@item.SponsorURL"><img src="/images/@item.SponsorImagePath" alt="@item.SponsorName" style="max-width: 100%; max-height: 100%"></a>
-                </div>
-                <div style="height: 100px">
-                    <p>@item.SponsorName</p>
-                </div>
+                @foreach (var item in Model)
+                {
+                    <div style="width: 320px" class="mx-auto">
+                        <div style="height: 200px">
+                            <a href="@item.SponsorURL"><img src="/images/@item.SponsorImagePath" alt="@item.SponsorName" style="max-width: 100%; max-height: 100%"></a>
+                        </div>
+                        <div style="height: 100px">
+                            <p>@item.SponsorName</p>
+                        </div>
+                    </div>
+                }
             </div>
-        }
+        </div>
     </div>
-</div>
+    
+}
+
 
 
 @section footer {

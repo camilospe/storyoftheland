@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using NUnit.Framework;
+using SQLitePCL;
 using StoriesOfTheLand.Controllers;
 using StoriesOfTheLand.Data;
 using StoriesOfTheLand.Models;
@@ -29,6 +30,7 @@ namespace StoriesOfTheLand.Test
             {
                 SponsorName = "test",
                 SponsorURL = "test",
+                SponsorImagePath = "Saskatchewan_Polytechnic_Logo.png"
             };
 
 
@@ -46,28 +48,69 @@ namespace StoriesOfTheLand.Test
                 {
                     SponsorName = "test2",
                     SponsorURL = "test2",
+                    SponsorImagePath = "Saskatchewan_Polytechnic_Logo.png"
                 }
                 );
             _context.SaveChanges();
              
         }
 
-        [Test]
-        public void testHomeControllerIndexReturnsView()
+        [TestFixture]
+        public class HtmlTest
         {
-            var result = _controller.Index();
+            private static readonly HttpClient httpClient = new HttpClient();
+
+            [Test]
+            public void testSponsorListNotEmpty()
+            {
+                string url = "https://storiesoftheland20231206200631.azurewebsites.net/";
+
+                HttpResponseMessage response = httpClient.GetAsync(url).Result;
+
+                // Ensure the request was successful
+                Assert.IsTrue(response.IsSuccessStatusCode, $"Failed to retrieve content from {url}. Status code: {response.StatusCode}");
+
+                // Read the HTML content from the response
+                string htmlContent = response.Content.ReadAsStringAsync().Result;
+
+                Assert.IsTrue(htmlContent.Contains("<div id=\"partnerships\" class=\"partnerships\" data-bs-ride=\"partnerships\">"), "Expected content not found in HTML");
+            }
+
+
+            [Test]
+            public void testSponsorListIsEmpty()
+            {
+               
+                string url = "https://storiesoftheland20231206200631.azurewebsites.net/";
+
+                HttpResponseMessage response = httpClient.GetAsync(url).Result;
+
+                // Ensure the request was successful
+                Assert.IsTrue(response.IsSuccessStatusCode, $"Failed to retrieve content from {url}. Status code: {response.StatusCode}");
+
+                // Read the HTML content from the response
+                string htmlContent = response.Content.ReadAsStringAsync().Result;
+
+                Assert.IsFalse(htmlContent.Contains("<div id=\"partnerships\" class=\"partnerships\" data-bs-ride=\"partnerships\">"), "Expected content not found in HTML");
+            }
+        }
+
+        [Test]
+        public async Task testHomeControllerIndexReturnsView()
+        {
+            var result = await _controller.Index();
             Assert.IsInstanceOf<ViewResult>(result);
         }
 
         [Test]
-        public void testHomeControllerIndexViewContainsListOfSponsors()
+        public async Task TestHomeControllerIndexViewContainsListOfSponsorsAsync()
         {
-            var result = _controller.Index();
+            var result = await _controller.Index();
             Assert.IsInstanceOf<ViewResult>(result);
             var model = ((ViewResult)result).Model;
             //will fail because home controller index isnt returning a view with a model
             Assert.IsNotNull(model);
-            Assert.IsAssignableFrom<IEnumerable<Sponsor>>(model);
+            Assert.IsAssignableFrom<List<Sponsor>>(model);
         }
 
         //put in tests for 0, 1 , 3 sponsors being returned
