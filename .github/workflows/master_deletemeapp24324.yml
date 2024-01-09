@@ -22,15 +22,15 @@ jobs:
     - name: Log in to registry
       uses: docker/login-action@v2
       with:
-        registry: https://index.docker.io/v1/
-        username: ${{ secrets.AzureAppService_ContainerUsername_1934ff4bd7314cdca5058038ad5eb5c8 }}
-        password: ${{ secrets.AzureAppService_ContainerPassword_5bf915c84c7d4413b13c1f6018ebec79 }}
+        registry: https://index.docker.io/
+        username: ${{ secrets.AzureAppService_ContainerUsername_ccba36a6784641849bd52289ca549aef }}
+        password: ${{ secrets.AzureAppService_ContainerPassword_820445d018fd4bc8828e082b4ba3bf1e }}
 
     - name: Build and push container image to registry
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_1934ff4bd7314cdca5058038ad5eb5c8 }}/storiesoftheland20240109134717.azurecr.io/deleteme:${{ github.sha }}
+        tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_ccba36a6784641849bd52289ca549aef }}/storiesoftheland20240109134717.azurecr.io/deletemeImage:${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
@@ -47,5 +47,5 @@ jobs:
       with:
         app-name: 'deletemeapp24324'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_25ac945fcbb04a089d3babf5821d6b39 }}
-        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_1934ff4bd7314cdca5058038ad5eb5c8 }}/storiesoftheland20240109134717.azurecr.io/deleteme:${{ github.sha }}'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_1b872054efb8468d8085e242e4398880 }}
+        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_ccba36a6784641849bd52289ca549aef }}/storiesoftheland20240109134717.azurecr.io/deletemeImage:${{ github.sha }}'
