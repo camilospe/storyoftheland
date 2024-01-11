@@ -23,14 +23,14 @@ jobs:
       uses: docker/login-action@v2
       with:
         registry: https://index.docker.io/v1/
-        username: ${{ secrets.AzureAppService_ContainerUsername_308a7322a3164d39830a0aacbe996ada }}
-        password: ${{ secrets.AzureAppService_ContainerPassword_520c86007b1c4e27bd944b20544a912a }}
+        username: ${{ secrets.AzureAppService_ContainerUsername_feb2ba95518944c2b24914be36603aa5 }}
+        password: ${{ secrets.AzureAppService_ContainerPassword_75a00379d87749d89f82c0ca0f47f7fc }}
 
     - name: Build and push container image to registry
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_308a7322a3164d39830a0aacbe996ada }}/storiesoftheland:${{ github.sha }}
+        tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_feb2ba95518944c2b24914be36603aa5 }}/storiesoftheland:${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
@@ -47,5 +47,5 @@ jobs:
       with:
         app-name: 'story31'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_9b729547be0b4d689447f17fbb3bba02 }}
-        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_308a7322a3164d39830a0aacbe996ada }}/storiesoftheland:${{ github.sha }}'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_0daa76ca91104321a9bd5ddc9e21fcc4 }}
+        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_feb2ba95518944c2b24914be36603aa5 }}/storiesoftheland:${{ github.sha }}'
